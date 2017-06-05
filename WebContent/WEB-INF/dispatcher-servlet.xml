@@ -23,7 +23,7 @@
 	<!-- Read settings from external file and replace all ${...} in the xml -->
 	<context:property-placeholder location="classpath:db.properties" />
 
-	<!-- - POJOs labeled with the @Controller and @Service annotations are auto-detected. -->
+    <!-- - POJOs labeled with the @Controller and @Service annotations are auto-detected. -->
 	<context:component-scan base-package="at.fh.swenga" />
 
 	<!-- JSR-303/JSR-349 support will be detected on classpath and enabled automatically -->
@@ -34,11 +34,6 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	
 	<mvc:default-servlet-handler />
-	
-	<!--bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-   		<property name="prefix" value="/WEB-INF/templates/" />
-   		<property name="suffix" value=".html" />	
-	</bean-->
 
 	<bean id="templateResolver"
 		class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">

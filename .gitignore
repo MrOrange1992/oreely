@@ -10,3 +10,4 @@ src/main/webapp/META-INF
 *.iml
 /src/db.properties
 /src/main/resources/db.properties
+/main/resources/db.properties
