@@ -60,6 +60,9 @@ public class User implements java.io.Serializable
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<UserFollower> followers;
+	
+	@OneToMany(mappedBy="owner",fetch=FetchType.EAGER)
+    private Set<MovieList> movieLists;
 
 	//@Version
 	//long version;
@@ -124,16 +127,12 @@ public class User implements java.io.Serializable
 	public void setGenres(List<Genre> genres) { this.genres = genres; }
 	public void addGenres(Genre genre) 
 	{
-		if (genres == null) {
-			genres = new ArrayList<Genre>();
-		}
+		if (genres == null) genres = new ArrayList<Genre>();
 		genres.add(genre);
 	}
 	public void removeGenre(Genre genre) 
 	{
-		if(genres.contains(genre)){
-			genres.remove(genre);
-		}
+		if(genres.contains(genre)) genres.remove(genre);
 	}
 
 	//followers
@@ -141,15 +140,23 @@ public class User implements java.io.Serializable
 	public void setFollowers(List<UserFollower> followers) { this.followers = followers; }
 	public void addFollower(UserFollower follower) 
 	{
-		if (followers == null) {
-			followers = new ArrayList<UserFollower>();
-		}
+		if (followers == null) followers = new ArrayList<UserFollower>();
 		followers.add(follower);
 	}
 	public void removeFollower(UserFollower follower) 
 	{
-		if(followers.contains(follower)){
-			followers.remove(follower);
-		}
-	}	
+		if(followers.contains(follower)) followers.remove(follower);
+	}
+	
+	//lists
+	public Set<MovieList> getMovieLists() { return movieLists; }
+	public void setMovieLists(Set<MovieList> movieLists) { this.movieLists = movieLists; }
+	public void addMovieList(MovieList movieList){
+		if (movieLists == null) movieLists = new HashSet<MovieList>();
+		movieLists.add(movieList);
+	}
+	public void removieMovieList(MovieList movieList) 
+	{
+		if(movieLists.contains(movieList)) movieLists.remove(movieList);
+	}
 }
