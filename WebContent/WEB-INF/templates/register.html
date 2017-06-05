@@ -23,7 +23,6 @@
   	<!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
  	<![endif]-->
-
 </head>
 <body class="login-page">
 	<div id ="content">
@@ -31,55 +30,158 @@
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<form class="login-panel" th:action="@{/register}" th:object="${user}" method="post">
-					
 						<div class="row">
-			 				<div class="col-xs-6 col-sm-6 col-md-6">
-			 					<div class="form-group">
-			 						<input th:field="*{firstName}" type="text" name="firstname" id="firstname" class="form-control input-sm" placeholder="First name">
-			 					</div>
-			 				</div>
-			 				<div class="col-xs-6 col-sm-6 col-md-6">
-			 					<div class="form-group">
-			 						<input th:field="*{lastName}" type="text" name="lastname" id="lastname" class="form-control input-sm" placeholder="Last name">
-			 					</div>
-			 				</div>
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="firstname">Firstname:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-8">
+		 							<input th:field="*{firstName}" type="text" name="firstname" id="firstname" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
+		 				</div>
+		 				<div class="row">
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="lastname">Lastname:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-8">
+		 							<input th:field="*{lastName}" type="text" name="lastname" id="lastname" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
 			 			</div>
-						
-						<div class="form-group">
-							<input th:field="*{userName}" type="text" name="user_name" id="user_name" class="form-control input-sm" placeholder="Username">
-						</div>
-						
-			 			<div class="form-group">
-			 				<input th:field="*{email}" type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
-			 			</div>
-
 			 			<div class="row">
-			 				<div class="col-xs-6 col-sm-6 col-md-6">
-			 					<div class="form-group">
-			 						<input th:field="*{password}" type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
-			 					</div>
-			 				</div>
-			 				<div class="col-xs-6 col-sm-6 col-md-6">
-			 					<div class="form-group">
-			 						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
-			 					</div>
-			 				</div>
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="username">Username:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-8">
+		 							<input th:field="*{userName}" type="text" name="user_name" id="user_name" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
+			 			</div>
+			 			<div class="row">
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="email">E-Mail:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-8">
+		 							<input th:field="*{email}" type="email" name="email" id="email" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
+			 			</div>
+			 			<div class="row">
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="password">Password:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-8">
+		 							<input th:field="*{password}" type="password" name="password" id="password" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
+			 			</div>
+			 			<div class="row">
+		 					<div class="form-group">
+		 						<div class="col-xs-12 col-sm-6 col-md-4">
+		 							<label for="password_confirmation">Confirm Password:</label>
+		 						</div>
+		 						<div class="col-xs-12 col-sm-6 col-md-6">
+		 							<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="">
+		 						</div>
+		 					</div>
 			 			</div>
 			 			
-			 			<h3>TODO: Preferred Genres</h3><hr />
+			 			<h3>Preferred Genres</h3><hr />
 			 			
-						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
- 						
-    					<input type="submit" value="Register" class="btn btn-info btn-block">
+						<div class="row">
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre1" value="Action">
+								<label for="genre1">Action</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre2" value="Adventure">
+								<label for="genre2">Adventure</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre3" value="Animation">
+								<label for="genre3">Animation</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre4" value="Comedy">
+								<label for="genre4">Comedy</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre5" value="Crime">
+								<label for="genre5">Crime</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre6" value="Documentary">
+								<label for="genre6">Documentary</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre7" value="Drama">
+								<label for="genre7">Drama</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre8" value="Family">
+								<label for="genre8">Family</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre9" value="Fantasy">
+								<label for="genre9">Fantasy</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre10" value="History">
+								<label for="genre10">History</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre11" value="Horror">
+								<label for="genre11">Horror</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre12" value="Music">
+								<label for="genre12">Music</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre13" value="Mystery">
+								<label for="genre13">Mystery</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre14" value="Romance">
+								<label for="genre14">Romance</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre15" value="Science Fiction">
+								<label for="genre15">SciFi</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre16" value="TV Movie">
+								<label for="genre16">TV Movie</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre17" value="Thriller">
+								<label for="genre17">Thriller</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre18" value="War">
+								<label for="genre18">War</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input type="checkbox" name="genre19" value="Western">
+								<label for="genre19">Western</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
+    							<input type="submit" value="Register" class="btn btn-info btn-block">
+							</div>
+						</div>
     				</form>
     			</div>
     		</div>
     	</div>
     </div>
-			    			
-	
-			    		
-
 	<footer th:replace="~{includes/footer :: footer}"></footer>
 </body>
 </html>
