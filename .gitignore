@@ -9,3 +9,4 @@ src/main/webapp/META-INF
 .idea
 *.iml
 /src/db.properties
+/src/main/resources/db.properties
