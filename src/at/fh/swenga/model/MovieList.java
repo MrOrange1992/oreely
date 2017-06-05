@@ -1,11 +1,15 @@
 package at.fh.swenga.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
@@ -21,6 +25,9 @@ public class MovieList {
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	User owner;
+	
+	@ManyToMany(mappedBy = "followingMovieLists",fetch=FetchType.EAGER)
+	private List<User> follower;
 	
 	@Version
 	long version;
@@ -48,6 +55,14 @@ public class MovieList {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}	
+	}
+
+	public List<User> getFollower() {
+		return follower;
+	}
+
+	public void setFollower(List<User> follower) {
+		this.follower = follower;
+	}		
 	
 }
