@@ -291,12 +291,31 @@ html body footer .footer-section ul li a {
 }
 html body.login-page #content {
   background-image: url("../res/img/login-bg.jpg");
-  height: 100vh;
   min-height: 100vh;
   margin-bottom: -50px;
   padding-top: 20vh;
   background-size: cover;
   background-position: center center;
+}
+html body.login-page #content h1,
+html body.login-page #content h2,
+html body.login-page #content h3,
+html body.login-page #content h4,
+html body.login-page #content h5,
+html body.login-page #content h6,
+html body.login-page #content p,
+html body.login-page #content li,
+html body.login-page #content label {
+  color: #ffffff;
+}
+html body.login-page #content h1,
+html body.login-page #content h2,
+html body.login-page #content h3,
+html body.login-page #content h4,
+html body.login-page #content h5,
+html body.login-page #content h6 {
+  margin: 0px;
+  padding-bottom: 30px;
 }
 html body.login-page #content .login-panel {
   background-color: rgba(0, 0, 0, 0.5);
@@ -317,4 +336,25 @@ html body.login-page #content .login-logo img {
   width: 400px;
   margin: 0 auto;
   display: block;
+}
+html body.registration-page #content {
+  padding-top: 10vh;
+}
+html body.registration-page #content .registration-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+html body.registration-page #content .registration-logo img {
+  width: 180px;
+  display: inline-block;
+}
+html body.registration-page #content .registration-logo h1 {
+  font-size: 50px;
+  display: inline-block;
+  margin: 0px;
+  line-height: 60px;
+  vertical-align: top;
+}
+html body.registration-page #content .data-block {
+  margin-bottom: 30px;
 }

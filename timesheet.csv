@@ -9,4 +9,4 @@ mwol;29.05.17;2,25h;Frontend for index.html added, request mapping altered, reso
 frau;31.05.17;5h;MovieDao edits, RequestMapping in MovieController
 frau;01.06.17;4h;Requestmappings DONE!!!, Test search on index.html, dynamic html container, search.html
 mwol;02.06.17;4h;Modified index.html , updated color sceme, updated css, modified login.html
-mwol;05.06.17;2h;Modified register.html
+mwol;05.06.17;4h;Modified register.html, modified css for register

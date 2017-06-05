@@ -349,12 +349,18 @@ html{
 		&.login-page{
 			#content{
 				background-image: url("../res/img/login-bg.jpg");
-				height: 100vh;
 				min-height: 100vh;
 				margin-bottom: -@footerSize;
 				padding-top:20vh;
 				background-size:cover;
 				background-position: center center;
+				h1,h2,h3,h4,h5,h6,p,li,label{
+					color: @cWhite;
+				}
+				h1,h2,h3,h4,h5,h6{
+					margin:0px;
+					padding-bottom:30px;
+				}
 				.login-panel{
 					background-color: rgba(0,0,0,0.5);
     				padding: 30px;
@@ -376,6 +382,29 @@ html{
 						margin: 0 auto;
 						display:block;
 					}
+				}
+			}
+		}
+		&.registration-page{
+			#content{
+				padding-top: 10vh;
+				.registration-logo{
+					text-align:center;
+					margin-bottom:30px;
+					img{
+						width: 180px;
+						display:inline-block;
+					}
+					h1{
+						font-size:50px;
+						display:inline-block;
+						margin:0px;
+						line-height:60px;
+						vertical-align:top;
+					}
+				}
+				.data-block{
+					margin-bottom:30px;
 				}
 			}
 		}
