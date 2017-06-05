@@ -11,17 +11,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import at.fh.swenga.model.GenreModel;
 import at.fh.swenga.model.MovieModel;
+import at.fh.swenga.model.Genre;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.TmdbSearch;
-import info.movito.themoviedbapi.model.Genre;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
@@ -91,11 +89,11 @@ public class MovieDao {
     	//System.out.println(movie.getGenres().get(0).getName());
     	
     	//FR: Map themoviedbapi.model.Genre to GenreModel
-    	for (Genre genre : movie.getGenres())
+    	for (info.movito.themoviedbapi.model.Genre genre : movie.getGenres())
     	{
-    		GenreModel gm = new GenreModel(genre.getId(), genre.getName());
+    		Genre gm = new Genre(genre.getId(), genre.getName());
     		//genreDao.persist(gm);	//TODO FR: Error: detached entity passed to persist: at.fh.swenga.model.GenreModel
-    		mm.addModelGenre(gm);
+    		mm.addGenre(gm);
     		//System.out.println(genre.getName());
     	}
     	

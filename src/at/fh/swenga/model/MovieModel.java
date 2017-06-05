@@ -15,12 +15,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import info.movito.themoviedbapi.model.Genre;
+import at.fh.swenga.model.Genre;
 import info.movito.themoviedbapi.model.MovieDb;
 
 @Entity
 @Table(name = "Movie")
-public class MovieModel extends MovieDb implements java.io.Serializable {
+public class MovieModel //extends MovieDb implements java.io.Serializable 
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +72,7 @@ public class MovieModel extends MovieDb implements java.io.Serializable {
 	private String homepage;
 	
 	@ManyToMany(cascade=CascadeType.PERSIST)  //MERGE?
-	private List<GenreModel> genres;
+	private List<Genre> genres;
 	
 	// TODO: Relationships to list_movie, user_movie & movie_actor
 
@@ -98,17 +99,17 @@ public class MovieModel extends MovieDb implements java.io.Serializable {
 	}
 	
 	//FR: using getModelGenres because getGenres is already implemented in super() MovieDb
-	public List<GenreModel> getModelGenres() {
+	public List<Genre> getGenres() {
 		return this.genres;
 	}
  
-	public void setModelGenres(List<GenreModel> genres) {
+	public void setGenres(List<Genre> genres) {
 		this.genres = genres;
 	}
  
-	public void addModelGenre(GenreModel genre) {
+	public void addGenre(Genre genre) {
 		if (genres== null) {
-			genres= new ArrayList<GenreModel>();
+			genres= new ArrayList<Genre>();
 		}
 		genres.add(genre);
 	}

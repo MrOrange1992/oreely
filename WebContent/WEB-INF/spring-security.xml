@@ -7,6 +7,8 @@
 	<http>
 		<csrf />
 		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/registerForm" access="permitAll" />
+		<intercept-url pattern="/register" access="permitAll" />
 		<intercept-url pattern="/res/**" access="permitAll" />
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />

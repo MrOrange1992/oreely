@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.fh.swenga.model.User;
+import at.fh.swenga.model.UserRole;
 
 @Repository
 @Transactional
@@ -20,9 +21,19 @@ public class UserDao {
 	
 	public List<User> findByUsername(String userName) {
 		TypedQuery<User> typedQuery = entityManager.createQuery(
-				"select u from User u where u.username = :name", User.class);
+				"select u from User u where u.userName = :name", User.class);
 		typedQuery.setParameter("name", userName);
 		List<User> typedResultList = typedQuery.getResultList();
 		return typedResultList;
+	}
+	
+	public void persist(User user) 
+	{
+		entityManager.persist(user);
+	}
+	
+	public void persistRole(UserRole role)
+	{
+		entityManager.persist(role);
 	}
 }

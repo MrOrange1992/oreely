@@ -11,8 +11,9 @@ import javax.persistence.Table;
 import javax.persistence.GenerationType;
 
 @Entity
-@Table(name = "user_roles")
-public class UserRole implements java.io.Serializable {
+@Table(name = "UserRole")
+public class UserRole implements java.io.Serializable 
+{
 	private static final long serialVersionUID = 8098173157518993615L;
 	
 	private Integer userRoleId;
@@ -25,13 +26,22 @@ public class UserRole implements java.io.Serializable {
 	public Integer getUserRoleId() {
 		return userRoleId;
 	}
+	
+	public UserRole(){};
+	
+	public UserRole(User user, String role)
+	{
+		super();
+		this.user = user;
+		this.role = role;
+	}
 
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "username", nullable = false)
+	@JoinColumn(name = "id", nullable = false)
 	public User getUser() {
 		return user;
 	}

@@ -10,8 +10,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import at.fh.swenga.model.GenreModel;
-import at.fh.swenga.model.MovieModel;
+import at.fh.swenga.model.Genre;
 
 @Repository
 @Transactional
@@ -20,22 +19,22 @@ public class GenreDao {
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
-	public List<GenreModel> getGenres() 
+	public List<Genre> getGenres() 
 	{	 
-		TypedQuery<GenreModel> typedQuery = entityManager.createQuery(
-				"select g from Genre g", GenreModel.class);
-		List<GenreModel> typedResultList = typedQuery.getResultList();
+		TypedQuery<Genre> typedQuery = entityManager.createQuery(
+				"select g from Genre g", Genre.class);
+		List<Genre> typedResultList = typedQuery.getResultList();
 		return typedResultList;
 	}
  
-	public GenreModel getGenre(String name) 
+	public Genre getGenre(String name) 
 	{
 		try {
-			TypedQuery<GenreModel> typedQuery = entityManager.createQuery(
+			TypedQuery<Genre> typedQuery = entityManager.createQuery(
 					"select g from Genre g where g.name = :name",
-					GenreModel.class);
+					Genre.class);
 			typedQuery.setParameter("name", name);
-			GenreModel genre = typedQuery.getSingleResult();
+			Genre genre = typedQuery.getSingleResult();
 			return genre;
 		} catch (NoResultException e) {
 			return null;
@@ -43,7 +42,7 @@ public class GenreDao {
  
 	}
 	
-	public void persist(GenreModel genre) 
+	public void persist(Genre genre) 
 	{
 		entityManager.persist(genre);
 	}
