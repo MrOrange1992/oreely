@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Search Movies</title>
+	<meta name="description" content="O'Reely">
+	<meta name="author" content="Lukas Schneider, Felix Rauchenwald, Markus Wolf">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" href="css/styles.css">
+
+  	<!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+ 	<![endif]-->
+
+</head>
+<body>
+	<header th:replace="~{includes/header :: header}"></header>
+		
+	<div id="content">
+		<div class="container-fluid">
+			<!--  Error message ----------------------------------------------------------- -->
+			<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
+				class="alert alert-danger" role="alert"></div>
+			<!--  Error message ----------------------------------------------------------- -->
+
+			<!--  Warning message ----------------------------------------------------------- -->
+			<div th:unless="${warningMessage} == null"
+				th:utext="${warningMessage}" class="alert alert-warning"
+				role="warning"></div>
+			<!--  Warning message ----------------------------------------------------------- -->
+
+			<!--   message ----------------------------------------------------------- -->
+			<div th:unless="${message} == null" th:utext="${message}"
+				class="alert alert-success" role="warning"></div>
+			<!--   message ----------------------------------------------------------- -->
+		</div>
+		
+		<form  method="get" th:action="@{/searchForMovies}">
+			<div class="input-group">			
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit">Start search</button>
+				</span>
+				<input type="text" class="form-control" placeholder="Search for..." name="searchString">
+			</div>
+		</form>
+				
+		<div class="container-fluid">
+			<h1 class="center">Results</h1>
+			<div class="slick-reel-container container">
+				<div class="slick-reel">
+									
+					<div class="item poster card" th:each="movie : ${movies}">
+					    <div class="image_content">
+					      	<a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
+					      		<img class="poster" data-sizes="auto" 		
+								th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
+								th:data-srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
+											https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
+								th:alt=${movie.title} sizes="185px" 
+								th:srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
+										https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'" 
+								th:src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}">
+					      	</a>
+					    </div>
+					    <div class="info">
+					      <p class="flex">
+					        <a th:id=${movie.tmdb_id} class="title result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title} th:text=${movie.title}></a>
+					        <span class="vote_average" th:text=${movie.vote_average}><i class="fa fa-star" aria-hidden="true"></i></span>
+					      </p>
+					      <p class="meta flex">
+					        <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>
+					      </p>
+					      <p>    
+					        <span class="genres">TODO:Genres</span>
+					      </p>
+					      <p class="overview">TODO:Description</p>
+					      <p class="view_more"><a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>Weitere Informationen</a></p>
+					    	<p><a th:href="@{/save(id=${movie.id})}">Add</a></p>
+							<p><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
+					    </div>
+					</div>
+				</div>
+			</div>
+			<div class="card-showcase">
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="~{includes/footer :: footer}"></footer>
+</body>
+</html>

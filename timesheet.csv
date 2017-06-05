@@ -1,0 +1,10 @@
+Person;Date;Hours;Description
+;;;
+;;;
+;;;
+frau;25.05.17;3h;Rebase Project to Spring Security
+mwol;25.05.17;4h;Frontend for index.html created
+frau;29.05.17;1h;Rebase project origin from Ielnykov to MrOrange1992 on Github
+mwol;29.05.17;2,25h;Frontend for index.html added, request mapping altered, resources, css, js added
+frau;31.05.17;5h;MovieDao edits, RequestMapping in MovieController
+frau;01.06.17;4h;Requestmappings DONE!!!, Test search on index.html, dynamic html container, search.html

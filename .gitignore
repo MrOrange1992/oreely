@@ -1,0 +1,11 @@
+*.DS_Store
+bin
+target
+build
+.classpath
+.project
+.settings
+src/main/webapp/META-INF
+.idea
+*.iml
+/src/db.properties

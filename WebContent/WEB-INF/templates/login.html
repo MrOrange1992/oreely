@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>O'Reely</title>
+	<meta name="description" content="O'Reely">
+	<meta name="author" content="Lukas Schneider, Felix Rauchenwald, Markus Wolf">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" href="css/styles.css">
+
+  	<!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+ 	<![endif]-->
+
+</head>
+<body class="login-page">
+	<div id ="content">
+		<div class="container" role="main">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="login-panel">
+						<form th:action="@{/login}" method="post">
+						
+							<div class="login-logo">
+								<img src="res/img/logo-white.png" alt="logo"/>
+							</div>
+						
+							<div th:if="${param.error}" class="alert alert-danger">
+								Invalid username and password.</div>
+							<div th:if="${param.logout}" class="alert alert-success">You
+								have been logged out.</div>
+		
+							<label for="inputEmail" class="sr-only">Email address</label> <input
+								type="text" id="username" class="form-control" placeholder="User"
+								required autofocus name="username"> <label
+								for="inputPassword" class="sr-only">Password</label> <input
+								type="password" id="password" class="form-control"
+								placeholder="Password" required name="password">
+							<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+						</form>
+						
+						<p> Forgot password?</p>
+						
+						<button class="btn btn-lg btn-primary btn-block" >Register</button>					
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  End of container -->
+	</div>
+	<footer th:replace="~{includes/footer :: footer}"></footer>
+</body>
+</html>

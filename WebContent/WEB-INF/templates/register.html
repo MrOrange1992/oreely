@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<div th:replace="~{includes/bootstrapMeta :: bootstrapMeta}" />
+<title>Register</title>
+<div th:replace="~{includes/bootstrapCSS :: bootstrapCSS}" />
+</head>
+<body>
+	<div class="container">
+        <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title">Please register for O'Reely </h3>
+			 			</div>
+			 			<div class="panel-body">
+			    		<form role="form">
+			    			<div class="row">
+			    				
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="text" name="user_name" id="user_name" class="form-control input-sm" placeholder="Username">
+			    					</div>
+			    				</div>
+			    			</div>
+
+			    			<div class="form-group">
+			    				<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
+			    			</div>
+
+			    			<div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
+			    					</div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
+			    					</div>
+			    				</div>
+			    			</div>
+			    			
+			    			<div class="col-xs-12 col-sm-6">
+						        <h3>Preferred Genres</h3><hr />
+						        <div class="form-group">
+						            <input type="checkbox" name="checkbox_action" id="checkbox_action" autocomplete="off" />
+						            <div class="btn-group">
+						                <label for="checkbox_action" class="btn btn-default">
+						                    <span class="glyphicon glyphicon-ok"></span>
+						                    <span> </span>
+						                </label>
+						                <label for="checkbox_action" class="btn btn-default active">
+						                    Action
+						                </label>
+						            </div>
+						        </div>
+						        <div class="form-group">
+						            <input type="checkbox" name="checkbox_comedy" id="checkbox_comedy" autocomplete="off" />
+						            <div class="btn-group">
+						                <label for="checkbox_comedy" class="btn btn-default">
+						                    <span class="glyphicon glyphicon-ok"></span>
+						                    <span> </span>
+						                </label>
+						                <label for="checkbox_comedy" class="btn btn-default active">
+						                    Comedy
+						                </label>
+						            </div>
+						        </div>
+						    </div>
+			    			
+			    			<input type="submit" value="Register" class="btn btn-info btn-block">
+			    		
+			    		</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+	<!--  End of container -->
+	<div th:replace="~{includes/bootstrapJS :: bootstrapJS}" />
+</body>
+</html>

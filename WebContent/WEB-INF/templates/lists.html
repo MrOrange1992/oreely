@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<div th:replace="~{includes/bootstrapMeta :: bootstrapMeta}" />
+<title>My Lists</title>
+<div th:replace="~{includes/bootstrapCSS :: bootstrapCSS}" />
+</head>
+<body>
+	<div class="container" role="main">
+
+		<div class="page-header">
+			<h3>Lists</h3>
+		</div>
+
+		<!--  Error message ----------------------------------------------------------- -->
+		<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
+			class="alert alert-danger" role="alert"></div>
+		<!--  Error message ----------------------------------------------------------- -->
+
+		<!--  Warning message ----------------------------------------------------------- -->
+		<div th:unless="${warningMessage} == null"
+			th:utext="${warningMessage}" class="alert alert-warning"
+			role="warning"></div>
+		<!--  Warning message ----------------------------------------------------------- -->
+
+		<!--   message ----------------------------------------------------------- -->
+		<div th:unless="${message} == null" th:utext="${message}"
+			class="alert alert-success" role="warning"></div>
+		<!--   message ----------------------------------------------------------- -->
+		
+
+	</div>
+	<!--  End of container -->
+	<div th:replace="~{includes/bootstrapJS :: bootstrapJS}" />
+</body>
+</html>

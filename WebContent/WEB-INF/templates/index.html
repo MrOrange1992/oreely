@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>O'Reely</title>
+	<meta name="description" content="O'Reely">
+	<meta name="author" content="Lukas Schneider, Felix Rauchenwald, Markus Wolf">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" href="css/styles.css">
+
+  	<!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+ 	<![endif]-->
+
+</head>
+<body>
+	<header th:replace="~{includes/header :: header}"></header>
+	
+	<div id="content">
+		<div class="container-fluid">
+			<!--  Error message ----------------------------------------------------------- -->
+			<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
+				class="alert alert-danger" role="alert"></div>
+			<!--  Error message ----------------------------------------------------------- -->
+
+			<!--  Warning message ----------------------------------------------------------- -->
+			<div th:unless="${warningMessage} == null"
+				th:utext="${warningMessage}" class="alert alert-warning"
+				role="warning"></div>
+			<!--  Warning message ----------------------------------------------------------- -->
+
+			<!--   message ----------------------------------------------------------- -->
+			<div th:unless="${message} == null" th:utext="${message}"
+				class="alert alert-success" role="warning"></div>
+			<!--   message ----------------------------------------------------------- -->
+		</div>
+		
+		
+		<!--form class="navbar-form" role="search" method="get" th:action="@{/testSearch}">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for..." name="searchString">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit">Go!</button>
+				</span>
+			</div>
+		</form-->
+				
+		<div class="container-fluid">
+			<h1 class="center">DEBUG: Movies in DB</h1>
+			<div class="slick-reel-container container">
+				<div class="slick-reel">
+									
+					<div class="item poster card" th:each="movie : ${movies}">
+					    <div class="image_content">
+					      	<a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
+					      		<img class="poster" data-sizes="auto" 		
+								th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
+								th:data-srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
+											https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
+								th:alt=${movie.title} sizes="185px" 
+								th:srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
+										https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'" 
+								th:src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}">
+					      	</a>
+					    </div>
+					    <div class="info">
+					      <p class="flex">
+					        <a th:id=${movie.tmdb_id} class="title result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title} th:text=${movie.title}></a>
+					        <span class="vote_average" th:text=${movie.vote_average}><i class="fa fa-star" aria-hidden="true"></i></span>
+					      </p>
+					      <p class="meta flex">
+					        <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>
+					      </p>
+					        <p>    
+					        <span class="genres">TODO:Genres</span>
+					      </p>
+					       
+					      <p class="overview">TODO:Description</p>
+					      <p class="view_more"><a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>Weitere Informationen</a></p>
+					    	
+				            <p><a th:href="@{/save(id=${movie.id})}">Add</a></p>
+							<p><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
+							
+					    </div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<h2>Trending</h2>
+			<div class="card-list row">
+				<div class="slick-line-container">
+					<div class="slick-line">
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="card-showcase">
+					</div>
+				</div>
+			</div>
+			<h2>What your Friends watch</h2>
+			<div class="card-list row">
+				<div class="slick-line-container">
+					<div class="slick-line">
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="card-showcase">
+					</div>
+				</div>
+			</div>
+			<h2>Staff-Picks</h2>
+			<div class="card-list row">
+				<div class="slick-line-container">
+					<div class="slick-line">
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" alt="Sing" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/heY2lMBseFhmqvn4uaaO8ejPla9.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_335797" class="title result" href="/movie/335797" title="Sing" alt="Sing">Sing</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Animation, Komödie, Drama, Familie, Musik</span>
+						      </p>
+						      <p class="overview">Koala Buster Moon leitet ein Theater, um das es nicht sonderlich gut bestellt ist. Als er merkt, dass er ohne Anstrengungen nicht aus den roten Zahlen kommt, ruft…</p>
+						      <p class="view_more"><a id="movie_335797" class="result" href="/movie/335797" title="Sing" alt="Sing">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" alt="Split" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/ijoPd2gdt8jW982fGemySKDOGtv.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_381288" class="title result" href="/movie/381288" title="Split" alt="Split">Split</a>
+						        <span class="vote_average">6.8<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Horror, Thriller</span>
+						      </p>
+						      <p class="overview">Für die eigensinnige und achtsame Casey (Anya Taylor-Joy) und ihre zwei Freundinnen Claire (Haley Lu Richardson) und Marcia (Jessica Sula) wird das Leben zur Hölle…</p>
+						      <p class="view_more"><a id="movie_381288" class="result" href="/movie/381288" title="Split" alt="Split">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+						    <div class="image_content">
+						      	<a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">
+						      		<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" alt="The Great Wall" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/lpZESXFg9NXKO1UoWV2vakiVaci.jpg">
+						      	</a>
+						    </div>
+						    <div class="info">
+						      <p class="flex">
+						        <a id="movie_311324" class="title result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">The Great Wall</a>
+						        <span class="vote_average">5.9<i class="fa fa-star" aria-hidden="true"></i></span>
+						      </p>
+						      <p class="meta flex">
+						        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+						        <span class="genres">Action, Abenteuer, Fantasy</span>
+						      </p>
+						      <p class="overview">Die Wüste Gobi im 15. Jahrhundert: William Garin und Pero Tovar, zwei Söldner, flüchten vor einer Attacke des Volkes Kitan. Durch einen Zufall kommt William in Besitz…</p>
+						      <p class="view_more"><a id="movie_311324" class="result" href="/movie/311324" title="The Great Wall" alt="The Great Wall">Weitere Informationen</a></p>
+						    </div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" alt="Deadpool" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/zWD1ZXM6w73UNdTfXwVzUm6fd95.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_293660" class="title result" href="/movie/293660" title="Deadpool" alt="Deadpool">Deadpool</a>
+							        <span class="vote_average">7.3<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Action, Abenteuer, Komödie, Liebesfilm</span>
+							      </p>
+							      <p class="overview">Der Ex-Elitesoldat Wade Wilson ist jetzt ein Söldner, der seine Freizeit am liebsten im Puff verbringt. Als er von seiner Krebserkrankung erfährt, unterzieht er…</p>
+							      <p class="view_more"><a id="movie_293660" class="result" href="/movie/293660" title="Deadpool" alt="Deadpool">Weitere Informationen</a></p>
+							</div>
+						</div>
+						<div class="item poster card">
+							<div class="image_content">
+							    <a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">
+							    	<img class="poster" data-sizes="auto" data-src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg" data-srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" alt="Arrival" sizes="185px" srcset="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 1x, https://image.tmdb.org/t/p/w370_and_h556_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg 2x" src="https://image.tmdb.org/t/p/w185_and_h278_bestv2/x9DnIgHVWbW3uIJIQ2KeqeW0n2u.jpg">
+							    </a>
+							</div>
+							<div class="info">
+							      <p class="flex">
+							        <a id="movie_329865" class="title result" href="/movie/329865" title="Arrival" alt="Arrival">Arrival</a>
+							        <span class="vote_average">7.0<i class="fa fa-star" aria-hidden="true"></i></span>
+							      </p>
+							      <p class="meta flex">
+							        <span class="release_date"><span class="glyphicons glyphicons-calendar x1"></span>  2016</span>
+							        <span class="genres">Thriller, Drama, Science Fiction, Mystery</span>
+							      </p>
+							      <p class="overview">Zwölf Alien-Raumschiffe landen auf der Erde in unterschiedlichen Regionen. Die Menschen versuchen mit den Außerirdischen zu kommunizieren, aber niemand versteht…</p>
+							      <p class="view_more"><a id="movie_329865" class="result" href="/movie/329865" title="Arrival" alt="Arrival">Weitere Informationen</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="card-showcase">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="~{includes/footer :: footer}"></footer>
+</body>
+</html>
