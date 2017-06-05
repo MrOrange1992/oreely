@@ -2,21 +2,22 @@ package at.fh.swenga.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import at.fh.swenga.model.Genre;
-import info.movito.themoviedbapi.model.MovieDb;
 
 @Entity
 @Table(name = "Movie")
@@ -73,6 +74,9 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	
 	@ManyToMany(cascade=CascadeType.PERSIST)  //MERGE?
 	private List<Genre> genres;
+	
+	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER)
+    private Set<UserMovie> userMovies;
 	
 	// TODO: Relationships to list_movie, user_movie & movie_actor
 
@@ -226,6 +230,18 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 
 	public void setHomepage(String homepage) {
 		this.homepage = homepage;
+	}
+	
+	//user movies
+	public Set<UserMovie> getUserMovies() { return userMovies; }
+	public void setUserMovies(Set<UserMovie> userMovies) { this.userMovies = userMovies; }
+	public void addUserMovie(UserMovie userMovie){
+		if (userMovies == null) userMovies = new HashSet<UserMovie>();
+		userMovies.add(userMovie);
+	}
+	public void removeUserMovie(UserMovie userMovie) 
+	{
+		if(userMovies.contains(userMovie)) userMovies.remove(userMovie);
 	}
 
 }

@@ -67,6 +67,9 @@ public class User implements java.io.Serializable
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<MovieList> followingMovieLists;
 	
+	@OneToMany(mappedBy="owner",fetch=FetchType.EAGER)
+    private Set<UserMovie> userMovies;
+	
 	//@Version
 	//long version;
 
@@ -173,5 +176,17 @@ public class User implements java.io.Serializable
 	public void removeFollowingMovieList(MovieList followingMovieList) 
 	{
 		if(followingMovieLists.contains(followingMovieList)) followingMovieLists.remove(followingMovieList);
+	}
+	
+	//user movies
+	public Set<UserMovie> getUserMovies() { return userMovies; }
+	public void setUserMovies(Set<UserMovie> userMovies) { this.userMovies = userMovies; }
+	public void addUserMovie(UserMovie userMovie){
+		if (userMovies == null) userMovies = new HashSet<UserMovie>();
+		userMovies.add(userMovie);
+	}
+	public void removeUserMovie(UserMovie userMovie) 
+	{
+		if(userMovies.contains(userMovie)) userMovies.remove(userMovie);
 	}
 }

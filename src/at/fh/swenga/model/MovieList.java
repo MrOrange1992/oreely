@@ -21,6 +21,7 @@ public class MovieList {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@Column
 	private String name;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)

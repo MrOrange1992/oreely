@@ -2,6 +2,7 @@ package at.fh.swenga.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -11,8 +12,10 @@ import javax.persistence.ManyToMany;
 public class UserFollower {
 	
 	@Id
+	@Column
 	private String user_id;
 	
+	@Column
 	private String follower_id;
 	
 	@ManyToMany(mappedBy = "followers",fetch=FetchType.EAGER)
