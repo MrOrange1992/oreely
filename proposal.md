@@ -12,8 +12,8 @@ It will feature the following pages:
 * 1.2. Homescreen: The user control center after the login, where users can add,edit,view delete their lists. Based on the “Watched” list, recommendations what to watch next are displayed Recent activities from befriended users are shown as a feed. Users can search for other users and befriend them to view their lists.
 * 1.3. Edit profile: Users can change their profile settings (Username, password, favorite genres, filters)
 * 1.4. List-Page:
-    1.4.1. Movie-Detail-Page: Information about the movie is displayed (Title, cover, metainfo, description) and options to add them to a list and to rate and recommend it.
-    1.4.2. Administration Page: Manage all user accounts, Edit database entries, logs,
+    * 1.4.1. Movie-Detail-Page: Information about the movie is displayed (Title, cover, metainfo, description) and options to add them to a list and to rate and recommend it.
+    * 1.4.2. Administration Page: Manage all user accounts, Edit database entries, logs,
 
 
 Basic Design of the Frontend:
