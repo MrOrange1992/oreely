@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.fh.swenga.model.MovieList;
+import at.fh.swenga.model.User;
 
 @Repository
 @Transactional
@@ -39,6 +40,11 @@ public class MovieListDao {
 			} catch (NoResultException e) {
 				return null;
 			}
+		}
+		
+		public void persist(MovieList movieList) 
+		{
+			entityManager.persist(movieList);
 		}
 
 }
