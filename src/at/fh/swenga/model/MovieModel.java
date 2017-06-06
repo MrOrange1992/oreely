@@ -78,8 +78,11 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER)
     private Set<UserMovie> userMovies;
 	
+	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.EAGER)
+	private Set<MovieList> movieLists; //was List -> ERROR
+	
 	@ManyToMany(mappedBy = "movies",fetch=FetchType.EAGER)
-	private List<MovieList> movieLists;
+	private Set<Actor> actors; //was List -> ERROR
 	
 	// TODO: Relationships to list_movie, user_movie & movie_actor
 
@@ -247,12 +250,20 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		if(userMovies.contains(userMovie)) userMovies.remove(userMovie);
 	}
 
-	public List<MovieList> getMovieLists() {
+	public Set<MovieList> getMovieLists() {
 		return movieLists;
 	}
 
-	public void setMovieLists(List<MovieList> movieLists) {
+	public void setMovieLists(Set<MovieList> movieLists) {
 		this.movieLists = movieLists;
+	}
+
+	public Set<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(Set<Actor> actors) {
+		this.actors = actors;
 	}	
 
 }
