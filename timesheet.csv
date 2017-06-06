@@ -1,6 +1,4 @@
 Person;Date;Hours;Description
-;;;
-;;;
 lsch;14.05.2017;6h;Connection to OpenMovieDB, Wrapper on Top, Hardcoded Search for testing
 frau;25.05.2017;3h;Rebase Project to Spring Security
 mwol;25.05.2017;4h;Frontend for index.html created
