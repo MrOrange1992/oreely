@@ -3,7 +3,7 @@ lsch,14.05.2017,6h,"Connection to OpenMovieDB, Wrapper on Top, Hardcoded Search 
 frau,25.05.2017,3h,"Rebase Project to Spring Security"
 mwol,25.05.2017,4h,"Frontend for index.html created"
 frau,29.05.2017,1h,"Rebase project origin from Ielnykov to MrOrange1992 on Github"
-mwol,29.05.2017,2,25h,"Frontend for index.html added, request mapping altered, resources, css, js added"
+mwol,29.05.2017,2.25h,"Frontend for index.html added, request mapping altered, resources, css, js added"
 frau,31.05.2017,5h,"MovieDao edits, RequestMapping in MovieController"
 frau,01.06.2017,4h,"Requestmappings DONE!!!, Test search on index.html, dynamic html container, search.html"
 mwol,02.06.2017,4h,"Modified index.html , updated color sceme, updated css, modified login.html"
