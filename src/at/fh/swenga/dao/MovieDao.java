@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.fh.swenga.model.MovieModel;
+import at.fh.swenga.service.GetProperties;
 import at.fh.swenga.model.Genre;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
@@ -28,10 +30,13 @@ import info.movito.themoviedbapi.model.core.MovieResultsPage;
 @Transactional
 public class MovieDao {
 	
+	GetProperties gp = new GetProperties();
+	Properties properties = gp.getPropValues();
+	
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
-	public String apiKey = "12fdcdf9fd22633ac1feae68a09ab7e9"; //TODO: Key in apikey.properties like db (gitignore)
+	public String apiKey = properties.getProperty("apiKey");
 	
 	public List<MovieModel> getMovies() 
 	{

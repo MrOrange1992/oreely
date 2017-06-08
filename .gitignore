@@ -10,4 +10,5 @@ src/main/webapp/META-INF
 *.iml
 /src/db.properties
 /src/main/resources/db.properties
+/src/main/resources/config.properties
 /src/main/resources/query.sql

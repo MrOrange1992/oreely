@@ -15,3 +15,4 @@ Person,Date,Hours,Description
 "lsch,06.06.2017,3.5h,""Added remaining Models and Daos"""
 "mwol,08.06.2017,2h,""Changes to search, indes and header html, exported movie poster element for dynamic usage"""
 "mwol, 08.06.2017,3h,""CSS finetuning"""
+"lsch, 08.06.2017,4.5h,""Seperating the API Key from the code, dealing with several errors"""
