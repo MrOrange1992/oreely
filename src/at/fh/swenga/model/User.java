@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,6 +70,9 @@ public class User implements java.io.Serializable
 	
 	@OneToMany(mappedBy="owner",fetch=FetchType.EAGER)
     private Set<UserMovie> userMovies;
+	
+	@OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+    private Set<UserFeed> userFeed;
 	
 	//@Version
 	//long version;
@@ -188,5 +192,13 @@ public class User implements java.io.Serializable
 	public void removeUserMovie(UserMovie userMovie) 
 	{
 		if(userMovies.contains(userMovie)) userMovies.remove(userMovie);
+	}
+	
+	//user feed
+	public Set<UserFeed> getUserFeed() { return userFeed; }
+	public void addUserFeed(UserFeed uf) 
+	{
+		if (userFeed == null) userFeed = new HashSet<UserFeed>();
+		userFeed.add(uf);
 	}
 }
