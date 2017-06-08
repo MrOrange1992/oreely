@@ -46,16 +46,20 @@
 				class="alert alert-success" role="warning"></div>
 			<!--   message ----------------------------------------------------------- -->
 		</div>
-		
-		<form  method="get" th:action="@{/searchForMovies}">
-			<div class="input-group">			
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="submit">Start search</button>
-				</span>
-				<input type="text" class="form-control" placeholder="Search for..." name="searchString">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+					<form  method="get" th:action="@{/searchForMovies}">
+						<div class="input-group">			
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="submit">Start search</button>
+							</span>
+							<input type="text" class="form-control" placeholder="Search for..." name="searchString">
+						</div>
+					</form>
+				</div>
 			</div>
-		</form>
-				
+		</div>
 		<div class="container-fluid">
 			<h1 class="center">Results</h1>
 			<div class="container-fluid">

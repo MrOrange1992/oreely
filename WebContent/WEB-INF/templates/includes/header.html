@@ -1,6 +1,6 @@
 <header th:fragment="header">
 	<div class="logo">
-		<a href="/list">
+		<a href="/oreely/list">
 			<img src="res/img/logo-white.png" alt="logo"/>
 		</a>
 	</div>
@@ -10,24 +10,28 @@
 		    	<ul class="nav navbar-nav">
 			    	<li th:if="${actNav}=='list'" class="active">
 			    		<form th:action="@{/list}">
+			    			<i class="fa fa-list" aria-hidden="true"></i>
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
 							<input type="submit" value="My Lists" />
 						</form>
 			    	</li>
 			    	<li th:if="${actNav}!='list'">
 			    		<form th:action="@{/list}">
+			    			<i class="fa fa-list" aria-hidden="true"></i>
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
 							<input type="submit" value="My Lists" />
 						</form>
 			    	</li>
 			    	<li th:if="${actNav}=='search'" class="active">
 			    		<form th:action="@{/search}">
+			    			<i class="fa fa-search" aria-hidden="true"></i>
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
 							<input type="submit" value="Search" />
 						</form>
 			    	</li>
 			    	<li th:if="${actNav}!='search'">
 			    		<form th:action="@{/search}">
+			    			<i class="fa fa-search" aria-hidden="true"></i>
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
 							<input type="submit" value="Search" />
 						</form>
@@ -46,6 +50,7 @@
 			    	</li>
 			    	<li>
 			    		<form th:action="@{/logout}" method="post">
+			    			<i class="fa fa-times" aria-hidden="true"></i>
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
 							<input type="submit" value="Logout" />
 						</form>

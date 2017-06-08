@@ -1,14 +1,47 @@
 @import "slick.css";
 @import "slick-theme.css";
+.btn-colored {
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  right: 15px;
+  text-align: center;
+  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  color: #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+}
+.btn-colored a {
+  color: #ffffff;
+}
+.btn-colored:hover {
+  -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+}
+.btn-colored:hover a {
+  text-decoration: none;
+}
 html {
   font-size: 16px;
 }
+html body {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+}
 html body header {
   height: 80px;
+  width: 100%;
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
   padding-left: 30px;
   padding-right: 30px;
   border-bottom: 4px solid #666666;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 html body header .logo {
   float: left;
@@ -28,8 +61,14 @@ html body header .main-nav nav.navbar.navbar-default {
   background-color: transparent;
   border: 0px;
 }
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li {
+  height: calc( 76px);
+  padding-left: 5px;
+  padding-right: 5px;
+}
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li a,
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li input {
+  padding: 0px;
   color: #000000;
   height: calc( 76px);
   text-align: center;
@@ -41,28 +80,54 @@ html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collaps
   border: none;
   background-color: transparent;
 }
-html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li a i,
-html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li input i {
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li i {
+  font-size: 0.85rem;
+  color: #000000;
+}
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li i:before {
   font-size: 1.0rem;
+  color: #000000;
+}
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li input:focus {
+  outline: 0px;
+}
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li.active,
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
 }
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li.active a,
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li:hover a,
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li.active input,
 html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li:hover input {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: transparent;
   background-image: none;
   color: #ffffff;
-  -webkit-box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0px 0px 20px -5px rgba(0, 0, 0, 0.5);
+}
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li.active i,
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li:hover i {
+  color: #ffffff;
+}
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li.active i:before,
+html body header .main-nav nav.navbar.navbar-default div.collapse.navbar-collapse ul.nav.navbar-nav li:hover i:before {
+  color: #ffffff;
 }
 html body #content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 100vh;
+  position: relative;
+  z-index: 100;
   background-color: #eeeeee;
   padding-bottom: 60px;
-  padding-top: 60px;
+  padding-top: 140px;
   -webkit-box-shadow: inset 0px 5px 10px -5px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: inset 0px 5px 10px -5px rgba(0, 0, 0, 0.5);
   box-shadow: inset 0px 5px 10px -5px rgba(0, 0, 0, 0.5);
+  margin-bottom: -50px;
 }
 html body #content .center {
   text-align: center;
@@ -221,7 +286,7 @@ html body #content .slick-reel-container .slick-reel .slick-prev:before {
   margin-left: -30px;
 }
 html body #content .slick-line-container .slick-line .card {
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   margin-top: 15px;
 }
 html body #content .slick-line-container .slick-line .card .image_content img {
@@ -248,23 +313,56 @@ html body #content .card-showcase .info {
   width: 100vw;
   height: 20vw;
   padding: 15px;
-  margin-top: 15px;
+  margin-top: 0px;
   left: 0px;
   width: 50vw;
 }
-html body #content .card-showcase:before {
-  content: "";
-  display: block;
-  border-top: 10px solid #999;
-  border-left: 10px solid #999;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  width: 20px;
-  height: 20px;
-  transform: rotate(45deg);
+html body #content .card-showcase .info .flex {
+  margin: 0px;
+}
+html body #content .card-showcase .info .flex a {
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+html body #content .card-showcase .info .flex .vote_average {
+  float: right;
+  font-size: 1.0rem;
+}
+html body #content .card-showcase .info .meta.flex {
+  font-size: 0.75rem;
+}
+html body #content .card-showcase .info .view_more {
   position: absolute;
-  top: -9px;
-  left: 144px;
+  bottom: 5px;
+  left: 15px;
+  right: 15px;
+  text-align: center;
+  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  color: #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  width: 50%;
+  left: 25%;
+  position: relative;
+  margin-top: 30px;
+}
+html body #content .card-showcase .info .view_more a {
+  color: #ffffff;
+}
+html body #content .card-showcase .info .view_more:hover {
+  -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+}
+html body #content .card-showcase .info .view_more:hover a {
+  text-decoration: none;
+}
+html body footer {
+  height: 50px;
+  width: 100%;
+  position: relative;
+  z-index: 1000;
 }
 html body footer .footer-section {
   height: 50px;
@@ -291,8 +389,6 @@ html body footer .footer-section ul li a {
 }
 html body.login-page #content {
   background-image: url("../res/img/login-bg.jpg");
-  min-height: 100vh;
-  margin-bottom: -50px;
   padding-top: 20vh;
   background-size: cover;
   background-position: center center;
@@ -331,6 +427,13 @@ html body.login-page #content .login-panel input {
 }
 html body.login-page #content .login-panel .btn-primary {
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+}
+html body.login-page #content .login-panel p {
+  text-align: center;
+  margin-top: 10px;
+}
+html body.login-page #content .login-logo {
+  margin-bottom: 20px;
 }
 html body.login-page #content .login-logo img {
   width: 400px;

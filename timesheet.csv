@@ -14,3 +14,4 @@ Person,Date,Hours,Description
 "frau,05.06.2017,5h,""Genre implementation in MapMovie"""
 "lsch,06.06.2017,3.5h,""Added remaining Models and Daos"""
 "mwol,08.06.2017,2h,""Changes to search, indes and header html, exported movie poster element for dynamic usage"""
+"mwol, 08.06.2017,3h,""CSS finetuning"""

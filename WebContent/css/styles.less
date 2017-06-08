@@ -22,15 +22,47 @@
 @cardWidthL: 220px;
 @cardHeightL: 330px;
 
+.btn-colored{
+	position:absolute;
+	bottom:5px;
+	left:15px;
+	right:15px;
+	text-align:center;
+	background: @cBackgroundMain;
+	color:@cWhite;
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-bottom:0px;
+	a{
+		color:@cWhite;
+	}
+	&:hover{
+		-webkit-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		a{
+			text-decoration:none;
+		}
+	}							
+}
+
 html{
 	font-size: 16px;
 	body{
+		position:relative;
+		height:100%;
+		min-height:100%;
 		header{
 			height: @headerSize;
+			width:100%;
 			background:@cBackgroundMain;
 			padding-left:30px;
 			padding-right:30px;
 			border-bottom: 4px solid @cDarkGrey;
+			position:fixed;
+			top:0;
+			left:0;
+			z-index:1000;
 			.logo{
 				float:left;
 				img{
@@ -53,30 +85,49 @@ html{
 				    div.collapse.navbar-collapse{
 						ul.nav.navbar-nav{
 							li{
+								height: calc(~""@headerSize - @headerBorderSize);
+								padding-left:5px;
+								padding-right:5px;
 								a, input{
+									padding:0px;
 									color:@cBlack;
+									background-color:transparent;
 									height: calc(~""@headerSize - @headerBorderSize);
 								    text-align: center;
 								    line-height: @headerSize;
 								    padding-top: 0px;
 								    padding-bottom: 0px;
 									font-size: 1.0rem;
-									i{
-										font-size:1.0rem;
-									}
 									-webkit-appearance: none;
 								    border: none;
 								    background-color: transparent;
-
+								}
+								i{
+									font-size:0.85rem;
+									color:@cBlack;
+									&:before{
+										font-size:1.0rem;
+										color:@cBlack;
+									}
+								}
+								input:focus{
+									outline:0px;
 								}
 								&.active, &:hover{
+									background-color: @cTranspLightlyDark;
+									-webkit-box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
+									-moz-box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
+									box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
 									a, input{
-										background-color: @cTranspLightlyDark;
+										background-color:transparent;
 										background-image:none;
 										color:@cWhite;
-										-webkit-box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
-										-moz-box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
-										box-shadow: inset 0px 0px 20px -5px rgba(0,0,0,0.5);
+									}
+									i{
+										color:@cWhite;
+										&:before{
+											color:@cWhite;
+										}
 									}
 								}
 							}
@@ -86,12 +137,19 @@ html{
 			}
 		}
 		#content{
+			-webkit-box-sizing: border-box;
+    		-moz-box-sizing: border-box;
+    		box-sizing: border-box;
+			min-height:100vh;
+			position:relative;
+			z-index:100;
 			background-color: @cUltraLightGrey;
 			padding-bottom:60px;
-			padding-top:60px;
+			padding-top:140px;
 			-webkit-box-shadow: inset 0px 5px 10px -5px rgba(0,0,0,0.5);
    			-moz-box-shadow: inset 0px 5px 10px -5px rgba(0,0,0,0.5);
     		box-shadow: inset 0px 5px 10px -5px rgba(0,0,0,0.5);
+    		margin-bottom: -@footerSize;
 			.center{
 				text-align:center;
 			}
@@ -150,27 +208,7 @@ html{
 								margin-bottom:0px;
 							}
 							.view_more{
-								position:absolute;
-								bottom:5px;
-								left:15px;
-								right:15px;
-								text-align:center;
-								background: @cBackgroundMain;
-								color:@cWhite;
-								padding-top:5px;
-								padding-bottom:5px;
-								margin-bottom:0px;
-								a{
-									color:@cWhite;
-								}
-								&:hover{
-									-webkit-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
-									-moz-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
-									box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
-									a{
-										text-decoration:none;
-									}
-								}
+								.btn-colored;
 							}
 
 
@@ -271,7 +309,7 @@ html{
 			.slick-line-container{
 				.slick-line{
 					.card{
-						margin-bottom:15px;
+						margin-bottom:0px;
 						margin-top:15px;
 						.image_content{
 							img{
@@ -301,27 +339,39 @@ html{
 				    width: 100vw;
 				    height: 20vw;
 				    padding: 15px;
-				    margin-top: 15px;
+				    margin-top: 0px;
 				    left: 0px;
     				width:50vw;
+    				.flex{
+    					margin:0px;
+    					a{
+    						font-size:1.25rem;
+    						color:@cWhite;
+    					}
+    					.vote_average{
+    						float:right;
+    						font-size:1.0rem;
+    					}
+    				}
+    				.meta.flex{
+    					font-size:0.75rem;
+    				}
+
+    				.view_more{
+    					.btn-colored;
+    					width:50%;
+    					left:25%;
+    					position:relative;
+    					margin-top:30px;
+    				}
 				}
-				&:before{
-			    	content: "";
-				    display: block;
-				    border-top: 10px solid #999;
-				    border-left: 10px solid #999;
-				    border-right: 10px solid transparent;
-				    border-bottom: 10px solid transparent;
-				    width: 20px;
-				    height: 20px;
-				    transform: rotate(45deg);
-				    position: absolute;
-				    top: -9px;
-				    left: 144px;
-			    }
 			}
 		}
 		footer{
+			height:@footerSize;
+			width:100%;
+			position:relative;
+			z-index:1000;
 			.footer-section{
 				height: @footerSize;
 				border-top: @footerBorderSize solid @cDarkGrey;
@@ -349,8 +399,6 @@ html{
 		&.login-page{
 			#content{
 				background-image: url("../res/img/login-bg.jpg");
-				min-height: 100vh;
-				margin-bottom: -@footerSize;
 				padding-top:20vh;
 				background-size:cover;
 				background-position: center center;
@@ -375,8 +423,13 @@ html{
 					.btn-primary{
 						background: @cBackgroundMain;
 					}
+					p{
+						text-align:center;
+						margin-top:10px;
+					}
 				}
 				.login-logo{
+					margin-bottom: 20px;
 					img{
 						width:400px;
 						margin: 0 auto;
