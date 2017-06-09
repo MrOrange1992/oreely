@@ -28,13 +28,13 @@ public class MovieListDao {
 			return typedResultList;
 		}
 		
-		public MovieList getMovieList(String name) {
+		public MovieList getMovieList(User owner) {
 			try {
 	 
 				TypedQuery<MovieList> typedQuery = entityManager.createQuery(
-						"select ml from MovieList ml where ml.name = :name",
+						"select ml from MovieList ml where ml.owner = :owner",
 						MovieList.class);
-				typedQuery.setParameter("name", name);
+				typedQuery.setParameter("owner", owner);
 				MovieList movieList = typedQuery.getSingleResult();
 				return movieList;
 			} catch (NoResultException e) {

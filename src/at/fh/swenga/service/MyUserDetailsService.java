@@ -27,7 +27,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = null;
-		List<User> userList = userDao.findByUsername(username);
+		List<User> userList = userDao.findUsersByUsername(username);
 		if (userList != null && userList.size() > 0) {
 			user = userList.get(0);
 		}

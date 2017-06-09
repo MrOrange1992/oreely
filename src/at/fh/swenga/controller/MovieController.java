@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import at.fh.swenga.dao.GenreDao;
 import at.fh.swenga.dao.MovieDao;
+import at.fh.swenga.dao.MovieListDao;
 import at.fh.swenga.dao.UserDao;
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.model.User;
@@ -40,6 +43,9 @@ public class MovieController {
 
 	@Autowired
 	GenreDao genreDao;
+	
+	@Autowired
+	MovieListDao movieListDao;
 
 	// @Autowired
 	// private UserValidator userValidator;
@@ -57,6 +63,15 @@ public class MovieController {
 		model.addAttribute("movies", movieDao.searchMovies(searchString));
 		return "forward:search";
 	}
+	
+	@RequestMapping(value= "/myLists", method = RequestMethod.GET)
+	public String showLists(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) userDao.findUserByUsername(auth.getName());
+		model.addAttribute("lists", movieListDao.getMovieList(user));
+		return "lists";
+	}
+	
 
 	// Test for index.html
 	@RequestMapping(value = "/getMyMovies", method = RequestMethod.GET)
