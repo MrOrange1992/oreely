@@ -44,7 +44,7 @@ public class MovieController {
 	// @Autowired
 	// private UserValidator userValidator;
 
-	@RequestMapping(value = { "/", "list" })
+	@RequestMapping(value = { "/", "home" })
 	public String index(Model model) {
 		List<MovieModel> movies = movieDao.getMovies();
 		model.addAttribute("movies", movies);
@@ -104,7 +104,7 @@ public class MovieController {
 			System.out.println(ex);
 		}
 
-		return "forward:list";
+		return "forward:home";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
