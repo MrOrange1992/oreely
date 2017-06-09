@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +31,7 @@ public class UserDao {
 		TypedQuery<User> typedQuery = entityManager.createQuery(
 				"select u from User u where u.userName = :name", User.class);
 		typedQuery.setParameter("name", userName);
-		List<User> typedResultList = typedQuery.getResultList();
-		User user = typedResultList.get(0);
+		User user = typedQuery.getResultList().get(0);
 		return user;
 	}
 	

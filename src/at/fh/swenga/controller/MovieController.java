@@ -19,6 +19,7 @@ import at.fh.swenga.dao.GenreDao;
 import at.fh.swenga.dao.MovieDao;
 import at.fh.swenga.dao.MovieListDao;
 import at.fh.swenga.dao.UserDao;
+import at.fh.swenga.model.MovieList;
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.model.User;
 import at.fh.swenga.model.UserRole;
@@ -65,9 +66,17 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value= "/myLists", method = RequestMethod.GET)
-	public String showLists(Model model){
+	public String showLists(Model model){		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) userDao.findUserByUsername(auth.getName());
+		if(movieListDao.getMovieList(user) == null){
+			System.out.println("No MovieLists :(");
+			MovieList movieList = new MovieList("TestList", user);
+			//movieListDao.persist(movieList);
+			user.addMovieList(movieList);
+			//userDao.persist(user);
+			System.out.println("added a TestList :)");
+		}
 		model.addAttribute("lists", movieListDao.getMovieList(user));
 		return "lists";
 	}
@@ -78,7 +87,6 @@ public class MovieController {
 	@Transactional
 	public String testSearch(Model model, @RequestParam String searchString) {
 		List<MovieModel> movies = movieDao.getMovies();
-
 		model.addAttribute("movies", movies);
 		return "forward:list";
 	}
