@@ -89,7 +89,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	public MovieModel() {}
 	
 	public MovieModel(int id, int tmdb_id, String title, boolean adult, float vote_average, int vote_count,
-			Date release_date, int runtime, long budget, long revenue, String poster_path, String original_language,
+			Date release_date, int runtime, long budget, long revenue, String poster_path, /*String original_language,*/
 			String original_name, String homepage) {
 		super();
 		this.id = id;

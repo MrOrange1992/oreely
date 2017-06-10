@@ -1,5 +1,6 @@
 package at.fh.swenga.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -65,19 +66,21 @@ public class MovieController {
 		return "forward:search";
 	}
 	
-	@RequestMapping(value= "/myLists", method = RequestMethod.GET)
+	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public String showLists(Model model){		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) userDao.findUserByUsername(auth.getName());
-		if(movieListDao.getMovieList(user) == null){
-			System.out.println("No MovieLists :(");
+		if(movieListDao.getMovieListByOwner(user) == null){
 			MovieList movieList = new MovieList("TestList", user);
-			//movieListDao.persist(movieList);
+			MovieModel movie1 = new MovieModel(1, 1, "test1", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
+			movieDao.merge(movie1);
+			MovieModel movie2 = new MovieModel(2, 2, "test2", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
+			movieDao.merge(movie2);
+			movieListDao.merge(movieList);
 			user.addMovieList(movieList);
-			//userDao.persist(user);
-			System.out.println("added a TestList :)");
+			userDao.merge(user);
 		}
-		model.addAttribute("lists", movieListDao.getMovieList(user));
+		model.addAttribute("lists", movieListDao.getMovieListByOwner(user));
 		return "lists";
 	}
 	
