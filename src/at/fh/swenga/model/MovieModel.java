@@ -6,16 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import at.fh.swenga.model.Genre;
 
@@ -23,7 +14,6 @@ import at.fh.swenga.model.Genre;
 @Table(name = "Movie")
 public class MovieModel //extends MovieDb implements java.io.Serializable 
 {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,6 +26,9 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 
 	@Column(nullable = false, length = 100)
 	private String title;
+
+	@Column
+	private String overview;
 
 	@Column(nullable = false)
 	private boolean adult;
@@ -87,14 +80,15 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	// TODO: Relationships to list_movie, user_movie & movie_actor
 
 	public MovieModel() {}
-	
-	public MovieModel(int id, int tmdb_id, String title, boolean adult, float vote_average, int vote_count,
-			Date release_date, int runtime, long budget, long revenue, String poster_path, /*String original_language,*/
-			String original_name, String homepage) {
+
+	public MovieModel(int id, int tmdb_id, String title, String overview, boolean adult, float vote_average, int vote_count,
+					  Date release_date, int runtime, long budget, long revenue, String poster_path,
+					  String original_name, String homepage) {
 		super();
 		this.id = id;
 		this.tmdb_id = tmdb_id;
 		this.title = title;
+		this.overview = overview;
 		this.adult = adult;
 		this.vote_average = vote_average;
 		this.vote_count = vote_count;
@@ -103,7 +97,6 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		this.budget = budget;
 		this.revenue = revenue;
 		this.poster_path = poster_path;
-		//this.original_language = original_language;
 		this.original_name = original_name;
 		this.homepage = homepage;
 	}
@@ -147,6 +140,10 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public String getOverview() { return overview; }
+
+	public void setOverview(String overview) { this.overview = overview; }
 
 	public boolean isAdult() {
 		return adult;
@@ -212,16 +209,6 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		this.poster_path = poster_path;
 	}
 
-	/*Ü
-	public String getOriginal_language() {
-		return original_language;
-	}
-
-	public void setOriginal_language(String original_language) {
-		this.original_language = original_language;
-	}
-	*/
-
 	public String getOriginal_name() {
 		return original_name;
 	}
@@ -250,20 +237,28 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		if(userMovies.contains(userMovie)) userMovies.remove(userMovie);
 	}
 
+	//movie list
 	public Set<MovieList> getMovieLists() {
 		return movieLists;
 	}
-
 	public void setMovieLists(Set<MovieList> movieLists) {
 		this.movieLists = movieLists;
 	}
+	public void addMovieList(MovieList movieList) {
+		if (movieLists == null) movieLists = new HashSet<MovieList>();
+		movieLists.add(movieList);
+	}
 
+	//actors
 	public Set<Actor> getActors() {
 		return actors;
 	}
-
 	public void setActors(Set<Actor> actors) {
 		this.actors = actors;
-	}	
+	}
+	public void addActor(Actor actor) {
+		if(actors == null) actors = new HashSet<Actor>();
+		actors.add(actor);
+	}
 
 }

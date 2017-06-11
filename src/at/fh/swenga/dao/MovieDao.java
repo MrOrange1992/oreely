@@ -3,6 +3,7 @@ package at.fh.swenga.dao;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -12,84 +13,114 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import at.fh.swenga.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import at.fh.swenga.model.Actor;
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.service.GetProperties;
 import at.fh.swenga.model.Genre;
+
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.TmdbPeople;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
+import info.movito.themoviedbapi.model.people.PersonCast;
+import info.movito.themoviedbapi.model.people.PersonPeople;
 
 
 @Repository
 @Transactional
-public class MovieDao {
-	
-	GetProperties gp = new GetProperties();
-	Properties properties = gp.getPropValues();
-	
+public class MovieDao
+{
+
 	@PersistenceContext
 	protected EntityManager entityManager;
+
+	GetProperties gp = new GetProperties();
+	Properties properties = gp.getPropValues();
+
+	private String apiKey = properties.getProperty("apiKey");
 	
-	public String apiKey = properties.getProperty("apiKey");
-	
-	public List<MovieModel> getMovies() 
+	private TmdbMovies tmdbMovies = new TmdbApi(apiKey).getMovies();
+	private TmdbSearch tmdbSearch = new TmdbApi(apiKey).getSearch();
+	private TmdbPeople tmdbPeople = new TmdbApi(apiKey).getPeople();
+
+	public List<MovieModel> getMovies()
 	{
-		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("select m from MovieModel m",
-				MovieModel.class);
+		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("select m from MovieModel m", MovieModel.class);
 		List<MovieModel> typedResultList = typedQuery.getResultList();
 		return typedResultList;
 	}
-	
-	public List<MovieModel> searchMovies(String searchString) 
-	{	
-		TmdbSearch search = new TmdbApi(apiKey).getSearch();
-		TmdbMovies movies = new TmdbApi(apiKey).getMovies();
-        MovieResultsPage result = search.searchMovie(searchString, null, "en-US", false, null);        
+
+
+	public List<MovieModel> getUserMovies(User user)
+	{
+		// Inner JOIN UserMovie um ON m.id = um WHERE um.owner_userName = :userName
+		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("SELECT m FROM MovieModel m left join fetch  m.userMovies um where um.owner = :user", MovieModel.class);
+		typedQuery.setParameter("user", user);
+
+		List<MovieModel> typedResultList = typedQuery.getResultList();
+		return typedResultList;
+	}
+
+
+
+	//TODO replace mapMovie with other lightweight method
+	//because mapping movie genres and actors for multiple movies takes too long
+	public List<MovieModel> searchMovies(String searchString)
+	{
+        MovieResultsPage result = tmdbSearch.searchMovie(searchString, null, "en-US", false, null);
         List<MovieDb> resultList = result.getResults();      
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
         for (MovieDb mDB : resultList)
         {
-        	movieModelList.add(mapMovie(movies, mDB.getId()));
+        	movieModelList.add(mapMovie(tmdbMovies, mDB.getId()));		//Replace!!!
         }
         
         return movieModelList;
 	}
-	
-	//TODO FR 
+
+	public MovieModel getMovieById(int id)
+	{
+		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("select m from MovieModel m where m.id = :id", MovieModel.class).setParameter("id", id);
+		return typedQuery.getSingleResult();
+	}
+
+	//TODO FR: Add Genre und Actor in DAOs auslagern
 	public MovieModel mapMovie(TmdbMovies movies, int id)
 	{
 		//TmdbMovies movies = new TmdbApi(apiKey).getMovies();
     	MovieDb movie = movies.getMovie(id, "en", MovieMethod.credits);
-    	MovieModel mm = new MovieModel();
+    	MovieModel movieModel = new MovieModel();
     	
-    	mm.setId(movie.getId());
-    	mm.setTmdb_id(movie.getId());
-    	mm.setTitle(movie.getTitle());
-    	mm.setAdult(movie.isAdult());
-    	mm.setVote_average(movie.getPopularity());
-    	mm.setVote_count(movie.getVoteCount());
+    	movieModel.setId(movie.getId());
+    	movieModel.setTmdb_id(movie.getId());
+    	movieModel.setTitle(movie.getTitle());
+    	movieModel.setOverview(movie.getOverview());
+    	movieModel.setAdult(movie.isAdult());
+    	movieModel.setVote_average(movie.getPopularity());
+    	movieModel.setVote_count(movie.getVoteCount());
     	
     	DateFormat format = new SimpleDateFormat("YYYY-MM-dd", Locale.ENGLISH);
     	try 
     	{ 
     		if (movie.getReleaseDate() != "") 
-    			mm.setRelease_date(format.parse(movie.getReleaseDate())); 
+    			movieModel.setRelease_date(format.parse(movie.getReleaseDate()));
     	}
     	catch (ParseException e) { e.printStackTrace(); }
     	
-    	mm.setRuntime(movie.getRuntime());
-    	mm.setBudget(movie.getBudget());
-    	mm.setRevenue(movie.getRevenue());
-    	mm.setPoster_path(movie.getPosterPath());
-    	mm.setOriginal_name(movie.getOriginalTitle());
-    	mm.setHomepage(movie.getHomepage());
+    	movieModel.setRuntime(movie.getRuntime());
+    	movieModel.setBudget(movie.getBudget());
+    	movieModel.setRevenue(movie.getRevenue());
+    	movieModel.setPoster_path(movie.getPosterPath());
+    	movieModel.setOriginal_name(movie.getOriginalTitle());
+    	movieModel.setHomepage(movie.getHomepage());
     	
     	//System.out.println(movie.getGenres().get(0).getName());
     	
@@ -97,13 +128,24 @@ public class MovieDao {
     	for (info.movito.themoviedbapi.model.Genre genre : movie.getGenres())
     	{
     		Genre gm = new Genre(genre.getId(), genre.getName());
-    		//genreDao.persist(gm);	//TODO FR: Error: detached entity passed to persist: at.fh.swenga.model.GenreModel
-    		mm.addGenre(gm);
-    		//System.out.println(genre.getName());
+    		movieModel.addGenre(gm);
     	}
-    	
-    	//this.persist(mm);
-    	return mm;	
+
+    	//FR: Map model.people.PersonPeople to Actor
+		//Take top 3 cast members
+		//List<PersonCast> topCast = movie.getCast().stream().filter(cast -> cast.getCastId() < 3).collect(Collectors.toList());
+		if (movie.getCast().size() >= 5)
+		{
+			for (PersonCast cast : movie.getCast().subList(0, 4))
+			{
+				PersonPeople tmdbActor = tmdbPeople.getPersonInfo(cast.getId());
+
+				Actor actor = new Actor(tmdbActor.getId(), tmdbActor.getName(), tmdbActor.getBirthday());
+				movieModel.addActor(actor);
+			}
+		}
+
+    	return movieModel;
 	}
 	
 	

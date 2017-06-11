@@ -31,5 +31,10 @@ public class ActorDao {
 	{
 		entityManager.persist(actor);
 	}
-	
+
+	public Actor merge(Actor actor)
+	{
+		return entityManager.merge(actor);
+	}
+
 }

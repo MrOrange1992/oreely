@@ -20,17 +20,16 @@ import at.fh.swenga.model.UserRole;
 
 @Service
 @Transactional
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService
+{
 	@Autowired
 	UserDao userDao;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = null;
-		List<User> userList = userDao.findUsersByUsername(username);
-		if (userList != null && userList.size() > 0) {
-			user = userList.get(0);
-		}
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+	{
+		User user = userDao.findByUsername(username);
+
 		if (user == null) {
 			throw new UsernameNotFoundException("user was not found");
 		}

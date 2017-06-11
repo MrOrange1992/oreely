@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import at.fh.swenga.dao.*;
+import at.fh.swenga.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,34 +31,41 @@ import at.fh.swenga.service.GetProperties;
 //import at.fh.swenga.service.UserValidator;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MovieController {
-	
-	GetProperties gp = new GetProperties();
-	Properties properties = gp.getPropValues();
-
-	private TmdbMovies movies = new TmdbApi(properties.getProperty("apiKey")).getMovies();
+public class MovieController
+{
+	@Autowired
+	private UserDao userDao;
 
 	@Autowired
-	UserDao userDao;
+	private MovieDao movieDao;
 
 	@Autowired
-	MovieDao movieDao;
+	private GenreDao genreDao;
 
 	@Autowired
-	GenreDao genreDao;
-	
-	@Autowired
-	MovieListDao movieListDao;
+	private ActorDao actorDao;
 
-	// @Autowired
-	// private UserValidator userValidator;
+	@Autowired
+	private UserMovieDao userMovieDao;
+
+	@Autowired
+	private MovieListDao movieListDao;
+
+	private TmdbMovies tmdbMovies = new TmdbApi(new GetProperties().getPropValues().getProperty("apiKey")).getMovies();
+
+	private User activeUser;
 
 	@RequestMapping(value = { "/", "home" })
-	public String index(Model model) {
-		List<MovieModel> movies = movieDao.getMovies();
-		model.addAttribute("movies", movies);
+	public String index(Model model)
+	{
+		activeUser = userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		List<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
+
+		model.addAttribute("movies", userMovies);
 
 		return "index";
 	}
@@ -67,12 +77,15 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
-	public String showLists(Model model){		
+	public String showLists(Model model)
+	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) userDao.findUserByUsername(auth.getName());
-		if(movieListDao.getMovieListByOwner(user) == null){
+		User user = userDao.findByUsername(auth.getName());
+		/*
+		if(movieListDao.getMovieListByOwner(user) == null)
+		{
 			MovieList movieList = new MovieList("TestList", user);
-			MovieModel movie1 = new MovieModel(1, 1, "test1", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
+			MovieModel movie1 = new MovieModel(1, "test1", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
 			movieDao.merge(movie1);
 			MovieModel movie2 = new MovieModel(2, 2, "test2", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
 			movieDao.merge(movie2);
@@ -80,10 +93,11 @@ public class MovieController {
 			user.addMovieList(movieList);
 			userDao.merge(user);
 		}
+		*/
 		model.addAttribute("lists", movieListDao.getMovieListByOwner(user));
 		return "lists";
 	}
-	
+
 
 	// Test for index.html
 	@RequestMapping(value = "/getMyMovies", method = RequestMethod.GET)
@@ -100,46 +114,57 @@ public class MovieController {
 	}
 
 	@RequestMapping(value = "/save")
-	public String save(@RequestParam("id") int id, Model model) {
-		// TmdbMovies movies = new TmdbApi(apiKey).getMovies();
+	public String save(@RequestParam("id") int id, Model model)
+	{
+		MovieModel movie = movieDao.mapMovie(tmdbMovies, id);
 
-		MovieModel movie = movieDao.mapMovie(movies, id);
+		if (userMovieDao.getUserMovieByID(activeUser, movie) != null) return "forward:home";
 
-		try {
-			movieDao.persist(movie);
-		} catch (Exception ex) // FR: if duplicate PRIM Key ->
-								// DataIntegrityViolationException
+		UserMovie userMovie = new UserMovie(activeUser, movie);
+
+		try
 		{
-			System.out.println(ex);
+			for (Genre genre : movie.getGenres()) { genreDao.merge(genre); }
+			for (Actor actor : movie.getActors()) { actorDao.merge(actor); }
+
+			try
+			{
+				userMovieDao.persist(userMovie);
+			}
+			catch (DataIntegrityViolationException ex)
+			{
+				userMovieDao.merge(userMovie);
+			}
+
+			movie.addUserMovie(userMovie);
 		}
-
-		return "forward:list";
-	}
-
-	@RequestMapping(value = "/delete")
-	@Transactional
-	public String delete(@RequestParam("id") int id, Model model) {
-		// TmdbMovies movies = new TmdbApi(apiKey).getMovies();
-
-		MovieModel movie = movieDao.mapMovie(movies, id);
-
-		try {
-			MovieModel managedMovie = movieDao.merge(movie);
-			movieDao.delete(managedMovie);
-		} catch (Exception ex) {
-			System.out.println(ex);
+		catch (DataIntegrityViolationException ex)
+		{
+			System.out.println("Save movie DB Error!!!");
 		}
 
 		return "forward:home";
-	}
+  	}
+
+  	//TODO not working properly
+	@RequestMapping(value = "/delete")
+	//@Transactional
+	public String delete(@RequestParam("id") int id, Model model)
+	{
+		userMovieDao.delete(userMovieDao.getUserMovieByID(activeUser, movieDao.mapMovie(tmdbMovies, id)));
+
+		return "forward:home";
+  	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String handleLogin() {
+	public String handleLogin()
+	{
 		return "login";
 	}
 
 	@RequestMapping(value = "/registerForm", method = RequestMethod.POST)
-	public String registerForm(Model model) {
+	public String registerForm(Model model)
+	{
 		User user = new User();
 		model.addAttribute("user", user);
 		return "register";
@@ -168,11 +193,25 @@ public class MovieController {
 		}
 	}
 
+
+	//TODO Genre not attached!!
+	@RequestMapping(value = "/details")
+	public String details(@RequestParam("id") int id, Model model)
+	{
+		MovieModel movie = movieDao.getMovieById(id);
+		model.addAttribute("movie", movie);
+
+		//System.out.println(id);
+
+		return "details";
+	}
+
+
 	// @ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex) {
 
 		return "error";
 
 	}
-	
+
 }

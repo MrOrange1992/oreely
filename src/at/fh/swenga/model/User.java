@@ -26,11 +26,14 @@ public class User implements java.io.Serializable
 {
 	private static final long serialVersionUID = 8198173157518983615L;
 
+	/*
 	@Id
-	@Column /* (name = "username", unique = true, nullable = false, length = 45) */
+	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+	*/
+
+	@Id
 	@Column
 	private String userName;
 	
@@ -95,10 +98,12 @@ public class User implements java.io.Serializable
 	/*
 	 * GETTER / SETTER
 	 */
+	/*
 	//id
 	public int getId() { return id; }
 	public void setId(int id) {this.id = id;}
-	
+	*/
+
 	//userName
 	public String getUserName() { return userName; }
 	public void setUserName(String userName) { this.userName = userName; }

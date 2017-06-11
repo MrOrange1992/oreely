@@ -20,38 +20,28 @@ public class UserDao {
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
-	public List<User> findUsersByUsername(String userName) {
+	public User findByUsername(String userName) {
 		TypedQuery<User> typedQuery = entityManager.createQuery(
 				"select u from User u where u.userName = :name", User.class);
 		typedQuery.setParameter("name", userName);
-		List<User> typedResultList = typedQuery.getResultList();
-		return typedResultList;
+		return typedQuery.getSingleResult();
 	}
-	
-	public User findUserByUsername(String userName) {
-		TypedQuery<User> typedQuery = entityManager.createQuery(
-				"select u from User u where u.userName = :name", User.class);
-		typedQuery.setParameter("name", userName);
-		User user = typedQuery.getResultList().get(0);
-		return user;
-	}
-	
-	
-	public void persist(User user) 
+
+	public void persist(User user)
 	{
 		entityManager.persist(user);
 	}
 	
-	public User merge(User user) 
+	public User merge(User user)
 	{
 		return entityManager.merge(user);
 	}
-	
-	public void delete(User user) 
+
+	public void delete(User user)
 	{
 		entityManager.remove(user);
 	}
-	
+
 	public void persistRole(UserRole role)
 	{
 		entityManager.persist(role);

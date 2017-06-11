@@ -47,4 +47,10 @@ public class GenreDao {
 		entityManager.persist(genre);
 	}
 
+	public Genre merge(Genre genre)
+	{
+		return entityManager.merge(genre);
+	}
+
+
 }

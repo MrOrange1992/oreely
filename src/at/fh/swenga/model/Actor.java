@@ -2,6 +2,7 @@ package at.fh.swenga.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,52 +22,41 @@ public class Actor {
 
 	@Id
 	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column
+	private String name;		//not first and last because PersonPeople object from TMDB has only one name attribute
 	
 	@Column
-	private String firstName;
-	
-	@Column
-	private String lastName;
-	
-	@Column
-	@Temporal(TemporalType.DATE)
-	private Calendar birthday;
+	private String birthday;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<MovieModel> movies;
 	
 	public Actor() {}
 
-	public Actor(String firstName, String lastName, Calendar birthday) {
+	public Actor(int id, String name, String birthday) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.id = id;
+		this.name = name;
 		this.birthday = birthday;
 	}
 
-	public String getFirstName() {
-		return firstName;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Calendar getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Calendar birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	

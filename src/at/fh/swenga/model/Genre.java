@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "Genre")
 public class Genre //extends info.movito.themoviedbapi.model.Genre implements java.io.Serializable
