@@ -4,6 +4,7 @@
 @cBlack: #000;
 @cWhite: #fff;
 @cGrey: #888;
+@cLightGrey: #ddd;
 @cUltraLightGrey: #eee;
 @cDarkGrey: #666;
 @cTranspLightlyDark: rgba(0,0,0,0.075);
@@ -374,6 +375,42 @@ html{
 				}
 				.btn-delete{
 					color: #ff0000;
+				}
+			}
+			.movie-lists{
+				.list-row{
+					&:nth-child(even){
+						.col-md-8{
+							background-color:@cGrey;
+							padding-top:15px;
+							padding-bottom:15px;
+							p{
+								margin:0px;
+							}
+						}
+					}
+					&:nth-child(odd){
+						.col-md-8{
+							background-color:@cLightGrey;
+							padding-top:15px;
+							padding-bottom:15px;
+							p{
+								margin:0px;
+							}
+						}
+					}
+					&:nth-child(4){
+						.col-md-8{
+							border-top-left-radius: 15px;
+							border-top-right-radius: 15px;
+						}
+					}
+					&:last-child{
+						.col-md-8{
+							border-bottom-left-radius: 15px;
+							border-bottom-right-radius: 15px;
+						}
+					}
 				}
 			}
 		}

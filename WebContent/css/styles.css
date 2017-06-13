@@ -392,6 +392,30 @@ html body #content .card-showcase .btn-delete:hover a {
 html body #content .card-showcase .btn-delete {
   color: #ff0000;
 }
+html body #content .movie-lists .list-row:nth-child(even) .col-md-8 {
+  background-color: #888888;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+html body #content .movie-lists .list-row:nth-child(even) .col-md-8 p {
+  margin: 0px;
+}
+html body #content .movie-lists .list-row:nth-child(odd) .col-md-8 {
+  background-color: #dddddd;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+html body #content .movie-lists .list-row:nth-child(odd) .col-md-8 p {
+  margin: 0px;
+}
+html body #content .movie-lists .list-row:nth-child(4) .col-md-8 {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+html body #content .movie-lists .list-row:last-child .col-md-8 {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
 html body footer {
   height: 50px;
   width: 100%;
