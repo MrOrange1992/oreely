@@ -9,9 +9,9 @@ Task,Preference,Progress
 "As a user, I want to add friends",M,
 "As a user, I want to remove friends",M,
 "As a developer, I want to fetch movie metadata from the internet",M,DONE
-"As a developer, I want to store fetched data into the DB",M,
-"As a user, I want to create lists for movies",M,
-"As a user, I want to list my movies",M,
+"As a developer, I want to store fetched data into the DB",M,"IN PROGRESS"
+"As a user, I want to create lists for movies",M,"IN PROGRESS"
+"As a user, I want to list my movies",M,"IN PROGRESS"
 "As a user, I want to search movies",M,DONE
 "As a user, I want to specify my search",HD,"IN PROGRESS"
 "As a user, I want to add movies to my lists",M,"IN PROGRESS"
