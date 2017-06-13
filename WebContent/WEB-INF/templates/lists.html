@@ -50,11 +50,11 @@
 			<div class="movie-lists">
 				<h1 class="center">Your Lists</h1>
 	
-            <table>
+            <!--table>
                 <th:block th:each="list : ${lists}">
                     <tr>
                         <td th:text="${list.name}">...</td>
-                        <!-- <td th:text="${list.owner}">...</td> -->
+                        <!-- <td th:text="${list.owner}">...</td> >
                     </tr>
                         <th:bolck th:each="movie : ${list.movies}">
                             <tr>
@@ -62,7 +62,14 @@
                             </tr>
                         </th:block>
                 </th:block>
-            </table>
+            </table-->
+
+				<div th:each="${list : ${lists}}">
+					<span th:text="${list.name}"></span>
+					<div th:each="${movie : ${list.movies}}">
+						<span th:text="${movie.title}"></span>
+					</div>
+				</div>
 				
 				<div class="row list-headline">
 					<div class="col-md-8 col-md-offset-2">

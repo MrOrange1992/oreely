@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +33,10 @@ import at.fh.swenga.service.GetProperties;
 //import at.fh.swenga.service.UserValidator;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class MovieController
@@ -79,12 +84,12 @@ public class MovieController
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public String showLists(Model model)
 	{
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userDao.findByUsername(auth.getName());
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//User user = userDao.findByUsername(auth.getName());
 		
-		if(movieListDao.getMovieListByOwner(user) == null)
+		if(movieListDao.getMovieListByOwner(activeUser) == null)
 		{
-			MovieList movieList = new MovieList("TestList", user);
+			MovieList movieList = new MovieList("TestList", activeUser);
 			MovieModel movie1 = new MovieModel(1, 0, "test1", null, false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
 			movieDao.merge(movie1);
 			movieList.addMovie(movie1);
@@ -92,31 +97,22 @@ public class MovieController
 			movieDao.merge(movie2);
 			movieList.addMovie(movie2);
 			movieListDao.merge(movieList);
-			user.addMovieList(movieList);
-			userDao.merge(user);
+			activeUser.addMovieList(movieList);
+			userDao.merge(activeUser);
 		}
 		
-        MovieList movieListByOwner = movieListDao.getMovieListByOwner(user);
+        MovieList movieListByOwner = movieListDao.getMovieListByOwner(activeUser);
 		movieListByOwner.getMovies();
 		model.addAttribute("lists", movieListByOwner);
 		//System.out.println("Felix");
 		return "lists";
 	}
 
-
-	// Test for index.html
-	@RequestMapping(value = "/getMyMovies", method = RequestMethod.GET)
-	@Transactional
-	public String testSearch(Model model, @RequestParam String searchString) {
-		List<MovieModel> movies = movieDao.getMovies();
-		model.addAttribute("movies", movies);
-		return "forward:list";
-	}
-
 	@RequestMapping(value = "/search")
 	public String search(Model model) {
 		return "search";
 	}
+
 
 	@RequestMapping(value = "/save")
 	public String save(@RequestParam("id") int id, Model model)
@@ -180,9 +176,8 @@ public class MovieController
 		return "forward:home";
   	}
 
-  	//TODO not working properly
+  	//DONE
 	@RequestMapping(value = "/delete")
-	//@Transactional
 	public String delete(@RequestParam("id") int id, Model model)
 	{
 		userMovieDao.delete(userMovieDao.getUserMovieByID(activeUser, movieDao.mapMovie(tmdbMovies, id)));
@@ -204,16 +199,16 @@ public class MovieController
 		return "register";
 	}
 
-	// TODO login unsafe as f**k
+	// TODO Genres from checkboxes into User_Genre
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@ModelAttribute(value = "user") User user) {
-		// FR: NOOB check for credentials
-		if (user.getUserName() != "" && user.getFirstName() != "" && user.getLastName() != ""
-				&& user.getUserName() != "" && user.getEmail() != "" && user.getPassword() != "") {
-			// FR: Password hashing
+	public String register(@RequestParam String genre1, @ModelAttribute(value = "user") @Valid User user, BindingResult result)
+	{
+		if (!result.hasErrors())
+		{
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String hashedPassword = passwordEncoder.encode(user.getPassword());
 			user.setPassword(hashedPassword);
+			user.setMatchingPassword(hashedPassword);
 			UserRole userRole = new UserRole(user, "ROLE_USER");
 			user.addUserRole(userRole);
 			user.setEnabled(true);
@@ -221,10 +216,8 @@ public class MovieController
 			userDao.persist(user);
 			userDao.persistRole(userRole);
 			return "login";
-		} else {
-			System.out.println("NOPE");
-			return "forward:registerForm";
 		}
+		else { return "forward:registerForm"; }
 	}
 
 

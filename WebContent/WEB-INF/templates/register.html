@@ -37,6 +37,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
+
 					<form class="login-panel" th:action="@{/register}" th:object="${user}" method="post">
 						<div class="data-block">
 							<div class="row">
@@ -45,13 +46,18 @@
 				 				</div>
 				 			</div>	
 							<div class="row">
+
 			 					<div class="form-group">
+
 			 						<div class="col-xs-12 col-sm-6 col-md-4">
 			 							<label for="firstname">Firstname:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{firstName}" type="text" name="firstname" id="firstname" class="form-control input-sm" placeholder="">
+			 							<input th:field="*{firstName}" type="text" required name="firstname" id="firstname" class="form-control input-sm" placeholder="">
+			 							<p th:each="error: ${#fields.errors('firstName')}"
+										   th:text="${error}"> Validation error</p>
 			 						</div>
+
 			 					</div>
 			 				</div>
 			 				<div class="row">
@@ -60,18 +66,22 @@
 			 							<label for="lastname">Lastname:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{lastName}" type="text" name="lastname" id="lastname" class="form-control input-sm" placeholder="">
-			 						</div>
+			 							<input th:field="*{lastName}" type="text" required name="lastname" id="lastname" class="form-control input-sm" placeholder="">
+										<p th:each="error : ${#fields.errors('lastName')}"
+										   th:text="${error}">Validation error</p>
+									</div>
 			 					</div>
 				 			</div>
 				 			<div class="row">
 			 					<div class="form-group">
 			 						<div class="col-xs-12 col-sm-6 col-md-4">
-			 							<label for="username">Username:</label>
+			 							<label for="user_name">Username:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{userName}" type="text" name="user_name" id="user_name" class="form-control input-sm" placeholder="">
-			 						</div>
+			 							<input th:field="*{userName}" required name="username" type="text" id="user_name" class="form-control input-sm" placeholder="">
+										<p th:each="error : ${#fields.errors('userName')}"
+										   th:text="${error}">Validation error</p>
+									</div>
 			 					</div>
 				 			</div>
 				 			<div class="row">
@@ -80,8 +90,10 @@
 			 							<label for="email">E-Mail:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{email}" type="email" name="email" id="email" class="form-control input-sm" placeholder="">
-			 						</div>
+			 							<input th:field="*{email}" type="email" required name="email" id="email" class="form-control input-sm" placeholder="">
+										<p th:each="error : ${#fields.errors('email')}"
+										   th:text="${error}">Validation error</p>
+									</div>
 			 					</div>
 				 			</div>
 				 			<div class="row">
@@ -90,8 +102,10 @@
 			 							<label for="password">Password:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{password}" type="password" name="password" id="password" class="form-control input-sm" placeholder="">
-			 						</div>
+			 							<input th:field="*{password}" type="password" required name="password" id="password" class="form-control input-sm" placeholder="">
+										<p th:each="error : ${#fields.errors('password')}"
+										   th:text="${error}">Validation error</p>
+									</div>
 			 					</div>
 				 			</div>
 				 			<div class="row">
@@ -100,8 +114,8 @@
 			 							<label for="password_confirmation">Confirm Password:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="">
-			 						</div>
+			 							<input th:field="*{matchingPassword}" type="password" required name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="">
+									</div>
 			 					</div>
 				 			</div>
 				 		</div>
