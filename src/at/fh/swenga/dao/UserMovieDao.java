@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.model.User;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,11 @@ public class UserMovieDao {
 			return typedResultList;
 		}
 		catch (NoResultException e) { return null; }
+	}
+
+	public UserMovie getUserMovie(int movieId) throws DataAccessException
+	{
+		return entityManager.find(UserMovie.class, movieId);
 	}
 
 	public UserMovie getUserMovieByID(User owner, MovieModel movie)

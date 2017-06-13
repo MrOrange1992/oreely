@@ -5,16 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Actor")
@@ -31,7 +22,8 @@ public class Actor {
 	@Column
 	private String birthday;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	//@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(mappedBy = "actors",fetch=FetchType.EAGER)
 	private List<MovieModel> movies;
 	
 	public Actor() {}

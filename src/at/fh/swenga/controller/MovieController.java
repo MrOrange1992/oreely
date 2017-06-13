@@ -118,29 +118,58 @@ public class MovieController
 	{
 		MovieModel movie = movieDao.mapMovie(tmdbMovies, id);
 
-		if (userMovieDao.getUserMovieByID(activeUser, movie) != null) return "forward:home";
+		if (userMovieDao.getUserMovieByID(activeUser, movie) != null)
+			return "forward:home";
+
+		if (movieDao.getMovieById(id) != null)
+			movie = movieDao.merge(movie);
 
 		UserMovie userMovie = new UserMovie(activeUser, movie);
 
-		try
+		movie.addUserMovie(userMovie);
+
+		for (Genre genre : movie.getGenres())
 		{
-			for (Genre genre : movie.getGenres()) { genreDao.merge(genre); }
-			for (Actor actor : movie.getActors()) { actorDao.merge(actor); }
+			genre.addMovie(movie);
 
 			try
 			{
-				userMovieDao.persist(userMovie);
+				genreDao.persist(genre);
 			}
 			catch (DataIntegrityViolationException ex)
 			{
-				userMovieDao.merge(userMovie);
+				genreDao.merge(genre);
+				System.out.println("Genre " + genre.getName() + " already in DB");
 			}
-
-			movie.addUserMovie(userMovie);
 		}
+		for (Actor actor : movie.getActors())
+		{
+			actor.addMovie(movie);
+
+			try
+			{
+				actorDao.persist(actor);
+			}
+			catch (DataIntegrityViolationException ex)
+			{
+				actorDao.merge(actor);
+				System.out.println("Actor " + actor.getName() + " already in DB");
+			}
+		}
+
+		//Essential for getting attached entities stored in DB
+		movie = movieDao.merge(movie);
+
+
+		try { userMovieDao.persist(userMovie); }
 		catch (DataIntegrityViolationException ex)
 		{
-			System.out.println("Save movie DB Error!!!");
+			userMovieDao.merge(userMovie);
+		}
+		try { movieDao.persist(movie); }
+		catch (DataIntegrityViolationException ex)
+		{
+			movieDao.merge(movie);
 		}
 
 		return "forward:home";

@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import at.fh.swenga.model.Genre;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "Movie")
@@ -28,6 +29,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	private String title;
 
 	@Column
+	@Type(type="text")
 	private String overview;
 
 	@Column(nullable = false)
@@ -40,7 +42,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	private int vote_count;
 
 	@Temporal(TemporalType.DATE)
-	private Date release_date;		//FR: Change Date to Calendar? 
+	private Date release_date;
 
 	@Column
 	private int runtime;
@@ -74,7 +76,8 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.EAGER)
 	private Set<MovieList> movieLists; //was List -> ERROR
 	
-	@ManyToMany(mappedBy = "movies",fetch=FetchType.EAGER)
+	//@ManyToMany(mappedBy = "movies",fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	private Set<Actor> actors; //was List -> ERROR
 	
 	// TODO: Relationships to list_movie, user_movie & movie_actor

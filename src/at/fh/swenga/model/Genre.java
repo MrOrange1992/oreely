@@ -1,5 +1,6 @@
 package at.fh.swenga.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -60,7 +61,13 @@ public class Genre //extends info.movito.themoviedbapi.model.Genre implements ja
 	public void setMovies(List<MovieModel> movies) {
 		this.movies = movies;
 	}
-	
+
+	public void addMovie(MovieModel movie)
+	{
+		if (movies == null) movies = new ArrayList<MovieModel>();
+		movies.add(movie);
+	}
+
 	/*public List<User> getUsers() {
 		return users;
 	}

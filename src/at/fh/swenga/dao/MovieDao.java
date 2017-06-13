@@ -13,14 +13,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import at.fh.swenga.model.User;
+import at.fh.swenga.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import at.fh.swenga.model.Actor;
-import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.service.GetProperties;
-import at.fh.swenga.model.Genre;
 
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
@@ -37,9 +37,18 @@ import info.movito.themoviedbapi.model.people.PersonPeople;
 @Transactional
 public class MovieDao
 {
-
 	@PersistenceContext
 	protected EntityManager entityManager;
+
+	@Autowired
+	private GenreDao genreDao;
+
+	@Autowired
+	private ActorDao actorDao;
+
+	@Autowired
+	private UserMovieDao userMovieDao;
+
 
 	GetProperties gp = new GetProperties();
 	Properties properties = gp.getPropValues();
@@ -86,10 +95,9 @@ public class MovieDao
         return movieModelList;
 	}
 
-	public MovieModel getMovieById(int id)
+	public MovieModel getMovieById(int id) throws DataAccessException
 	{
-		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("select m from MovieModel m where m.id = :id", MovieModel.class).setParameter("id", id);
-		return typedQuery.getSingleResult();
+		return entityManager.find(MovieModel.class, id);
 	}
 
 	//TODO FR: Add Genre und Actor in DAOs auslagern
@@ -129,6 +137,7 @@ public class MovieDao
     	{
     		Genre gm = new Genre(genre.getId(), genre.getName());
     		movieModel.addGenre(gm);
+    		gm.addMovie(movieModel);
     	}
 
     	//FR: Map model.people.PersonPeople to Actor
@@ -142,12 +151,12 @@ public class MovieDao
 
 				Actor actor = new Actor(tmdbActor.getId(), tmdbActor.getName(), tmdbActor.getBirthday());
 				movieModel.addActor(actor);
+				actor.addMovie(movieModel);
 			}
 		}
 
     	return movieModel;
 	}
-	
 	
 	public void persist(MovieModel movie) 
 	{
