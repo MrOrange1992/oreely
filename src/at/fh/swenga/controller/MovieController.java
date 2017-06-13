@@ -81,20 +81,25 @@ public class MovieController
 	{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userDao.findByUsername(auth.getName());
-		/*
+		
 		if(movieListDao.getMovieListByOwner(user) == null)
 		{
 			MovieList movieList = new MovieList("TestList", user);
-			MovieModel movie1 = new MovieModel(1, "test1", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
+			MovieModel movie1 = new MovieModel(1, 0, "test1", null, false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
 			movieDao.merge(movie1);
-			MovieModel movie2 = new MovieModel(2, 2, "test2", false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
+			movieList.addMovie(movie1);
+			MovieModel movie2 = new MovieModel(2, 2, "test2", null, false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
 			movieDao.merge(movie2);
+			movieList.addMovie(movie2);
 			movieListDao.merge(movieList);
 			user.addMovieList(movieList);
 			userDao.merge(user);
 		}
-		*/
-		model.addAttribute("lists", movieListDao.getMovieListByOwner(user));
+		
+        MovieList movieListByOwner = movieListDao.getMovieListByOwner(user);
+		movieListByOwner.getMovies();
+		model.addAttribute("lists", movieListByOwner);
+		//System.out.println("Felix");
 		return "lists";
 	}
 

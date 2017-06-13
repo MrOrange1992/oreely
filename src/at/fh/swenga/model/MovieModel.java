@@ -73,7 +73,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER)
     private Set<UserMovie> userMovies;
 	
-	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.LAZY)
 	private Set<MovieList> movieLists; //was List -> ERROR
 	
 	//@ManyToMany(mappedBy = "movies",fetch=FetchType.EAGER)
