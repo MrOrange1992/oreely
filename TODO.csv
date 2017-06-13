@@ -1,2 +1,10 @@
 Task,Preference,Progress
 "As a user I want to create an account",M,DONE
+"As a user, I want to recover my password",HD,
+"As a user, I want to select my favourite movie genres",M,
+"As a user, I want to be able to login",M,DONE
+"As a user, I want to be able to logout",M,DONE
+"As a user, I want to change my user settings",M,
+"As a user, I want to search for friends",M,
+"As a user, I want to add friends",M,
+"As a user, I want to remove friends",M,
