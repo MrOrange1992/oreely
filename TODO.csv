@@ -8,3 +8,22 @@ Task,Preference,Progress
 "As a user, I want to search for friends",M,
 "As a user, I want to add friends",M,
 "As a user, I want to remove friends",M,
+"As a developer, I want to fetch movie metadata from the internet",M,DONE
+"As a developer, I want to store fetched data into the DB",M,
+"As a user, I want to create lists for movies",M,
+"As a user, I want to list my movies",M,
+"As a user, I want to search movies",M,DONE
+"As a user, I want to specify my search",HD,"IN PROGRESS"
+"As a user, I want to add movies to my lists",M,"IN PROGRESS"
+"As a user, I want to remove movies from my lists",M,"IN PROGRESS"
+"As a user, I want to copy lists from friends",D,
+"As a user, I want to see recommendations",HD,
+"As a user, I want to see trending movies",D,
+"As a user, I want to see staff picks",D,
+"As a user, I want to rate movies",M,
+"As a user, I want to mark movies as watched / unwatched",M,
+"As a user, I want to see legal information",M,
+"As a user, I want to read the terms and conditions",M,
+"As a developer, I want to manage user",M,
+"As a user, I want to have a responsive design",D,
+"As a developer, I want to protect the site against SQL injection",M,"IN PROGRESS"
