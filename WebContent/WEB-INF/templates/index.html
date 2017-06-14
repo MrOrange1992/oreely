@@ -46,69 +46,18 @@
 				class="alert alert-success" role="warning"></div>
 			<!--   message ----------------------------------------------------------- -->
 		</div>
-		
-		
-		<!--form class="navbar-form" role="search" method="get" th:action="@{/testSearch}">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for..." name="searchString">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="submit">Go!</button>
-				</span>
-			</div>
-		</form-->
-				
+
 		<div class="container-fluid">
-			<h1 class="center">DEBUG: Movies in DB</h1>
+			<h1 class="center">DEBUG: All UserMovies in DB</h1>
 			<div class="slick-reel-container container">
 				<div class="slick-reel">
-
-					<!--div class="item poster card" th:each="movie : ${movies}" th:replace="~{includes/poster :: poster(${movie})}"></div-->
-
 					<div class="item poster card" th:each="movie : ${movies}">
-					    <div class="image_content">
-					      	<a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
-					      		<img class="poster" data-sizes="auto" 		
-								th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
-								th:data-srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
-											https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
-								th:alt=${movie.title} sizes="185px" 
-								th:srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x, 
-										https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'" 
-								th:src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}">
-					      	</a>
-					    </div>
-					    <div class="info">
-					      <p class="flex">
-					        <a th:id=${movie.tmdb_id} class="title result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title} th:text=${movie.title}></a>
-					        <span class="vote_average" th:text=${movie.vote_average}><i class="fa fa-star" aria-hidden="true"></i></span>
-					      </p>
-					      <p class="meta flex">
-					        <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>
-					      </p>
-					        <p>    
-					        <span class="genres">TODO:Genres</span>
-					      </p>
-					       
-					      <!--p class="flex">
-							  <span class="overview" th:text="${movie.overview}"></span>
-						  </p-->
-					      <p class="view_more">
-							  <a th:href="@{/details(id=${movie.id})}">Details</a>
-						  </p>
-					    	
-				            <p><a th:href="@{/save(id=${movie.id})}">Add</a></p>
-							<p><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
-							
-					    </div>
-
+						<div th:replace="~{includes/poster}"></div>
 					</div>
 				</div>
 			</div>
-			
-			
-			
-
 		</div>
+
 		<div class="card-showcase">
 		</div>
 	</div>

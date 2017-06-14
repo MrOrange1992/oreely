@@ -26,7 +26,7 @@
 
 </head>
 <body>
-<header th:replace="~{includes/header :: header}"></header>
+    <header th:replace="~{includes/header :: header}"></header>
 
     <div id="content">
         <div class="container-fluid">
@@ -50,8 +50,7 @@
 
         <!--
             @markus
-            all content is in ${movie}
-            except genres and actors, will do soon
+            full content is in ${movie}
         -->
 
         <div class="item poster card">
@@ -68,11 +67,24 @@
                 </a>
             </div>
         </div>
+
+
+        <h3>Title</h3>
+        <div th:text=${movie.title}>
+        </div>
+        <h3>Overview</h3>
+        <div th:text=${movie.overview}>
+        </div>
+        <h3>Genres</h3>
+        <div class="genres" th:each="genre : ${movie.genres}">
+            <span th:text="${genre.name}"></span>
+        </div>
+        <h3>Actors</h3>
+        <div class="actors" th:each="actor : ${movie.actors}">
+            <span th:text="${actor.name}"></span>
+        </div>
     </div>
 
-
-</div>
-
-<footer th:replace="~{includes/footer :: footer}"></footer>
+    <footer th:replace="~{includes/footer :: footer}"></footer>
 </body>
 </html>

@@ -89,7 +89,7 @@ public class MovieDao
         
         for (MovieDb mDB : resultList)
         {
-        	movieModelList.add(mapMovie(tmdbMovies, mDB.getId()));		//Replace!!!
+        	movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
         }
         
         return movieModelList;
@@ -101,7 +101,7 @@ public class MovieDao
 	}
 
 	//TODO FR: Add Genre und Actor in DAOs auslagern
-	public MovieModel mapMovie(TmdbMovies movies, int id)
+	public MovieModel mapMovie(TmdbMovies movies, int id, boolean fullContent)
 	{
 		//TmdbMovies movies = new TmdbApi(apiKey).getMovies();
     	MovieDb movie = movies.getMovie(id, "en", MovieMethod.credits);
@@ -140,12 +140,14 @@ public class MovieDao
     		gm.addMovie(movieModel);
     	}
 
-    	//FR: Map model.people.PersonPeople to Actor
-		//Take top 3 cast members
-		//List<PersonCast> topCast = movie.getCast().stream().filter(cast -> cast.getCastId() < 3).collect(Collectors.toList());
-		if (movie.getCast().size() >= 5)
+		if (fullContent)
 		{
-			for (PersonCast cast : movie.getCast().subList(0, 4))
+			List<PersonCast> movieCast = movie.getCast();
+
+			if (movie.getCast().size() >= 7)
+				movieCast = movieCast.subList(0,6);
+
+			for (PersonCast cast : movieCast)
 			{
 				PersonPeople tmdbActor = tmdbPeople.getPersonInfo(cast.getId());
 

@@ -67,18 +67,18 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	@Column(nullable = true, length = 200)
 	private String homepage;
 	
-	@ManyToMany(cascade=CascadeType.PERSIST)  //MERGE?
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Genre> genres;
+
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private Set<Actor> actors;
 	
 	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER)
     private Set<UserMovie> userMovies;
 	
 	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.LAZY)
 	private Set<MovieList> movieLists; //was List -> ERROR
-	
-	//@ManyToMany(mappedBy = "movies",fetch=FetchType.EAGER)
-	@ManyToMany(cascade=CascadeType.PERSIST)
-	private Set<Actor> actors; //was List -> ERROR
+
 	
 	// TODO: Relationships to list_movie, user_movie & movie_actor
 

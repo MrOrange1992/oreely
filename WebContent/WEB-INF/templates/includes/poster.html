@@ -1,4 +1,4 @@
-<div th:fragment="poster" class="image_content" th:object="${movie}">
+<div class="image_content" th:fragment="poster">
     <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
         <img class="poster" data-sizes="auto"
              th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
@@ -19,15 +19,13 @@
         <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>
     </p>
     <p>
-        <span class="genres">TODO:Genres</span>
+    <div class="genres" th:each="genre : ${movie.genres}">
+        <span th:text="${genre.name}"></span>
+    </div>
+    <!--span class="genres">TODO:Genres</span-->
     </p>
-
-    <p class="overview">TODO:Description</p>
-    <p class="view_more">
-        <a th:href="@{/details(id=${movie.id})}">Details</a>
-    </p>
-
-    <p><a th:href="@{/save(id=${movie.id})}">Add</a></p>
-    <p><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
+    <p class="view_more"> <a th:href="@{/details(id=${movie.id})}">Details</a></p>
+    <p class="add_movie"><a th:href="@{/save(id=${movie.id})}">Add</a></p>
+    <p class="delete_movie"><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
 
 </div>

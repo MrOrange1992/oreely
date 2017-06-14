@@ -117,7 +117,7 @@ public class MovieController
 	@RequestMapping(value = "/save")
 	public String save(@RequestParam("id") int id, Model model)
 	{
-		MovieModel movie = movieDao.mapMovie(tmdbMovies, id);
+		MovieModel movie = movieDao.mapMovie(tmdbMovies, id, true);
 
 		if (userMovieDao.getUserMovieByID(activeUser, movie) != null)
 			return "forward:home";
@@ -133,28 +133,34 @@ public class MovieController
 		{
 			genre.addMovie(movie);
 
-			try
+			if (genreDao.getGenre(genre.getName()) == null)
 			{
-				genreDao.persist(genre);
-			}
-			catch (DataIntegrityViolationException ex)
-			{
-				genreDao.merge(genre);
-				System.out.println("Genre " + genre.getName() + " already in DB");
+				try
+				{
+					genreDao.persist(genre);
+				}
+				catch (DataIntegrityViolationException ex)
+				{
+					//genreDao.merge(genre);
+					System.out.println("Genre " + genre.getName() + " already in DB");
+				}
 			}
 		}
 		for (Actor actor : movie.getActors())
 		{
 			actor.addMovie(movie);
 
-			try
+			if (actorDao.getActorByName(actor.getName()) == null)
 			{
-				actorDao.persist(actor);
-			}
-			catch (DataIntegrityViolationException ex)
-			{
-				actorDao.merge(actor);
-				System.out.println("Actor " + actor.getName() + " already in DB");
+				try
+				{
+					actorDao.persist(actor);
+				}
+				catch (DataIntegrityViolationException ex)
+				{
+					//actorDao.merge(actor);
+					System.out.println("Actor " + actor.getName() + " already in DB");
+				}
 			}
 		}
 
@@ -180,7 +186,7 @@ public class MovieController
 	@RequestMapping(value = "/delete")
 	public String delete(@RequestParam("id") int id, Model model)
 	{
-		userMovieDao.delete(userMovieDao.getUserMovieByID(activeUser, movieDao.mapMovie(tmdbMovies, id)));
+		userMovieDao.delete(userMovieDao.getUserMovieByID(activeUser, movieDao.mapMovie(tmdbMovies, id, false)));
 
 		return "forward:home";
   	}
@@ -201,7 +207,7 @@ public class MovieController
 
 	// TODO Genres from checkboxes into User_Genre
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@RequestParam String genre1, @ModelAttribute(value = "user") @Valid User user, BindingResult result)
+	public String register(@ModelAttribute(value = "user") @Valid User user, BindingResult result)
 	{
 		if (!result.hasErrors())
 		{
@@ -221,14 +227,15 @@ public class MovieController
 	}
 
 
-	//TODO Genre not attached!!
 	@RequestMapping(value = "/details")
 	public String details(@RequestParam("id") int id, Model model)
 	{
-		MovieModel movie = movieDao.getMovieById(id);
-		model.addAttribute("movie", movie);
+		MovieModel movie;
 
-		//System.out.println(id);
+		if(movieDao.getMovieById(id) != null) movie = movieDao.getMovieById(id);
+		else { movie = movieDao.mapMovie(tmdbMovies, id, true); }
+
+		model.addAttribute("movie", movie);
 
 		return "details";
 	}
