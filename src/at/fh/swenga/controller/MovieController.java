@@ -108,7 +108,7 @@ public class MovieController
 			movieList.setName("TestList1");
 			movieList.setOwner(activeUser);
 			activeUser.addMovieList(movieList);
-			movieListDao.merge(movieList);
+			movieList = movieListDao.merge(movieList);
 
 			userDao.merge(activeUser);
 		}
