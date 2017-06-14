@@ -22,7 +22,6 @@
     <div class="genres" th:each="genre : ${movie.genres}">
         <span th:text="${genre.name}"></span>
     </div>
-    <!--span class="genres">TODO:Genres</span-->
     </p>
     <p class="view_more"> <a th:href="@{/details(id=${movie.id})}">Details</a></p>
     <p class="add_movie"><a th:href="@{/save(id=${movie.id})}">Add</a></p>

@@ -28,11 +28,25 @@ public class MovieListDao {
 		return typedResultList;
 	}
 
-	public MovieList getMovieListByOwner(User owner) {
-		try {
+	public List<MovieList> getMovieListsByOwner(User owner)
+	{
+		try
+		{
 			TypedQuery<MovieList> typedQuery = entityManager
 					.createQuery("select ml from MovieList ml where ml.owner = :owner", MovieList.class);
 			typedQuery.setParameter("owner", owner);
+			List<MovieList> movieLists = typedQuery.getResultList();
+			return movieLists;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public MovieList getMovieListByID(int id) {
+		try {
+			TypedQuery<MovieList> typedQuery = entityManager
+					.createQuery("select ml from MovieList ml where ml.id = :id", MovieList.class);
+			typedQuery.setParameter("id", id);
 			MovieList movieList = typedQuery.getSingleResult();
 			return movieList;
 		} catch (NoResultException e) {
@@ -62,16 +76,12 @@ public class MovieListDao {
 	// return typedResultList;
 	// }
 
-	public void persist(MovieList movieList) {
-		entityManager.persist(movieList);
-	}
+	public void persist(MovieList movieList) { entityManager.persist(movieList); }
 
 	public MovieList merge(MovieList movieList) {
 		return entityManager.merge(movieList);
 	}
 
-	public void delete(MovieList movieList) {
-		entityManager.remove(movieList);
-	}
+	public void delete(MovieList movieList) { entityManager.remove(entityManager.contains(movieList) ? movieList : entityManager.merge(movieList)); }
 
 }

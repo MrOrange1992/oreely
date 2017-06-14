@@ -49,28 +49,21 @@
 
 			<div class="movie-lists">
 				<h1 class="center">Your Lists</h1>
-	
-            <!--table>
-                <th:block th:each="list : ${lists}">
-                    <tr>
-                        <td th:text="${list.name}">...</td>
-                        <!-- <td th:text="${list.owner}">...</td> >
-                    </tr>
-                        <th:bolck th:each="movie : ${list.movies}">
-                            <tr>
-                                <td th:text="${movie.title}">...</td>
-                            </tr>
-                        </th:block>
-                </th:block>
-            </table-->
 
-				<div th:each="${list : ${lists}}">
+				<!--
+				NESTED EACH WORKING EXAMPLE
+				with moviesInList
+				-->
+
+				<!--div th:each="list : ${lists}">
 					<span th:text="${list.name}"></span>
-					<div th:each="${movie : ${list.movies}}">
+
+					<div th:each="movie : ${list.moviesInList}">
 						<span th:text="${movie.title}"></span>
 					</div>
-				</div>
-				
+				</div-->
+
+
 				<div class="row list-headline">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
@@ -89,85 +82,37 @@
 						</div>
 					</div>
 				</div>
-				<div class="row list-row">
+				<div class="row list-row" th:each="list : ${movieLists}">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
 							<div class="col-md-4">
-								<p>List 1</p>
+								<p th:text="${list.name}"></p>
 							</div>
 							<div class="col-md-4 ">
-								<p>Markus</p>
+								<p th:text="${list.owner.userName}"></p>
 							</div>
 							<div class="col-md-2 ">
-								<p><a href="/" class="btn-add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Edit</a></p>
-									
+								<p><a href="/" class="btn-edit"><i class="fa fa-minus-square-o" aria-hidden="true"></i>Edit</a></p>
+
 							</div>
 							<div class="col-md-2 ">
-								<p><a href="/" class="btn-delete"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Delete</a></p>
+								<p class="delete_movie"><a th:href="@{/deleteList(id=${list.id})}">Delete</a></p>
+
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row list-row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="row">
-							<div class="col-md-4">
-								<p>List 2</p>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+						<form th:method="get" th:action="@{/addNewList}">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="submit">Add new list</button>
+								</span>
+								<input type="text" class="form-control" placeholder="Enter name..." required name="name">
 							</div>
-							<div class="col-md-4 ">
-								<p>Markus</p>
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Edit</a></p>
-									
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-delete"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Delete</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row list-row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="row">
-							<div class="col-md-4">
-								<p>List 3</p>
-							</div>
-							<div class="col-md-4 ">
-								<p>Markus</p>
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Edit</a></p>
-									
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-delete"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Delete</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row list-row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="row">
-							<div class="col-md-4">
-								<p>List 4</p>
-							</div>
-							<div class="col-md-4 ">
-								<p>Markus</p>
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Edit</a></p>
-									
-							</div>
-							<div class="col-md-2 ">
-								<p><a href="/" class="btn-delete"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Delete</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row list-row">
-					<div class="col-md-8 col-md-offset-2">
-						<p><a href="/" class="btn-add"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add new List</a></p>
+						</form>
 					</div>
 				</div>
 			</div>

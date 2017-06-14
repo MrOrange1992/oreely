@@ -76,7 +76,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER)
     private Set<UserMovie> userMovies;
 	
-	@ManyToMany(mappedBy = "moviesInList",fetch=FetchType.LAZY)
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Set<MovieList> movieLists; //was List -> ERROR
 
 	
@@ -102,22 +102,6 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		this.poster_path = poster_path;
 		this.original_name = original_name;
 		this.homepage = homepage;
-	}
-	
-	//FR: using getModelGenres because getGenres is already implemented in super() MovieDb
-	public List<Genre> getGenres() {
-		return this.genres;
-	}
- 
-	public void setGenres(List<Genre> genres) {
-		this.genres = genres;
-	}
- 
-	public void addGenre(Genre genre) {
-		if (genres== null) {
-			genres= new ArrayList<Genre>();
-		}
-		genres.add(genre);
 	}
 
 	public int getId() {
@@ -250,6 +234,18 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	public void addMovieList(MovieList movieList) {
 		if (movieLists == null) movieLists = new HashSet<MovieList>();
 		movieLists.add(movieList);
+	}
+
+	//genres
+	public List<Genre> getGenres() {
+		return this.genres;
+	}
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
+	}
+	public void addGenre(Genre genre) {
+		if (genres== null) genres= new ArrayList<Genre>();
+		genres.add(genre);
 	}
 
 	//actors

@@ -84,28 +84,69 @@ public class MovieController
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public String showLists(Model model)
 	{
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//User user = userDao.findByUsername(auth.getName());
-		
+		/*
 		if(movieListDao.getMovieListByOwner(activeUser) == null)
 		{
-			MovieList movieList = new MovieList("TestList", activeUser);
-			MovieModel movie1 = new MovieModel(1, 0, "test1", null, false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
-			movieDao.merge(movie1);
-			movieList.addMovie(movie1);
-			MovieModel movie2 = new MovieModel(2, 2, "test2", null, false, 0.0F, 0, new Date(), 0, 0, 0, "a", "a", "a");
-			movieDao.merge(movie2);
-			movieList.addMovie(movie2);
-			movieListDao.merge(movieList);
+			List<MovieModel> allMovies = movieDao.getMovies();
+
+			MovieList movieList = new MovieList();
+
+			//movieList = movieListDao.merge(movieList);
+
+			movieListDao.persist(movieList);
+
+			for (MovieModel movie : allMovies)
+			{
+				movie.addMovieList(movieList);
+				movie = movieDao.merge(movie);
+				movieList.addMovie(movie);
+			}
+
+			//movieList = movieListDao.merge(movieList);
+			//activeUser = userDao.merge(activeUser);
+
+			movieList.setName("TestList1");
+			movieList.setOwner(activeUser);
 			activeUser.addMovieList(movieList);
+			movieListDao.merge(movieList);
+
 			userDao.merge(activeUser);
 		}
+		*/
 		
-        MovieList movieListByOwner = movieListDao.getMovieListByOwner(activeUser);
-		movieListByOwner.getMovies();
-		model.addAttribute("lists", movieListByOwner);
-		//System.out.println("Felix");
+        List<MovieList> movieListsByOwner = movieListDao.getMovieListsByOwner(activeUser);
+		model.addAttribute("movieLists", movieListsByOwner);
+
 		return "lists";
+	}
+
+	@RequestMapping(value = "/addNewList", method = RequestMethod.GET)
+	public String addNewList(@RequestParam("name") String name)
+	{
+		MovieList movieList = new MovieList();
+
+		movieListDao.persist(movieList);
+
+		movieList.setName(name);
+		movieList.setOwner(activeUser);
+		activeUser.addMovieList(movieList);
+		movieListDao.merge(movieList);
+
+		userDao.merge(activeUser);
+
+		return "forward:list";
+	}
+
+	@RequestMapping(value = "/deleteList", method = RequestMethod.GET)
+	public String deleteList(@RequestParam("id") int id)
+	{
+		MovieList movieList = movieListDao.getMovieListByID(id);
+
+		movieList = movieListDao.merge(movieList);
+
+		movieListDao.delete(movieList);
+
+		return "forward:list";
 	}
 
 	@RequestMapping(value = "/search")

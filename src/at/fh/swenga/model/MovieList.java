@@ -1,5 +1,8 @@
 package at.fh.swenga.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +27,16 @@ public class MovieList {
 	
 	@Column
 	private String name;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	User owner;
 	
-	@ManyToMany(mappedBy = "followingMovieLists",fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy = "followingMovieLists")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> follower;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	private List<MovieModel> moviesInList;
+	@ManyToMany(mappedBy = "movieLists", fetch = FetchType.EAGER)
+	public List<MovieModel> moviesInList;
 	
 	@Version
 	long version;
@@ -45,6 +49,10 @@ public class MovieList {
 		this.name = name;
 		this.owner = owner;
 	}
+
+	public int getId() { return id; }
+
+	public void setId(int id) { this.id = id; }
 
 	public String getName() {
 		return name;
