@@ -68,7 +68,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	private String homepage;
 	
 	@ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
-	private List<Genre> genres;
+	private Set<Genre> genres;
 
 	@ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Actor> actors;
@@ -237,14 +237,14 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 	}
 
 	//genres
-	public List<Genre> getGenres() {
+	public Set<Genre> getGenres() {
 		return this.genres;
 	}
-	public void setGenres(List<Genre> genres) {
+	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
 	}
 	public void addGenre(Genre genre) {
-		if (genres== null) genres= new ArrayList<Genre>();
+		if (genres== null) genres= new HashSet<Genre>();
 		genres.add(genre);
 	}
 

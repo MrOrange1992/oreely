@@ -3,6 +3,7 @@ package at.fh.swenga.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -20,11 +21,15 @@ public class UserDao {
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
-	public User findByUsername(String userName) {
-		TypedQuery<User> typedQuery = entityManager.createQuery(
-				"select u from User u where u.userName = :name", User.class);
-		typedQuery.setParameter("name", userName);
-		return typedQuery.getSingleResult();
+	public User findByUsername(String userName)
+	{
+		try
+		{
+			TypedQuery<User> typedQuery = entityManager.createQuery("select u from User u where u.userName = :name", User.class);
+			typedQuery.setParameter("name", userName);
+			return typedQuery.getSingleResult();
+		}
+		catch (NoResultException e) { return null; }
 	}
 
 	public void persist(User user)

@@ -1,11 +1,7 @@
 package at.fh.swenga.model;
 
-import at.fh.swenga.service.PasswordMatchesValidator;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -16,27 +12,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Entity
 @Table(name = "User")
-@User.PasswordMatches
-public class User implements java.io.Serializable 
+public class User implements java.io.Serializable
 {
 	private static final long serialVersionUID = 8198173157518983615L;
 
@@ -75,21 +61,7 @@ public class User implements java.io.Serializable
 	@Column /* (name = "password", nullable = false, length = 60) */
 	@NotNull
 	@NotEmpty
-
 	private String password;
-
-	@Column
-	private String matchingPassword;
-
-	@Target({TYPE,ANNOTATION_TYPE})
-	@Retention(RUNTIME)
-	@Constraint(validatedBy = PasswordMatchesValidator.class)
-	@Documented
-	public @interface PasswordMatches {
-		String message() default "Passwords don't match";
-		Class<?>[] groups() default {};
-		Class<? extends Payload>[] payload() default {};
-	}
 
 	@Column /* (name = "enabled", nullable = false) */
 	private boolean enabled;
@@ -120,7 +92,7 @@ public class User implements java.io.Serializable
 
 	public User() {}
 	
-	public User(String userName, String firstName, String lastName, Calendar birthday, String email, String password, String matchingPassword, boolean enabled, Set<UserRole> userRole, List<Genre> genres)
+	public User(String userName, String firstName, String lastName, Calendar birthday, String email, String password, boolean enabled, Set<UserRole> userRole, List<Genre> genres)
 	{
 		this.userName = userName;
 		this.firstName = firstName;
@@ -128,7 +100,6 @@ public class User implements java.io.Serializable
 		this.birthday = birthday;
 		this.email = email;
 		this.password = password;
-		this.matchingPassword = password;
 		this.enabled = enabled;
 		this.userRoles = userRole;
 		this.genres = genres;
@@ -166,10 +137,6 @@ public class User implements java.io.Serializable
 	//password
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
-
-	//confirm password
-	public String getMatchingPassword() { return matchingPassword; }
-	public void setMatchingPassword(String matchingPassword) { this.matchingPassword = matchingPassword; }
 
 	//enabled
 	public boolean isEnabled() { return enabled; }
