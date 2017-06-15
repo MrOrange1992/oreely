@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -83,14 +85,31 @@ public class MovieDao
 	//because mapping movie genres and actors for multiple movies takes too long
 	public List<MovieModel> searchMovies(String searchString)
 	{
+		System.out.println("SEARCH STARTED");
+		
+		long startTime = System.currentTimeMillis();
+		
         MovieResultsPage result = tmdbSearch.searchMovie(searchString, null, "en-US", false, null);
         List<MovieDb> resultList = result.getResults();      
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
+    	int maxMovies = 6;
+    	int count = 0;
+        
         for (MovieDb mDB : resultList)
-        {
-        	movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
+        {	
+        	if (count < maxMovies){
+        		movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
+        		count ++;
+        		System.out.println(count);
+        	}
+        	else{
+        		break;
+        	}
         }
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println(endTime - startTime);
         
         return movieModelList;
 	}
@@ -102,7 +121,7 @@ public class MovieDao
 
 	//TODO FR: Add Genre und Actor in DAOs auslagern
 	public MovieModel mapMovie(TmdbMovies movies, int id, boolean fullContent)
-	{
+	{		
 		//TmdbMovies movies = new TmdbApi(apiKey).getMovies();
     	MovieDb movie = movies.getMovie(id, "en", MovieMethod.credits);
     	MovieModel movieModel = new MovieModel();
