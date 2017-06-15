@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.fh.swenga.service.GetProperties;
-
+import at.fh.swenga.service.SearchHelper;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbPeople;
@@ -52,14 +52,18 @@ public class MovieDao
 	private UserMovieDao userMovieDao;
 
 
-	GetProperties gp = new GetProperties();
-	Properties properties = gp.getPropValues();
+	private GetProperties gp = new GetProperties();
+	private Properties properties = gp.getPropValues();
 
 	private String apiKey = properties.getProperty("apiKey");
 	
 	private TmdbMovies tmdbMovies = new TmdbApi(apiKey).getMovies();
 	private TmdbSearch tmdbSearch = new TmdbApi(apiKey).getSearch();
 	private TmdbPeople tmdbPeople = new TmdbApi(apiKey).getPeople();
+	
+	private List<SearchHelper> lastSearches = new ArrayList<>();
+	
+	DateFormat format = new SimpleDateFormat("YYYY-MM-dd", Locale.ENGLISH);
 
 	public List<MovieModel> getMovies()
 	{
@@ -93,19 +97,55 @@ public class MovieDao
         List<MovieDb> resultList = result.getResults();      
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
+        lastSearches.add(new SearchHelper(searchString, resultList));
+        
     	int maxMovies = 6;
     	int count = 0;
         
         for (MovieDb mDB : resultList)
         {	
-        	if (count < maxMovies){
+        	if (count < maxMovies)
+        	{
         		movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
         		count ++;
         		System.out.println(count);
         	}
-        	else{
-        		break;
+        	else break;
+        }
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println(endTime - startTime);
+        
+        return movieModelList;
+	}
+	
+	public List<MovieModel> searchMovies(String searchString, int page)
+	{
+		System.out.println("SEARCH STARTED");
+		
+		long startTime = System.currentTimeMillis();
+		
+		List<MovieDb> resultList = null;
+		
+	    for(SearchHelper sh : lastSearches){
+	        if(sh.getSearchString() == searchString)
+	        	resultList = sh.getResultList();
+	    }
+		     
+        List<MovieModel> movieModelList = new ArrayList<MovieModel>();
+        
+    	int maxMovies = page + 6;
+    	int count = page;
+        
+        for (MovieDb mDB : resultList)
+        {	
+        	if (count < maxMovies)
+        	{
+        		movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
+        		count ++;
+        		System.out.println(count);
         	}
+        	else break;
         }
 		
 		long endTime = System.currentTimeMillis();
@@ -125,16 +165,18 @@ public class MovieDao
 		//TmdbMovies movies = new TmdbApi(apiKey).getMovies();
     	MovieDb movie = movies.getMovie(id, "en", MovieMethod.credits);
     	MovieModel movieModel = new MovieModel();
-    	
+
     	movieModel.setId(movie.getId());
     	movieModel.setTmdb_id(movie.getId());
     	movieModel.setTitle(movie.getTitle());
-    	movieModel.setOverview(movie.getOverview());
-    	movieModel.setAdult(movie.isAdult());
-    	movieModel.setVote_average(movie.getPopularity());
-    	movieModel.setVote_count(movie.getVoteCount());
-    	
-    	DateFormat format = new SimpleDateFormat("YYYY-MM-dd", Locale.ENGLISH);
+    	try{
+        	movieModel.setOverview(movie.getOverview());
+        	movieModel.setAdult(movie.isAdult());        	
+        	movieModel.setVote_average(movie.getVoteAverage());
+        	movieModel.setVote_count(movie.getVoteCount()); 	
+    	}
+    	catch (Exception e) { System.out.println("ERROR in 1st block"); }
+
     	try 
     	{ 
     		if (movie.getReleaseDate() != "") 
@@ -142,12 +184,15 @@ public class MovieDao
     	}
     	catch (ParseException e) { e.printStackTrace(); }
     	
-    	movieModel.setRuntime(movie.getRuntime());
-    	movieModel.setBudget(movie.getBudget());
-    	movieModel.setRevenue(movie.getRevenue());
-    	movieModel.setPoster_path(movie.getPosterPath());
-    	movieModel.setOriginal_name(movie.getOriginalTitle());
-    	movieModel.setHomepage(movie.getHomepage());
+    	try{
+        	movieModel.setRuntime(movie.getRuntime());
+        	movieModel.setBudget(movie.getBudget());
+        	movieModel.setRevenue(movie.getRevenue());
+        	movieModel.setPoster_path(movie.getPosterPath());
+        	movieModel.setOriginal_name(movie.getOriginalTitle());
+        	movieModel.setHomepage(movie.getHomepage());
+    	}
+    	catch (Exception e) { System.out.println("ERROR in 2nd block"); }
     	
     	//System.out.println(movie.getGenres().get(0).getName());
     	
