@@ -4,7 +4,7 @@ Task,Preference,Progress,Notes
 "As a user, I want to select my favourite movie genres",M,DONE,
 "As a user, I want to be able to login",M,DONE,
 "As a user, I want to be able to logout",M,DONE,
-"As a user, I want to change my user settings",M,TODO,
+"As a user, I want to change my user settings",M,InProgress,"Set Genres DONE"
 "As a user, I want to search for friends",M,TODO,
 "As a user, I want to add friends",M,TODO,
 "As a user, I want to remove friends",M,TODO,
