@@ -20,14 +20,13 @@ import at.fh.swenga.model.UserRole;
 
 @Service
 @Transactional
-public class MyUserDetailsService implements UserDetailsService
-{
+public class MyUserDetailsService implements UserDetailsService {
 	@Autowired
 	UserDao userDao;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-	{
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("loadUserByUsername aufgerufen");
 		User user = userDao.findByUsername(username);
 
 		if (user == null) {
@@ -39,9 +38,9 @@ public class MyUserDetailsService implements UserDetailsService
 
 	private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
 			List<GrantedAuthority> authorities) {
+		System.out.println("buildUserForAuthentication aufgerufen");
 		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-				user.isEnabled(),
-				true, // account not expired
+				user.isEnabled(), true, // account not expired
 				true, // credentials not expired
 				true, // account not locked
 				authorities);

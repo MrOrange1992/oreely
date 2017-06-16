@@ -64,6 +64,8 @@ public class MovieController {
 
 	@RequestMapping(value = { "/", "home" })
 	public String index(Model model) {
+		System.out.println("Home aufgerufen");
+		
 		activeUser = userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
 		List<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
@@ -215,6 +217,7 @@ public class MovieController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String handleLogin() {
+		System.out.println("Login aufgerufen");
 		return "login";
 	}
 
