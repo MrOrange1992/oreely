@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import at.fh.swenga.model.*;
+import info.movito.themoviedbapi.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,16 +24,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.fh.swenga.service.GetProperties;
-import at.fh.swenga.service.SearchHelper;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.TmdbPeople;
+//import at.fh.swenga.service.SearchHelper;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
-import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.people.PersonCast;
 import info.movito.themoviedbapi.model.people.PersonPeople;
+
+
+//TODO MovieDb.getSimilarMovies() -> for recommendations based on added/watched movies
 
 
 @Repository
@@ -60,8 +60,9 @@ public class MovieDao
 	private TmdbMovies tmdbMovies = new TmdbApi(apiKey).getMovies();
 	private TmdbSearch tmdbSearch = new TmdbApi(apiKey).getSearch();
 	private TmdbPeople tmdbPeople = new TmdbApi(apiKey).getPeople();
+	private TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
 	
-	private List<SearchHelper> lastSearches = new ArrayList<>();
+	//private List<SearchHelper> lastSearches = new ArrayList<>();
 	
 	DateFormat format = new SimpleDateFormat("YYYY-MM-dd", Locale.ENGLISH);
 
@@ -76,11 +77,28 @@ public class MovieDao
 	public List<MovieModel> getUserMovies(User user)
 	{
 		// Inner JOIN UserMovie um ON m.id = um WHERE um.owner_userName = :userName
-		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("SELECT m FROM MovieModel m left join fetch  m.userMovies um where um.owner = :user", MovieModel.class);
+		TypedQuery<MovieModel> typedQuery = entityManager.createQuery("SELECT m FROM MovieModel m left join fetch m.userMovies um where um.owner = :user", MovieModel.class);
 		typedQuery.setParameter("user", user);
 
 		List<MovieModel> typedResultList = typedQuery.getResultList();
 		return typedResultList;
+	}
+
+	//TmdbGenre.getGenreMovies()
+	public List<MovieModel> searchForGenreRecommendations(Genre genre, int numberOfMovies)
+	{
+		MovieResultsPage result = tmdbGenre.getGenreMovies(genre.getId(), "en", 1 , true);
+		List<MovieDb> resultList = result.getResults().subList(0, numberOfMovies);
+
+		List<MovieModel> movieModelList = new ArrayList<MovieModel>();
+
+
+		for (MovieDb movieDb : resultList)
+		{
+			movieModelList.add(mapMovie(tmdbMovies, movieDb.getId(), false));
+		}
+
+		return movieModelList;
 	}
 
 
@@ -97,7 +115,7 @@ public class MovieDao
         List<MovieDb> resultList = result.getResults();      
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
-        lastSearches.add(new SearchHelper(searchString, resultList));
+        //lastSearches.add(new SearchHelper(searchString, resultList));
         
     	int maxMovies = 6;
     	int count = 0;
@@ -127,10 +145,10 @@ public class MovieDao
 		
 		List<MovieDb> resultList = null;
 		
-	    for(SearchHelper sh : lastSearches){
-	        if(sh.getSearchString() == searchString)
-	        	resultList = sh.getResultList();
-	    }
+	    //for(SearchHelper sh : lastSearches){
+	    //    if(sh.getSearchString() == searchString)
+	    //    	resultList = sh.getResultList();
+	    //}
 		     
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         

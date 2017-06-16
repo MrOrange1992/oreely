@@ -13,7 +13,7 @@
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/**" access="hasRole('USER')" />
-		<form-login login-page="/login" />
+		<form-login login-page="/login" default-target-url="/initSession" always-use-default-target="true"/>
 		<logout logout-success-url="/login" logout-url="/logout" />		
 	</http>
 

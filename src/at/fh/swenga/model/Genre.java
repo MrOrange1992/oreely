@@ -1,7 +1,9 @@
 package at.fh.swenga.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,8 +26,8 @@ public class Genre //extends info.movito.themoviedbapi.model.Genre implements ja
 	@Column(nullable = false, length = 30)
 	private String name;
 
-	//@ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
-	//private List<User> users;
+	@ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
+	private Set<User> users;
 	
 	@ManyToMany(mappedBy = "genres",fetch=FetchType.EAGER)
 	private List<MovieModel> movies;
@@ -54,26 +56,26 @@ public class Genre //extends info.movito.themoviedbapi.model.Genre implements ja
 		this.name = name;
 	}
 
+	//movies
 	public List<MovieModel> getMovies() {
 		return movies;
 	}
- 
 	public void setMovies(List<MovieModel> movies) {
 		this.movies = movies;
 	}
-
 	public void addMovie(MovieModel movie)
 	{
 		if (movies == null) movies = new ArrayList<MovieModel>();
 		movies.add(movie);
 	}
 
-	/*public List<User> getUsers() {
-		return users;
+	//users
+	public Set<User> getUsers() { return users; }
+	public void setUsers(Set<User> users) { this.users = users; }
+	public void addUser(User user)
+	{
+		if (users == null) users = new HashSet<User>();
+		users.add(user);
 	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}*/
 
 }

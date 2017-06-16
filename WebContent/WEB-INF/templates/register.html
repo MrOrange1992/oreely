@@ -130,12 +130,14 @@
 			 				</div>
 			 			</div>
 			 			<div class="data-block">
-							<div class="row">
+							<div class="row" th:each="genre : ${genreList}">
+
 								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre1" value="Action">
-									<label for="genre1">Action</label>
+									<input type="checkbox" name="checkGenre" th:value="${genre.getName()}">
+									<label th:text="${genre.name}"></label>
 								</div>
-								<div class="col-xs-6 col-sm-3">
+
+								<!--div class="col-xs-6 col-sm-3">
 									<input type="checkbox" name="genre2" value="Adventure">
 									<label for="genre2">Adventure</label>
 								</div>
@@ -206,7 +208,7 @@
 								<div class="col-xs-6 col-sm-3">
 									<input type="checkbox" name="genre19" value="Western">
 									<label for="genre19">Western</label>
-								</div>
+								</div-->
 							</div>
 						</div>
 						<div class="row">

@@ -24,3 +24,4 @@ wolm,13.06.2017,3h,"added searchtypes to searchpage, reformatted searchoutput,  
 frau,13.06.2017,1h,"TODO_csv, Registration process updated + validation etc, Add Genre not yet implemented"
 frau,14.06.2017,3h,"Bugfix AddMovie, nested th:each in Genre and Actor done, th:fragment poster done"
 frau,15.06.2017,4h,"Updated register process and validation, Bugfix in movieModel.genres -> was List, is now Set"
+frau,16.06.2017,3h,"Add Genres to user registration, recommendation List after Genre @index.html"
