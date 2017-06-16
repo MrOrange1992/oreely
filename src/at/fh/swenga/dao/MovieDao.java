@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import at.fh.swenga.model.*;
+import at.fh.swenga.service.SearchHelper;
 import info.movito.themoviedbapi.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -62,7 +63,7 @@ public class MovieDao
 	private TmdbPeople tmdbPeople = new TmdbApi(apiKey).getPeople();
 	private TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
 	
-	//private List<SearchHelper> lastSearches = new ArrayList<>();
+	private List<SearchHelper> lastSearches = new ArrayList<>();
 	
 	DateFormat format = new SimpleDateFormat("YYYY-MM-dd", Locale.ENGLISH);
 
@@ -115,20 +116,22 @@ public class MovieDao
         List<MovieDb> resultList = result.getResults();      
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
-        //lastSearches.add(new SearchHelper(searchString, resultList));
+        lastSearches.add(new SearchHelper(searchString, resultList));
         
-    	int maxMovies = 6;
-    	int count = 0;
+    	//int maxMovies = 6;
+    	//int count = 0;
+
+		if (resultList.size() > 6) resultList = resultList.subList(0, 6);
         
         for (MovieDb mDB : resultList)
         {	
-        	if (count < maxMovies)
-        	{
+        	//if (count < maxMovies)
+        	//{
         		movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
-        		count ++;
-        		System.out.println(count);
-        	}
-        	else break;
+        		//count ++;
+        		//System.out.println(count);
+        	//}
+        	//else break;
         }
 		
 		long endTime = System.currentTimeMillis();
@@ -143,27 +146,30 @@ public class MovieDao
 		
 		long startTime = System.currentTimeMillis();
 		
-		List<MovieDb> resultList = null;
+		List<MovieDb> resultList = new ArrayList<>();
 		
-	    //for(SearchHelper sh : lastSearches){
-	    //    if(sh.getSearchString() == searchString)
-	    //    	resultList = sh.getResultList();
-	    //}
+	    for(SearchHelper sh : lastSearches){
+	        if(sh.getSearchString() == searchString)
+	        	resultList = sh.getResultList();
+	    }
 		     
         List<MovieModel> movieModelList = new ArrayList<MovieModel>();
         
-    	int maxMovies = page + 6;
-    	int count = page;
-        
-        for (MovieDb mDB : resultList)
+    	//int maxMovies = page + 6;
+    	//int count = page;
+
+		if (resultList.size() > 6) resultList = resultList.subList(0, 6);
+
+
+		for (MovieDb mDB : resultList)
         {	
-        	if (count < maxMovies)
-        	{
+        	//if (count < maxMovies)
+        	//{
         		movieModelList.add(mapMovie(tmdbMovies, mDB.getId(), false));		//Replace!!!
-        		count ++;
-        		System.out.println(count);
-        	}
-        	else break;
+        		//count ++;
+        		//System.out.println(count);
+        	//}
+        	//else break;
         }
 		
 		long endTime = System.currentTimeMillis();
@@ -187,7 +193,8 @@ public class MovieDao
     	movieModel.setId(movie.getId());
     	movieModel.setTmdb_id(movie.getId());
     	movieModel.setTitle(movie.getTitle());
-    	try{
+    	try
+		{
         	movieModel.setOverview(movie.getOverview());
         	movieModel.setAdult(movie.isAdult());        	
         	movieModel.setVote_average(movie.getVoteAverage());
@@ -202,7 +209,8 @@ public class MovieDao
     	}
     	catch (ParseException e) { e.printStackTrace(); }
     	
-    	try{
+    	try
+		{
         	movieModel.setRuntime(movie.getRuntime());
         	movieModel.setBudget(movie.getBudget());
         	movieModel.setRevenue(movie.getRevenue());
