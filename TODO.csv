@@ -1,7 +1,7 @@
 Task,Preference,Progress,Notes
 "As a user I want to create an account",M,DONE,
 "As a user, I want to recover my password",HD,TODO,
-"As a user, I want to select my favourite movie genres",M,InProgress,"Add in registration Done, Todo:in user settings"
+"As a user, I want to select my favourite movie genres",M,DONE,
 "As a user, I want to be able to login",M,DONE,
 "As a user, I want to be able to logout",M,DONE,
 "As a user, I want to change my user settings",M,TODO,

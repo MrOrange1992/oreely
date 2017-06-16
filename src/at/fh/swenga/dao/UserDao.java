@@ -1,5 +1,6 @@
 package at.fh.swenga.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import at.fh.swenga.model.Genre;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,12 @@ public class UserDao {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	public void removeGenres(User activeUser)
+	{
+		activeUser.setGenres(new ArrayList<>());
+		merge(activeUser);
 	}
 
 	public void persist(User user) {

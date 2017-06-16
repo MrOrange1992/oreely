@@ -183,6 +183,17 @@ public class MovieController
 		return "search";
 	}
 
+	@RequestMapping(value = "/myProfile")
+	public String myProfile(Model model)
+	{
+		System.out.println("DEBUG: /myProfile");
+
+		List<Genre> genreList = genreDao.getGenres();
+
+		model.addAttribute("genreList", genreList);
+
+		return "settings";
+	}
 
 	@RequestMapping(value = "/save")
 	public String save(@RequestParam("id") int id, Model model)
@@ -272,6 +283,27 @@ public class MovieController
 
 		return "forward:home";
   	}
+
+  	@RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
+	public String saveSettings(@RequestParam(value = "checkGenre", required = false) List<String> checkedGenres)
+	{
+		System.out.println("DEBUG: /saveSettings");
+
+		userDao.removeGenres(activeUser);
+
+		if (checkedGenres != null)
+		{
+			for (String checkedGenre : checkedGenres)
+			{
+				Genre genre = genreDao.getGenre(checkedGenre);
+				activeUser.addGenres(genre);
+				genreDao.merge(genre);
+				userDao.merge(activeUser);
+			}
+		}
+
+		return "forward:home";
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String handleLogin(@RequestParam(value = "username", required = false) String userName)
