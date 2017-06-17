@@ -4,7 +4,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,14 +32,14 @@ public class MovieList {
 	private String name;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	User owner;
+	private User owner;
 	
 	@ManyToMany(mappedBy = "followingMovieLists")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> follower;
 	
 	@ManyToMany(mappedBy = "movieLists", fetch = FetchType.EAGER)
-	public List<MovieModel> moviesInList;
+	private Set<MovieModel> moviesInList;
 	
 	@Version
 	long version;
@@ -78,16 +81,16 @@ public class MovieList {
 		this.follower = follower;
 	}
 
-	public List<MovieModel> getMovies() {
+	public Set<MovieModel> getMovies() {
 		return moviesInList;
 	}
 
-	public void setMovies(List<MovieModel> movies) {
+	public void setMovies(Set<MovieModel> movies) {
 		this.moviesInList = movies;
 	}		
 	
 	public void addMovie(MovieModel movie){
-		if (moviesInList == null) moviesInList = new ArrayList<MovieModel>();
+		if (moviesInList == null) moviesInList = new HashSet<>();
 		moviesInList.add(movie);
 	}
 	public void removeMovie(MovieModel movie) 

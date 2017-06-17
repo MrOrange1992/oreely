@@ -35,12 +35,7 @@ public class UserMovieDao {
 		catch (NoResultException e) { return null; }
 	}
 
-	public UserMovie getUserMovie(int movieId) throws DataAccessException
-	{
-		return entityManager.find(UserMovie.class, movieId);
-	}
-
-	public UserMovie getUserMovieByID(User owner, MovieModel movie)
+	public UserMovie getUserMovie(User owner, MovieModel movie)
 	{
 		try
 		{

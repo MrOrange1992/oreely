@@ -1,9 +1,6 @@
 package at.fh.swenga.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import at.fh.swenga.dao.*;
 import at.fh.swenga.model.*;
@@ -105,10 +102,12 @@ public class MovieController
 
 		for (Genre genre : userGenres)
 		{
-			recommendations.addAll(movieDao.searchForGenreRecommendations(genre, 5));
+			recommendations.addAll(movieDao.searchForGenreRecommendations(genre,5/userGenres.size()));
 		}
 
 		model.addAttribute("movies", recommendations);
+
+		model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
 
 		return "index";
 	}
@@ -151,12 +150,14 @@ public class MovieController
 
 		movieListDao.persist(movieList);
 
+		//activeUser = userDao.merge(activeUser);
+
 		movieList.setName(name);
 		movieList.setOwner(activeUser);
 		activeUser.addMovieList(movieList);
 		movieListDao.merge(movieList);
 
-		userDao.merge(activeUser);
+		//userDao.merge(activeUser);
 
 		return "forward:list";
 	}
@@ -168,9 +169,15 @@ public class MovieController
 
 		MovieList movieList = movieListDao.getMovieListByID(id);
 
-		movieList = movieListDao.merge(movieList);
+		movieList.setMovies(new HashSet<>());
+
+		//movieList = movieListDao.merge(movieList);
+		//activeUser = userDao.merge(activeUser);
+		activeUser.removeMovieList(movieList);
 
 		movieListDao.delete(movieList);
+
+		//activeUser = userDao.merge(activeUser);
 
 		return "forward:list";
 	}
@@ -195,18 +202,107 @@ public class MovieController
 		return "settings";
 	}
 
-	@RequestMapping(value = "/save")
-	public String save(@RequestParam("id") int id, Model model)
+	@RequestMapping(value = "/saveToList")
+	public String save(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID, Model model)
 	{
 		System.out.println("DEBUG: /save");
 
+		//if user has no lists
+		if (listID == null) return "forward:home";
+
 		MovieModel movie = movieDao.mapMovie(tmdbMovies, id, true);
 
-		// TODO maybe check with Thymeleaf if movie has already been added and
-		// if so don't display the add button
-		// Do nothing if movie has already been added
-		if (userMovieDao.getUserMovieByID(activeUser, movie) != null)
-			return "forward:home";
+		MovieList movieList = movieListDao.getMovieListByID(listID);
+
+		//movieList = movieListDao.merge(movieList);
+
+		if (userMovieDao.getUserMovie(activeUser, movie) != null)
+		{
+			if (movieListDao.isMovieInList(movie, listID))
+				return "forward:home";
+			else
+			{
+				movie = movieDao.getMovieById(id);
+				//movie = movieDao.merge(movie);
+				//movieList = movieListDao.merge(movieList);
+
+				movieList.addMovie(movie);
+				movie.addMovieList(movieList);
+
+				movieDao.merge(movie);
+				movieListDao.merge(movieList);
+
+				return "forward:home";
+			}
+
+		}
+
+		//movie = movieDao.merge(movie);
+
+		//Bring movie to actual context with merge if already stored in DB
+		//if (movieDao.getMovieById(id) != null) movie = movieDao.merge(movie);
+
+		UserMovie userMovie = new UserMovie(activeUser, movie);
+
+		movie.addUserMovie(userMovie);
+
+		//Add genres to movie/DB
+		for (Genre genre : movie.getGenres())
+		{
+			genre.addMovie(movie);
+		}
+
+		for (Actor actor : movie.getActors()) {
+			if (actorDao.getActorByName(actor.getName()) == null) {
+				try {
+					actorDao.persist(actor);
+				} catch (DataIntegrityViolationException ex) {
+					System.out.println("Actor " + actor.getName() + " already in DB");
+				}
+				actor.addMovie(movie);
+
+			}
+		}
+
+
+        movie.addMovieList(movieList);
+
+		movieList.addMovie(movie);
+
+		// Essential for getting attached entities stored in DB
+		movieDao.merge(movie);
+
+		userMovieDao.merge(userMovie);
+
+		movieListDao.merge(movieList);
+
+		return "forward:home";
+  	}
+
+
+
+
+
+  	/*
+		//if user has no lists
+		if (listID == null) return "forward:home";
+
+		MovieModel movie = movieDao.mapMovie(tmdbMovies, id, true);
+
+		MovieList movieList = movieListDao.getMovieListByID(listID);
+
+		movieList = movieListDao.merge(movieList);
+
+		if (userMovieDao.getUserMovie(activeUser, movie) != null)
+		{
+			if (movieListDao.isMovieInList(movie, listID))
+				return "forward:home";
+			else
+			{
+				movieList.addMovie(movie);
+			}
+
+		}
 
 		//Bring movie to actual context with merge if already stored in DB
 		if (movieDao.getMovieById(id) != null) movie = movieDao.merge(movie);
@@ -254,9 +350,14 @@ public class MovieController
 			System.out.println("No Actors for this movie");
         }
 
+        movie.addMovieList(movieList);
+
+		movieList.addMovie(movie);
+
 		// Essential for getting attached entities stored in DB
 		movie = movieDao.merge(movie);
 
+		movieListDao.merge(movieList);
 		// try persisting for performance
 		try {
 			userMovieDao.persist(userMovie);
@@ -269,9 +370,11 @@ public class MovieController
 		} catch (DataIntegrityViolationException ex) {
 			movieDao.merge(movie);
 		}
+		*/
 
-		return "forward:home";
-  	}
+
+
+
 
   	//DONE
 	@RequestMapping(value = "/delete")
@@ -279,7 +382,7 @@ public class MovieController
 	{
 		System.out.println("DEBUG: /delete");
 
-		userMovieDao.delete(userMovieDao.getUserMovieByID(activeUser, movieDao.mapMovie(tmdbMovies, id, false)));
+		userMovieDao.delete(userMovieDao.getUserMovie(activeUser, movieDao.mapMovie(tmdbMovies, id, false)));
 
 		return "forward:home";
   	}

@@ -93,7 +93,6 @@ public class MovieDao
 
 		List<MovieModel> movieModelList = new ArrayList<MovieModel>();
 
-
 		for (MovieDb movieDb : resultList)
 		{
 			movieModelList.add(mapMovie(tmdbMovies, movieDb.getId(), false));

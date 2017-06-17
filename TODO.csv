@@ -10,11 +10,11 @@ Task,Preference,Progress,Notes
 "As a user, I want to remove friends",M,,
 "As a developer, I want to fetch movie metadata from the internet",M,DONE,
 "As a developer, I want to store fetched data into the DB",M,InProgress,
-"As a user, I want to create lists for movies",M,InProgress,"Todo edit lists (add....)"
+"As a user, I want to create lists for movies",M,InProgress,"Create and add done but buggy, delete not working"
 "As a user, I want to list my movies",M,InProgress,
 "As a user, I want to search movies",M,DONE,
 "As a user, I want to specify my search",HD,InProgress,"Movie search Done, todo: User and Genre"
-"As a user, I want to add movies to my lists",M,InProgress,
+"As a user, I want to add movies to my lists",M,DONE,"Maybe Bugs"
 "As a user, I want to remove movies from my lists",M,InProgress,
 "As a user, I want to copy lists from friends",D,,
 "As a user, I want to see recommendations",HD,InProgress,"Genre recommend DONE"

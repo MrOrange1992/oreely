@@ -24,7 +24,42 @@
     </div>
     </p>
     <p class="view_more"> <a th:href="@{/details(id=${movie.id})}">Details</a></p>
-    <p class="add_movie"><a th:href="@{/save(id=${movie.id})}">Add</a></p>
+
+
+    <form style="display:inline-block" th:action="@{/saveToList}" th:object="${lists}">
+        <select th:name="listID" th:remove="all-but-first">
+            <option th:each="movieList : ${lists}" th:value="${movieList.id}"
+                    th:text="${movieList.name}">Options</option>
+        </select>
+        <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add to list</button>
+    </form>
+
+
+
+    <!--select th:object="${list}" th:remove="all-but-first" th:href="@{/saveToList(id=${movie.id},list=${list})}">
+        <option th:each="list : ${lists}"
+                th:value="${list.id}" th:text="${list.name}">List</option>
+    </select>
+    <p class="add_movie"><a th:href="@{/saveToList(id=${movie.id},list=${list})}">Add</a></p-->
+
+
+
+
     <p class="delete_movie"><a th:href="@{/delete(id=${movie.id})}">Delete</a></p>
 
 </div>
+
+
+<!--select th:field="*{list}" th:remove="all-but-first">
+    <option th:each="list : ${lists}"
+            th:value="${list}" th:text="${list}">List</option>
+    <option>Another payment method</option>
+    <option>Another payment method</option>
+</select-->
+
+<!--select class="form-control" th:field="${operator.opeId}"  id="dropOperator">
+    <option value="0" th:text="select operator" ></option>
+    <option th:each="operator : ${operators}" th:value="${operator.id}" th:text="${operator.operatorName}"></option>
+</select-->
