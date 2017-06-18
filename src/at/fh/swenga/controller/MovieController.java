@@ -386,6 +386,45 @@ public class MovieController
     public String handleLogin(@RequestParam(value = "username", required = false) String userName)
     {
         System.out.println("DEBUG: /login");
+        
+        if(userDao.findByUsername("admin") == null){
+        	System.out.println("DEBUG: no admin found");
+        	
+        	//Calendar bd = new GregorianCalendar(1970,01,01);
+        	
+        	User admin = new User();
+        	admin.setUserName("admin");
+        	admin.setFirstName("admin");
+        	admin.setLastName("admin");
+        	admin.setEmail("admin@oreely.at");
+        	admin.setEnabled(true);
+        	
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode("password");
+            admin.setPassword(hashedPassword);
+            
+            UserRole userRole = new UserRole(admin, "ROLE_USER");
+            admin.addUserRole(userRole);
+            UserRole adminRole = new UserRole(admin, "ROLE_ADMIN");
+            admin.addUserRole(adminRole);
+
+            userDao.persist(admin);
+            userDao.persistRole(userRole);
+            userDao.persistRole(adminRole);
+            
+            System.out.println("DEBUG: admin created");
+            
+            Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
+            MovieList trendingMovieList = new MovieList("trendingMovieList", admin);
+            trendingMovieList.setMovies(trendingMovies);
+            movieListDao.persist(trendingMovieList);
+            
+            System.out.println("DEBUG: trending MovieList created");
+        }
+        else{
+        	System.out.println("DEBUG: admin found");
+        }
+        
         return "login";
     }
 

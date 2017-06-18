@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import at.fh.swenga.service.GetProperties;
 //import at.fh.swenga.service.SearchHelper;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
+import info.movito.themoviedbapi.model.Discover;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.people.PersonCast;
@@ -62,6 +64,7 @@ public class MovieDao
 	private TmdbSearch tmdbSearch = new TmdbApi(apiKey).getSearch();
 	private TmdbPeople tmdbPeople = new TmdbApi(apiKey).getPeople();
 	private TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
+	private TmdbDiscover tmdbDiscover = new TmdbApi(apiKey).getDiscover();
 	
 	private List<SearchHelper> lastSearches = new ArrayList<>();
 	
@@ -182,7 +185,21 @@ public class MovieDao
 	{
 		return entityManager.find(MovieModel.class, id);
 	}
-
+	
+	public Set<MovieModel> getTrendingMovies(){
+		Set<MovieModel> trendingMovies = null;
+		Discover discover = new Discover();
+		MovieResultsPage result = tmdbDiscover.getDiscover(discover);
+		List<MovieDb> resultList = result.getResults();
+		System.out.println(resultList.isEmpty());
+        
+		for (MovieDb mDB : resultList){
+			//trendingMovies.add(mapMovie(tmdbMovies, mDB.getId(), false));
+		}
+		
+		return trendingMovies;
+	}
+	
 	//TODO FR: Add Genre und Actor in DAOs auslagern
 	public MovieModel mapMovie(TmdbMovies movies, int id, boolean fullContent)
 	{		
