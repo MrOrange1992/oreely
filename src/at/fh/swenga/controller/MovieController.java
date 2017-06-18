@@ -169,9 +169,16 @@ public class MovieController
 
 		MovieList movieList = movieListDao.getMovieListByID(id);
 
+		for (MovieModel movie : movieList.getMovies())
+		{
+			movie.removeMovieList(movieList);
+			movieDao.merge(movie);
+		}
+
 		movieList.setMovies(new HashSet<>());
 
-		//movieList = movieListDao.merge(movieList);
+		movieList = movieListDao.merge(movieList);
+
 		//activeUser = userDao.merge(activeUser);
 		activeUser.removeMovieList(movieList);
 

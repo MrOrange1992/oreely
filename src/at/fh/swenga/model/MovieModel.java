@@ -235,6 +235,8 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 		if (movieLists == null) movieLists = new HashSet<MovieList>();
 		movieLists.add(movieList);
 	}
+	public void removeMovieList(MovieList movieList) { if(movieLists.contains(movieList)) movieLists.remove(movieList); }
+
 
 	//genres
 	public Set<Genre> getGenres() {

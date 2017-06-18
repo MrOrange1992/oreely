@@ -24,7 +24,7 @@
 								value="Home" />
 						</form>
 					</li>
-					<li th:if="${actNav}=='list'" class="active">
+					<li th:if="${actNav}=='lists'" class="active">
 						<form th:action="@{/list}">
 							<i class="fa fa-list" aria-hidden="true"></i> <input
 								type="hidden" th:name="${_csrf.parameterName}"
@@ -32,7 +32,7 @@
 								value="My Lists" />
 						</form>
 					</li>
-					<li th:if="${actNav}!='list'">
+					<li th:if="${actNav}!='lists'">
 						<form th:action="@{/list}">
 							<i class="fa fa-list" aria-hidden="true"></i> <input
 								type="hidden" th:name="${_csrf.parameterName}"
