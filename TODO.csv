@@ -27,7 +27,3 @@ Task,Preference,Progress,Notes
 "As a developer, I want to manage user",M,,
 "As a user, I want to have a responsive design",D,,
 "As a developer, I want to protect the site against SQL injection",M,InProgress,
-
-
-
-"""Thank you for your registration"" message after registration"
