@@ -42,19 +42,24 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @Controller
-public class MovieController
-{
-	@Autowired private UserDao userDao;
+public class MovieController {
+	@Autowired
+	private UserDao userDao;
 
-	@Autowired private MovieDao movieDao;
+	@Autowired
+	private MovieDao movieDao;
 
-	@Autowired private GenreDao genreDao;
+	@Autowired
+	private GenreDao genreDao;
 
-	@Autowired private ActorDao actorDao;
+	@Autowired
+	private ActorDao actorDao;
 
-	@Autowired private UserMovieDao userMovieDao;
+	@Autowired
+	private UserMovieDao userMovieDao;
 
-	@Autowired private MovieListDao movieListDao;
+	@Autowired
+	private MovieListDao movieListDao;
 
 	private String apiKey = new GetProperties().getPropValues().getProperty("apiKey");
 
@@ -63,21 +68,17 @@ public class MovieController
 	private User activeUser;
 
 	@PostConstruct
-	public void init()
-	{
+	public void init() {
 		System.out.println("DEBUG: /init (PostConstruct)");
 
-		if (genreDao.getGenres().size() == 0)
-		{
+		if (genreDao.getGenres().size() == 0) {
 			//save all Genres to DB if not already in Db
 			TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
 
 			List<info.movito.themoviedbapi.model.Genre> tmdbGenres = tmdbGenre.getGenreList("en");
 
-			for (info.movito.themoviedbapi.model.Genre tmDBgenre : tmdbGenres)
-			{
-				if (genreDao.getGenre(tmDBgenre.getName()) == null)
-				{
+			for (info.movito.themoviedbapi.model.Genre tmDBgenre : tmdbGenres) {
+				if (genreDao.getGenre(tmDBgenre.getName()) == null) {
 					Genre genre = new Genre(tmDBgenre.getId(), tmDBgenre.getName());
 					genreDao.persist(genre);
 				}
@@ -86,10 +87,8 @@ public class MovieController
 	}
 
 
-
-	@RequestMapping(value = { "/", "home" })
-	public String index(Model model)
-	{
+	@RequestMapping(value = {"/", "home"})
+	public String index(Model model) {
 		System.out.println("DEBUG: /home");
 
 		//List<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
@@ -100,9 +99,8 @@ public class MovieController
 		List<MovieModel> recommendations = new ArrayList<>();
 
 
-		for (Genre genre : userGenres)
-		{
-			recommendations.addAll(movieDao.searchForGenreRecommendations(genre,5/userGenres.size()));
+		for (Genre genre : userGenres) {
+			recommendations.addAll(movieDao.searchForGenreRecommendations(genre, 5 / userGenres.size()));
 		}
 
 		model.addAttribute("movies", recommendations);
@@ -113,8 +111,7 @@ public class MovieController
 	}
 
 	@RequestMapping(value = "/searchForMovies", method = RequestMethod.GET)
-	public String search(Model model, @RequestParam String searchString)
-	{
+	public String search(Model model, @RequestParam String searchString) {
 		System.out.println("DEBUG: /searchForMovies");
 
 		model.addAttribute("movies", movieDao.searchMovies(searchString));
@@ -129,11 +126,9 @@ public class MovieController
 	// }
 
 
-	@RequestMapping(value= "/list", method = RequestMethod.GET)
-	public String showLists(Model model)
-	{
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String showLists(Model model) {
 		System.out.println("DEBUG: /list");
-
 
 		List<MovieList> movieListsByOwner = movieListDao.getMovieListsByOwner(activeUser);
 		model.addAttribute("movieLists", movieListsByOwner);
@@ -142,8 +137,7 @@ public class MovieController
 	}
 
 	@RequestMapping(value = "/addNewList", method = RequestMethod.GET)
-	public String addNewList(@RequestParam("name") String name)
-	{
+	public String addNewList(@RequestParam("name") String name) {
 		System.out.println("DEBUG: /addNewList");
 
 		MovieList movieList = new MovieList();
@@ -163,14 +157,12 @@ public class MovieController
 	}
 
 	@RequestMapping(value = "/deleteList", method = RequestMethod.GET)
-	public String deleteList(@RequestParam("id") int id)
-	{
+	public String deleteList(@RequestParam("id") int id) {
 		System.out.println("DEBUG: /deleteList");
 
 		MovieList movieList = movieListDao.getMovieListByID(id);
 
-		for (MovieModel movie : movieList.getMovies())
-		{
+		for (MovieModel movie : movieList.getMovies()) {
 			movie.removeMovieList(movieList);
 			movieDao.merge(movie);
 		}
@@ -190,16 +182,14 @@ public class MovieController
 	}
 
 	@RequestMapping(value = "/search")
-	public String search(Model model)
-	{
+	public String search(Model model) {
 		System.out.println("DEBUG: /search");
 
 		return "search";
 	}
 
 	@RequestMapping(value = "/myProfile")
-	public String myProfile(Model model)
-	{
+	public String myProfile(Model model) {
 		System.out.println("DEBUG: /myProfile");
 
 		List<Genre> genreList = genreDao.getGenres();
@@ -210,15 +200,20 @@ public class MovieController
 	}
 
 	@RequestMapping(value = "/saveToList")
-	public String save(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID, Model model)
-	{
+	public String save(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID, Model model) {
 		System.out.println("DEBUG: /save");
 
 		//if user has no lists
 		if (listID == null) return "forward:home";
 
-		MovieModel movie = movieDao.mapMovie(tmdbMovies, id, true);
+		MovieModel movie;
 
+		if (movieDao.getMovieById(id) == null)
+			movie = movieDao.mapMovie(tmdbMovies, id, true);
+		else
+		{
+			movie = movieDao.getMovieById(id);
+		}
 		MovieList movieList = movieListDao.getMovieListByID(listID);
 
 		//movieList = movieListDao.merge(movieList);

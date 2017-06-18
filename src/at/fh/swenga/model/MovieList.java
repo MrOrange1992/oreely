@@ -39,7 +39,7 @@ public class MovieList {
 	private List<User> follower;
 	
 	@ManyToMany(mappedBy = "movieLists", fetch = FetchType.EAGER)
-	private Set<MovieModel> moviesInList;
+	public Set<MovieModel> moviesInList;
 	
 	@Version
 	long version;

@@ -63,7 +63,6 @@
 					</div>
 				</div-->
 
-
 				<div class="row list-headline">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
@@ -115,6 +114,23 @@
 						</form>
 					</div>
 				</div>
+			</div>
+
+			<div th:each="list : ${movieLists}">
+				<div class="container-fluid">
+					<h1 class="center" th:text="${list.name}"></h1>
+					<div class="slick-reel-container container">
+						<div class="slick-reel">
+							<div class="item poster card" th:each="movie : ${list.moviesInList}">
+								<div th:replace="~{includes/poster}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card-showcase">
 			</div>
 		</div>
 	</div>
