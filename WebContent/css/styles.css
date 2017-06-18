@@ -1,10 +1,6 @@
 @import "slick.css";
 @import "slick-theme.css";
 .btn-colored {
-  position: absolute;
-  bottom: 5px;
-  left: 15px;
-  right: 15px;
   text-align: center;
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
   color: #ffffff;
@@ -186,16 +182,16 @@ html body #content .slick-reel-container .slick-reel .poster .info .overview {
   margin-bottom: 0px;
 }
 html body #content .slick-reel-container .slick-reel .poster .info .view_more {
-  position: absolute;
-  bottom: 5px;
-  left: 15px;
-  right: 15px;
   text-align: center;
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
   color: #ffffff;
   padding-top: 5px;
   padding-bottom: 5px;
   margin-bottom: 0px;
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  right: 15px;
 }
 html body #content .slick-reel-container .slick-reel .poster .info .view_more a {
   color: #ffffff;
@@ -207,6 +203,51 @@ html body #content .slick-reel-container .slick-reel .poster .info .view_more:ho
 }
 html body #content .slick-reel-container .slick-reel .poster .info .view_more:hover a {
   text-decoration: none;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form {
+  width: 100%;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete {
+  text-align: center;
+  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  color: #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  position: relative;
+  padding: 5px;
+  display: inline-block;
+  border: none;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add a,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete a {
+  color: #ffffff;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add:hover,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete:hover {
+  -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add:hover a,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete:hover a {
+  text-decoration: none;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add.btn-small,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete.btn-small {
+  width: 24px;
+  height: 24px;
+  padding: 2px 6px 2px 5px;
+  position: relative;
+  border-radius: 5px;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete {
+  color: #ff0000;
+}
+html body #content .slick-reel-container .slick-reel .poster .info form select {
+  height: 25px;
+  width: 80%;
 }
 html body #content .slick-reel-container .slick-reel .poster:hover .info {
   display: block;
@@ -332,10 +373,6 @@ html body #content .card-showcase .info .meta.flex {
   font-size: 0.75rem;
 }
 html body #content .card-showcase .info .view_more {
-  position: absolute;
-  bottom: 5px;
-  left: 15px;
-  right: 15px;
   text-align: center;
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
   color: #ffffff;
@@ -358,12 +395,11 @@ html body #content .card-showcase .info .view_more:hover {
 html body #content .card-showcase .info .view_more:hover a {
   text-decoration: none;
 }
-html body #content .card-showcase .btn-add,
-html body #content .card-showcase .btn-delete {
-  position: absolute;
-  bottom: 5px;
-  left: 15px;
-  right: 15px;
+html body #content .card-showcase form {
+  width: 100%;
+}
+html body #content .card-showcase form .btn-add,
+html body #content .card-showcase form .btn-delete {
   text-align: center;
   background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
   color: #ffffff;
@@ -373,24 +409,36 @@ html body #content .card-showcase .btn-delete {
   position: relative;
   padding: 5px;
   display: inline-block;
-  min-width: 70px;
+  border: none;
 }
-html body #content .card-showcase .btn-add a,
-html body #content .card-showcase .btn-delete a {
+html body #content .card-showcase form .btn-add a,
+html body #content .card-showcase form .btn-delete a {
   color: #ffffff;
 }
-html body #content .card-showcase .btn-add:hover,
-html body #content .card-showcase .btn-delete:hover {
+html body #content .card-showcase form .btn-add:hover,
+html body #content .card-showcase form .btn-delete:hover {
   -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
   box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
 }
-html body #content .card-showcase .btn-add:hover a,
-html body #content .card-showcase .btn-delete:hover a {
+html body #content .card-showcase form .btn-add:hover a,
+html body #content .card-showcase form .btn-delete:hover a {
   text-decoration: none;
 }
-html body #content .card-showcase .btn-delete {
+html body #content .card-showcase form .btn-add.btn-small,
+html body #content .card-showcase form .btn-delete.btn-small {
+  width: 24px;
+  height: 24px;
+  padding: 2px 6px 2px 5px;
+  position: relative;
+  border-radius: 5px;
+}
+html body #content .card-showcase form .btn-delete {
   color: #ff0000;
+}
+html body #content .card-showcase form select {
+  height: 25px;
+  width: 80%;
 }
 html body #content .movie-lists .list-row:nth-child(even) .col-md-8 {
   background-color: #888888;

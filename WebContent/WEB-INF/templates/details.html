@@ -25,7 +25,7 @@
     <![endif]-->
 
 </head>
-<body>
+<body class="detail-page">
     <header th:replace="~{includes/header :: header}"></header>
 
     <div id="content">
@@ -48,43 +48,46 @@
 
         </div>
 
-        <!--
-            @markus
-            full content is in ${movie}
-        -->
 
-        <div class="item poster card">
-            <div class="image_content">
-                <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
-                    <img class="poster" data-sizes="auto"
-                         th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
-                         th:data-srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x,
-                                                https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
-                         th:alt=${movie.title} sizes="185px"
-                         th:srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x,
-                                            https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
-                         th:src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}">
-                </a>
-            </div>
-        </div>
-
-
-        <h3>Title</h3>
-        <div th:text=${movie.title}>
-        </div>
-        <h3>Overview</h3>
-        <div th:text=${movie.overview}>
-        </div>
-        <h3>Genres</h3>
-        <div class="genres" th:each="genre : ${movie.genres}">
-            <span th:text="${genre.name}"></span>
-        </div>
-        <h3>Actors</h3>
-        <div class="actors" th:each="actor : ${movie.actors}">
-            <span th:text="${actor.name}"></span>
-        </div>
-    </div>
-
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="movie-poster">
+			            <div class="image_content">
+			                <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
+			                    <img class="poster" data-sizes="auto"
+			                         th:data-src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+			                         th:data-srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+			                         th:alt=${movie.title} sizes="370px"
+			                         th:srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+			                         th:src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}">
+			                </a>
+			            </div>
+			        </div>
+				</div>
+				<div class="col-md-8">
+					<div class="movie-info">
+						<h1 class="movie-title" th:text=${movie.title}></h1>
+						<h2>Overview</h2>
+        				<p th:text=${movie.overview}></p>
+        				<h3>Genres</h3>
+        				<div class="genres">
+        					<span class="genres" th:each="genre : ${movie.genres}">
+				            	<span th:text="${genre.name}"></span>
+				       		</span>
+        				</div>
+				        <div class="actors">
+					        <h3>Actors</h3>
+					        <span class="actors" th:each="actor : ${movie.actors}">
+					            <span th:text="${actor.name}"></span>
+					        </span>
+				        </div>
+				        
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     <footer th:replace="~{includes/footer :: footer}"></footer>
 </body>
 </html>

@@ -130,85 +130,13 @@
 			 				</div>
 			 			</div>
 			 			<div class="data-block">
-							<div class="row" th:each="genre : ${genreList}">
-
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="checkGenre" th:value="${genre.getName()}">
-									<label th:text="${genre.name}"></label>
+			 				<div class="row">
+								<div th:each="genre : ${genreList}">
+									<div class="col-xs-6 col-sm-3">
+										<input type="checkbox" name="checkGenre" th:value="${genre.getName()}">
+										<label th:text="${genre.name}"></label>
+									</div>
 								</div>
-
-								<!--div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre2" value="Adventure">
-									<label for="genre2">Adventure</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre3" value="Animation">
-									<label for="genre3">Animation</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre4" value="Comedy">
-									<label for="genre4">Comedy</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre5" value="Crime">
-									<label for="genre5">Crime</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre6" value="Documentary">
-									<label for="genre6">Documentary</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre7" value="Drama">
-									<label for="genre7">Drama</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre8" value="Family">
-									<label for="genre8">Family</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre9" value="Fantasy">
-									<label for="genre9">Fantasy</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre10" value="History">
-									<label for="genre10">History</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre11" value="Horror">
-									<label for="genre11">Horror</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre12" value="Music">
-									<label for="genre12">Music</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre13" value="Mystery">
-									<label for="genre13">Mystery</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre14" value="Romance">
-									<label for="genre14">Romance</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre15" value="Science Fiction">
-									<label for="genre15">SciFi</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre16" value="TV Movie">
-									<label for="genre16">TV Movie</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre17" value="Thriller">
-									<label for="genre17">Thriller</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre18" value="War">
-									<label for="genre18">War</label>
-								</div>
-								<div class="col-xs-6 col-sm-3">
-									<input type="checkbox" name="genre19" value="Western">
-									<label for="genre19">Western</label>
-								</div-->
 							</div>
 						</div>
 						<div class="row">

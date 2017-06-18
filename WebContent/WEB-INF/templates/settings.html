@@ -24,7 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
 </head>
-<body class="login-page registration-page">
+<body class="settings-page">
 
     <header th:replace="~{includes/header :: header(actNav='myProfile')}"></header>
 
@@ -41,13 +41,13 @@
                             </div>
                         </div>
                         <div class="data-block">
-                            <div class="row" th:each="genre : ${genreList}">
-
-                                <div class="col-xs-6 col-sm-3">
-                                    <input type="checkbox" name="checkGenre" th:value="${genre.getName()}">
-                                    <label th:text="${genre.name}"></label>
-                                </div>
-
+                        	<div class="row">
+	                            <div th:each="genre : ${genreList}">
+	                                <div class="col-xs-6 col-sm-3">
+	                                    <input type="checkbox" name="checkGenre" th:value="${genre.getName()}">
+	                                    <label th:text="${genre.name}"></label>
+	                                </div>
+	                            </div>
                             </div>
                         </div>
                         <div class="row">
