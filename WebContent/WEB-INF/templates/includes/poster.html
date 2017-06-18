@@ -25,16 +25,15 @@
     </p>
     <p class="view_more"> <a th:href="@{/details(id=${movie.id})}">Details</a></p>
 
-    <form style="display:inline-block" th:action="@{/saveToList}" th:object="${lists}">
+    <form style="display:inline-block" th:action="@{/editList}" th:object="${lists}">
         <select th:name="listID" th:remove="all-but-first">
             <option th:each="movieList : ${lists}" th:value="${movieList.id}"
                     th:text="${movieList.name}">Options</option>
         </select>
         <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
 
-        <button type="submit">Add to list</button>
+        <button type="submit" name="action" value="add" >Add</button>
+        <button type="submit" name="action" value="remove" >Remove</button>
     </form>
-
-    <!--p class="delete_movie"><a th:href="@{/delete(id=${movie.id})}">Delete</a></p-->
 
 </div>

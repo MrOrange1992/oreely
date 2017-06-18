@@ -3,10 +3,7 @@ package at.fh.swenga.model;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 import javax.persistence.CascadeType;
@@ -21,8 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 @Entity
-public class MovieList {
-
+public class MovieList
+{
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +41,10 @@ public class MovieList {
 	@Version
 	long version;
 
-	public MovieList() {
-	}	
+	public MovieList() {}
 
-	public MovieList(String name, User owner) {
+	public MovieList(String name, User owner)
+	{
 		super();
 		this.name = name;
 		this.owner = owner;
@@ -65,37 +62,46 @@ public class MovieList {
 		this.name = name;
 	}
 
+	//owner
 	public User getOwner() {
 		return owner;
 	}
-
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 
+	//follower
 	public List<User> getFollower() {
 		return follower;
 	}
-
 	public void setFollower(List<User> follower) {
 		this.follower = follower;
 	}
 
+	//movies
 	public Set<MovieModel> getMovies() {
 		return moviesInList;
 	}
-
 	public void setMovies(Set<MovieModel> movies) {
 		this.moviesInList = movies;
-	}		
-	
-	public void addMovie(MovieModel movie){
+	}
+	public void addMovie(MovieModel movie)
+	{
 		if (moviesInList == null) moviesInList = new HashSet<>();
 		moviesInList.add(movie);
 	}
-	public void removeMovie(MovieModel movie) 
+	public void removeMovie(MovieModel movie) { if(moviesInList.contains(movie)) moviesInList.remove(movie); }
+
+	@Override
+	public boolean equals(Object other)
 	{
-		if(moviesInList.contains(movie)) moviesInList.remove(movie);
+		if (other == null) return false;
+		if (other == this) return true;
+		if (!(other instanceof MovieList))return false;
+		MovieList otherList = (MovieList) other;
+		return (this.id == otherList.getId());
 	}
-	
+
+	@Override
+	public int hashCode() { return Objects.hash(id, name); }
 }
