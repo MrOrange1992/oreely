@@ -26,7 +26,7 @@
 
 </head>
 <body>
-	<header th:replace="~{includes/header :: header(actNav='lists')}"></header>
+	<header th:replace="~{includes/header :: header(actNav='movieLists')}"></header>
 	
 	<div id="content">
 		<div class="container-fluid">
@@ -47,7 +47,7 @@
 			<!--   message ----------------------------------------------------------- -->
 
 
-			<div class="movie-lists">
+			<div class="movie-movieLists">
 				<h1 class="center">Your Lists</h1>
 
 				<!--
@@ -55,15 +55,15 @@
 				with moviesInList
 				-->
 
-				<!--div th:each="list : ${lists}">
-					<span th:text="${list.name}"></span>
+				<!--div th:eamovieListlist movieListsists}">
+					<span th:textmovieListlist.name}"></span>
 
-					<div th:each="movie : ${list.moviesInList}">
+					<div th:each="movie movieListlist.moviesInList}">
 						<span th:text="${movie.title}"></span>
 					</div>
 				</div-->
 
-				<div class="row list-headline">
+				<div class="row movieList-headline">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
 							<div class="col-md-4">
@@ -81,7 +81,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row list-row" th:each="list : ${movieLists}">
+				<div class="row movieList-row" th:each="list : ${lists}">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
 							<div class="col-md-4">

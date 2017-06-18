@@ -2,11 +2,7 @@ package at.fh.swenga.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -72,8 +68,8 @@ public class User implements java.io.Serializable
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Genre> genres;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	private List<UserFollower> followers;
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
+	private Set<Follower> followers;
 	
 	@OneToMany(mappedBy="owner",fetch=FetchType.EAGER)
     private Set<MovieList> movieLists;
@@ -161,38 +157,38 @@ public class User implements java.io.Serializable
 	}
 
 	//followers
-	public List<UserFollower> getFollowers() { return followers; }
-	public void setFollowers(List<UserFollower> followers) { this.followers = followers; }
-	public void addFollower(UserFollower follower) 
+	public Set<Follower> getFollowers() { return followers; }
+	public void setFollowers(Set<Follower> followers) { this.followers = followers; }
+	public void addFollower(Follower follower)
 	{
-		if (followers == null) followers = new ArrayList<UserFollower>();
+		if (followers == null) followers = new HashSet<>();
 		followers.add(follower);
 	}
-	public void removeFollower(UserFollower follower) 
+	public void removeFollower(Follower follower)
 	{
 		if(followers.contains(follower)) followers.remove(follower);
 	}
 	
-	//lists
+	//movieLists
 	public Set<MovieList> getMovieLists() { return movieLists; }
 	public void setMovieLists(Set<MovieList> movieLists) { this.movieLists = movieLists; }
 	public void addMovieList(MovieList movieList){
 		if (movieLists == null) movieLists = new HashSet<MovieList>();
 		movieLists.add(movieList);
 	}
-	public void removeMovieList(MovieList movieList) 
+	public void removeMovieList(MovieList movieList)
 	{
 		if(movieLists.contains(movieList)) movieLists.remove(movieList);
 	}
 	
-	//following lists
+	//following movieLists
 	public List<MovieList> getFollowingMovieLists() { return followingMovieLists; }
-	public void setFollowingMovieLists(List<MovieList> followingMovieLists) { this.followingMovieLists = followingMovieLists; }
+	public void setFollowingMovieLists(List<MovieList> followingLists) { this.followingMovieLists = followingLists; }
 	public void addFollowingMovieList(MovieList followingMovieList){
 		if (followingMovieLists == null) followingMovieLists = new ArrayList<MovieList>();
 		followingMovieLists.add(followingMovieList);
 	}
-	public void removeFollowingMovieList(MovieList followingMovieList) 
+	public void removeFollowingMovieList(MovieList followingMovieList)
 	{
 		if(followingMovieLists.contains(followingMovieList)) followingMovieLists.remove(followingMovieList);
 	}

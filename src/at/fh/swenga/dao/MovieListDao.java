@@ -1,42 +1,43 @@
 package at.fh.swenga.dao;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import at.fh.swenga.model.MovieList;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import at.fh.swenga.model.MovieList;
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.model.User;
 
+import java.util.List;
+
 @Repository
 @Transactional
-public class MovieListDao {
+public class MovieListDao
+{
 
 	@PersistenceContext
 	protected EntityManager entityManager;
 
-	public List<MovieList> getMovieLists() {
+	public java.util.List getMovieLists() {
 
 		TypedQuery<MovieList> typedQuery = entityManager.createQuery("select ml from MovieList ml", MovieList.class);
 		List<MovieList> typedResultList = typedQuery.getResultList();
 		return typedResultList;
 	}
 
-	public List<MovieList> getMovieListsByOwner(User owner)
+	public java.util.List getMovieListsByOwner(User owner)
 	{
 		try
 		{
 			TypedQuery<MovieList> typedQuery = entityManager
 					.createQuery("select ml from MovieList ml where ml.owner = :owner", MovieList.class);
 			typedQuery.setParameter("owner", owner);
-			List<MovieList> movieLists = typedQuery.getResultList();
-			return movieLists;
+			List<MovieList> lists = typedQuery.getResultList();
+			return lists;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -44,8 +45,7 @@ public class MovieListDao {
 
 	public MovieList getMovieListByID(int id) {
 		try {
-			TypedQuery<MovieList> typedQuery = entityManager
-					.createQuery("select ml from MovieList ml where ml.id = :id", MovieList.class);
+			TypedQuery<MovieList> typedQuery = entityManager.createQuery("select ml from MovieList ml where ml.id = :id", MovieList.class);
 			typedQuery.setParameter("id", id);
 			MovieList movieList = typedQuery.getSingleResult();
 			return movieList;
@@ -84,12 +84,12 @@ public class MovieListDao {
 	// }
 	// }
 	//
-	// public List<MovieList> getMovieListsByName(String searchString) {
+	// public MovieList<MovieList> getMovieListsByName(String searchString) {
 	// TypedQuery<MovieList> typedQuery = entityManager.createQuery(
 	// "select ml from MovieList ml where ml.name like :search",
 	// MovieList.class);
 	// typedQuery.setParameter("search", searchString);
-	// List<MovieList> typedResultList = typedQuery.getResultList();
+	// MovieList<MovieList> typedResultList = typedQuery.getResultList();
 	// return typedResultList;
 	// }
 

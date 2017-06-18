@@ -98,8 +98,8 @@ public class MovieList
 		if (other == null) return false;
 		if (other == this) return true;
 		if (!(other instanceof MovieList))return false;
-		MovieList otherList = (MovieList) other;
-		return (this.id == otherList.getId());
+		MovieList otherMovieList = (MovieList) other;
+		return (this.id == otherMovieList.getId());
 	}
 
 	@Override

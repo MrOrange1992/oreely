@@ -88,6 +88,7 @@ public class MovieDao
 	//TmdbGenre.getGenreMovies()
 	public List<MovieModel> searchForGenreRecommendations(Genre genre, int numberOfMovies)
 	{
+		if (genre == null) return new ArrayList<MovieModel>();
 		MovieResultsPage result = tmdbGenre.getGenreMovies(genre.getId(), "en", 1 , true);
 		List<MovieDb> resultList = result.getResults().subList(0, numberOfMovies);
 

@@ -5,19 +5,15 @@ import java.util.*;
 import at.fh.swenga.dao.*;
 import at.fh.swenga.model.*;
 import at.fh.swenga.model.Genre;
+import at.fh.swenga.model.MovieList;
 import info.movito.themoviedbapi.TmdbGenre;
-import info.movito.themoviedbapi.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +23,6 @@ import at.fh.swenga.dao.GenreDao;
 import at.fh.swenga.dao.MovieDao;
 import at.fh.swenga.dao.MovieListDao;
 import at.fh.swenga.dao.UserDao;
-import at.fh.swenga.model.MovieList;
 import at.fh.swenga.model.MovieModel;
 import at.fh.swenga.model.User;
 import at.fh.swenga.model.UserRole;
@@ -35,8 +30,6 @@ import at.fh.swenga.service.GetProperties;
 //import at.fh.swenga.service.UserValidator;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -46,6 +39,9 @@ public class MovieController
 {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private FollowerDao followerDao;
 
     @Autowired
     private MovieDao movieDao;
@@ -97,7 +93,7 @@ public class MovieController
     {
         System.out.println("DEBUG: /home");
 
-        //List<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
+        //MovieList<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
         //model.addAttribute("movies", userMovies);
 
         List<Genre> userGenres = genreDao.getUserGenres(activeUser);
@@ -117,12 +113,20 @@ public class MovieController
         return "index";
     }
 
-    @RequestMapping(value = "/searchForMovies", method = RequestMethod.GET)
-    public String search(Model model, @RequestParam String searchString)
+    @RequestMapping(value = "/searchForSelection", method = RequestMethod.GET)
+    public String searchSelection(Model model, @RequestParam String searchString, @RequestParam(value = "selection") String selection)
     {
         System.out.println("DEBUG: /searchForMovies");
 
-        model.addAttribute("movies", movieDao.searchMovies(searchString));
+        if (selection.equals("Movies"))
+            model.addAttribute("movies", movieDao.searchMovies(searchString));
+        else if (selection.equals("Users"))
+            model.addAttribute("users", userDao.searchUsers(searchString));
+        else
+            model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 5));
+
+
+
         return "forward:search";
     }
 
@@ -162,7 +166,7 @@ public class MovieController
 
         //userDao.merge(activeUser);
 
-        return "forward:list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/deleteList", method = RequestMethod.GET)
@@ -189,7 +193,7 @@ public class MovieController
 
         //activeUser = userDao.merge(activeUser);
 
-        return "forward:list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/search")
@@ -245,7 +249,7 @@ public class MovieController
                 movieDao.merge(movie);
                 movieListDao.merge(movieList);
 
-                return "forward:home";
+                return "redirect:home";
             }
 
         }
@@ -294,7 +298,7 @@ public class MovieController
 
         movieListDao.merge(movieList);
 
-        return "forward:home";
+        return "redirect:home";
     }
 
 
@@ -303,7 +307,7 @@ public class MovieController
     {
         System.out.println("DEBUG: /editList/remove");
 
-        if (listID == null) return "forward:list";
+        if (listID == null) return "redirect:movieList";
 
         MovieModel movie;
 
@@ -319,7 +323,30 @@ public class MovieController
         movieDao.merge(movie);
         movieListDao.merge(movieList);
 
-        return "forward:list";
+        return "forward:movieList";
+    }
+
+    @RequestMapping(value = "/followUser")
+    public String followUser(@RequestParam(value = "followingUserName") String followingUserName)
+    {
+        if (activeUser.getUserName().equals(followingUserName))
+            return "forward:search";
+
+        User followingUser = userDao.findByUsername(followingUserName);
+
+        Follower follower = new Follower(followingUser.getUserName(), activeUser.getUserName());
+
+        if (followerDao.getFollower(follower) == null)
+            followerDao.persist(follower);
+
+        follower.addUser(activeUser);
+
+        activeUser.addFollower(follower);
+
+        followerDao.merge(follower);
+        userDao.merge(activeUser);
+
+        return "redirect:search";
     }
 
 
@@ -331,7 +358,7 @@ public class MovieController
 
         userMovieDao.delete(userMovieDao.getUserMovie(activeUser, movieDao.mapMovie(tmdbMovies, id, false)));
 
-        return "forward:home";
+        return "/home";
     }
 
     @RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
@@ -352,17 +379,14 @@ public class MovieController
             }
         }
 
-        return "forward:home";
+        return "redirect:home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String handleLogin(@RequestParam(value = "username", required = false) String userName)
     {
-        //activeUser = userDao.findByUsername(userName);
-
         System.out.println("DEBUG: /login");
         return "login";
-        //return "forward:initSession";
     }
 
     @RequestMapping(value = "/initSession")

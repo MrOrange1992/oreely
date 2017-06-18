@@ -6,17 +6,17 @@ Teammembers:
 - Felix Rauchenwald
 
 Description:
-Our project is a social network, where users can create lists of movies they have seen or plan to watch and share them with others.
+Our project is a social network, where users can create movieLists of movies they have seen or plan to watch and share them with others.
 It will feature the following pages:
 * Login / Register
    * Here can users create an account for our web application or log in with an existing one.
 * Homescreen
-   * The user control center after the login, where users can add,edit,view delete their lists. Based on the “Watched” list, recommendations what to watch next are displayed Recent activities from befriended users are shown as a feed. 
-   * Users can search for other users and befriend them to view their lists.
+   * The user control center after the login, where users can add,edit,view delete their movieLists. Based on the “Watched” movieList, recommendations what to watch next are displayed Recent activities from befriended users are shown as a feed. 
+   * Users can search for other users and befriend them to view their movieLists.
 * Edit profile
    * Users can change their profile settings (Username, password, favorite genres, filters)
 * List-Page
-    * Movie-Detail-Page: Information about the movie is displayed (Title, cover, metainfo, description) and options to add them to a list and to rate and recommend it.
+    * Movie-Detail-Page: Information about the movie is displayed (Title, cover, metainfo, description) and options to add them to a movieList and to rate and recommend it.
     * Administration Page: Manage all user accounts, Edit database entries, logs,
 
 

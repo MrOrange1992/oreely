@@ -27,8 +27,8 @@
 
     <form style="display:inline-block" th:action="@{/editList}" th:object="${lists}">
         <select th:name="listID" th:remove="all-but-first">
-            <option th:each="movieList : ${lists}" th:value="${movieList.id}"
-                    th:text="${movieList.name}">Options</option>
+            <option th:each="list : ${lists}" th:value="${list.id}"
+                    th:text="${list.name}">Options</option>
         </select>
         <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
         <button type="submit" name="action" value="add" class="btn-add btn-small" ><i class="fa fa-plus" aria-hidden="true"></i></button>

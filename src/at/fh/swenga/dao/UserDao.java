@@ -45,6 +45,18 @@ public class UserDao {
 		}
 	}
 
+	public List<User> searchUsers(String searchString)
+	{
+		try
+		{
+			TypedQuery<User> typedQuery = entityManager.createQuery("select u from User u where u.userName LIKE :searchString", User.class);
+			typedQuery.setParameter("searchString", searchString);
+			List<User> typedResultList = typedQuery.getResultList();
+
+			return typedResultList;
+		} catch (NoResultException e) { return null; }
+	}
+
 	public void removeGenres(User activeUser)
 	{
 		activeUser.setGenres(new ArrayList<>());

@@ -4,7 +4,6 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import at.fh.swenga.model.Genre;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -73,7 +72,7 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
     private Set<UserMovie> userMovies;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private Set<MovieList> movieLists; //was List -> ERROR
+    private Set<MovieList> movieLists; //was MovieList -> ERROR
 
 
     // TODO: Relationships to list_movie, user_movie & movie_actor
