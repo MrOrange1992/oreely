@@ -18,8 +18,8 @@ Task,Preference,Progress,Notes
 "As a user, I want to remove movies from my lists",M,InProgress,
 "As a user, I want to copy lists from friends",D,,
 "As a user, I want to see recommendations",HD,InProgress,"Genre recommend DONE"
-"As a user, I want to see trending movies",D,,
-"As a user, I want to see staff picks",D,,
+"As a user, I want to see trending movies",D,DONE,
+"As a user, I want to see staff picks",D,DONE,
 "As a user, I want to rate movies",M,,
 "As a user, I want to mark movies as watched / unwatched",M,,
 "As a user, I want to see legal information",M,,
