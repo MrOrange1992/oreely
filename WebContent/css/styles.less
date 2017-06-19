@@ -30,6 +30,7 @@
 	padding-top:5px;
 	padding-bottom:5px;
 	margin-bottom:0px;
+	border:none;
 	a{
 		color:@cWhite;
 	}
@@ -476,6 +477,68 @@ html{
 						a{
 							color:@cWhite;
 						}
+					}
+				}
+			}
+		}
+		&.detail-page{
+			#content{
+				padding-top:80px;
+				.custom-bg{
+					overflow: hidden;
+				    display: block;
+				    position: relative;
+				    padding-top: 60px;
+				    padding-bottom: 60px;
+				    background-color: rgba(202, 227, 236, 0.77);
+				    &:before{
+				    	content: '';
+					    position: absolute;
+					    left: 0;
+					    right: 0;
+					    top: 0;
+					    width: 100%;
+					    height: 100%;
+					    z-index: -1;
+					    display: block;
+					    filter: brightness(120%) grayscale(1);
+					    background-size: cover;
+					    background-repeat: no-repeat;
+					    background-position: center center;
+					    background-image: url(https://image.tmdb.org/t/p/w1400_and_h450_bestv2/hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg);
+					    overflow: hidden;
+				    }
+				    &:after{
+				    	content: "";
+				    	position:absolute;
+				    	left:0;
+				    	right:0;
+				    	bottom:0;
+				    	height:60px;
+				    	width:100%;
+				    	z-index:100000;
+				    	display:block;
+				    	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(238,238,238,0.9) 100%); /* FF3.6-15 */
+						background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(238,238,238,0.9) 100%); /* Chrome10-25,Safari5.1-6 */
+						background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(238,238,238,0.9) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+						filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e6eeeeee',GradientType=0 ); /* IE6-9 */
+					}
+				    .movie-poster{
+				    	.image_content{
+				    		img{
+				    			border-radius:5px;
+				    			-webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+								-moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+								box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+								width:100%;
+				    		}
+				    	}
+				    }
+				    .movie-info{
+				    	position:relative;
+					    .movie-title{
+					    	margin-top:0px;
+					    }
 					}
 				}
 			}

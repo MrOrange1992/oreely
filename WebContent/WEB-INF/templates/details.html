@@ -47,42 +47,63 @@
             <!--   message ----------------------------------------------------------- -->
 
         </div>
-
-
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="movie-poster">
-			            <div class="image_content">
-			                <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
-			                    <img class="poster" data-sizes="auto"
-			                         th:data-src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
-			                         th:data-srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
-			                         th:alt=${movie.title} sizes="370px"
-			                         th:srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
-			                         th:src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}">
-			                </a>
-			            </div>
-			        </div>
-				</div>
-				<div class="col-md-8">
-					<div class="movie-info">
-						<h1 class="movie-title" th:text=${movie.title}></h1>
-						<h2>Overview</h2>
-        				<p th:text=${movie.overview}></p>
-        				<h3>Genres</h3>
-        				<div class="genres">
-        					<span class="genres" th:each="genre : ${movie.genres}">
-				            	<span th:text="${genre.name}"></span>
-				       		</span>
-        				</div>
-				        <div class="actors">
-					        <h3>Actors</h3>
-					        <span class="actors" th:each="actor : ${movie.actors}">
-					            <span th:text="${actor.name}"></span>
-					        </span>
+		<div class="custom-bg">
+			<!--
+			<img class="backdrop-img" data-sizes="auto"
+            th:data-src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
+            th:data-srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
+            th:alt=${movie.title} sizes="1400px"
+            th:srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
+            th:src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}">
+            -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="movie-poster">
+				            <div class="image_content">
+				                <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
+				                    <img class="poster" data-sizes="auto"
+				                         th:data-src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+				                         th:data-srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+				                         th:alt=${movie.title} sizes="370px"
+				                         th:srcset="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}"
+				                         th:src="'https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path}">
+				                </a>
+				            </div>
 				        </div>
-				        
+					</div>
+					<div class="col-md-8">
+						<div class="movie-info">
+							<h1 class="movie-title" th:text="${movie.title}+' ('+${#dates.format(movie.release_date, 'yyyy')}+')'"></h1>
+							<div class="star-block">
+								<span class="movie-stars" th:each="i : ${#numbers.sequence( 1, movie.vote_average)}"><i class="fa fa-star" aria-hidden="true"></i></span>
+								<span th:text="${movie.vote_average}"></span>
+							</div>
+							<h2>Overview</h2>
+	        				<p th:text=${movie.overview}></p>
+	        				<h3>Genres</h3>
+	        				<div class="genres">
+	        					<span class="genres" th:each="genre : ${movie.genres}">
+					            	<span th:text="${genre.name}+', '"></span>
+					       		</span>
+	        				</div>
+					        <div class="actors">
+						        <h3>Actors</h3>
+						        <span class="actors" th:each="actor : ${movie.actors}">
+						            <span th:text="${actor.name}+', '"></span>
+						        </span>
+					        </div>
+					        
+						</div>
+						<form style="display:inline-block" th:action="@{/editList}" th:object="${lists}">
+					        <select th:name="listID" th:remove="all-but-first">
+					            <option th:each="list : ${lists}" th:value="${list.id}"
+					                    th:text="${list.name}">Options</option>
+					        </select>
+					        <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
+					        <button type="submit" name="action" value="add" class="btn-colored" ><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+					        <button type="submit" name="action" value="delete" class="btn-colored" ><i class="fa fa-minus" aria-hidden="true"></i> Delete</button>
+					    </form>
 					</div>
 				</div>
 			</div>

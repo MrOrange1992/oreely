@@ -61,7 +61,7 @@
 					</a></li>
 					<li th:if="${actNav}=='myProfile'" class="active">
 						<form th:action="@{/myProfile}">
-							<i class="fa fa-search" aria-hidden="true"></i> <input
+							<i class="fa fa-user" aria-hidden="true"></i> <input
 								type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}" /> <input type="submit"
 								value="My Profile" />
@@ -69,7 +69,7 @@
 					</li>
 					<li th:if="${actNav}!='myProfile'">
 						<form th:action="@{/myProfile}">
-							<i class="fa fa-search" aria-hidden="true"></i> <input
+							<i class="fa fa-user" aria-hidden="true"></i> <input
 								type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}" /> <input type="submit"
 								value="My Profile" />
