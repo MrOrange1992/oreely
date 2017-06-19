@@ -14,7 +14,10 @@
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/**" access="hasRole('USER')" />
 		<form-login login-page="/login" default-target-url="/initSession" always-use-default-target="true"/>
-		<logout logout-success-url="/login" logout-url="/logout" />		
+		<logout logout-success-url="/login" logout-url="/logout" />
+
+		<!--"login-processing-url="/perform_login-->
+
 	</http>
 
 	<authentication-manager>

@@ -22,14 +22,14 @@ public class MovieListDao
 	@PersistenceContext
 	protected EntityManager entityManager;
 
-	public java.util.List getMovieLists() {
+	public List<MovieList> getAllMovieLists() {
 
 		TypedQuery<MovieList> typedQuery = entityManager.createQuery("select ml from MovieList ml", MovieList.class);
 		List<MovieList> typedResultList = typedQuery.getResultList();
 		return typedResultList;
 	}
 
-	public java.util.List getMovieListsByOwner(User owner)
+	public List<MovieList> getMovieListsByOwner(User owner)
 	{
 		try
 		{

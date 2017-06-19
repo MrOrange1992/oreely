@@ -69,6 +69,44 @@ public class MovieController
     {
         System.out.println("DEBUG: /init (PostConstruct)");
 
+        if(userDao.findByUsername("admin") == null){
+            System.out.println("DEBUG: no admin found");
+
+            //Calendar bd = new GregorianCalendar(1970,01,01);
+
+            User admin = new User();
+            admin.setUserName("admin");
+            admin.setFirstName("admin");
+            admin.setLastName("admin");
+            admin.setEmail("admin@oreely.at");
+            admin.setEnabled(true);
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode("password");
+            admin.setPassword(hashedPassword);
+
+            UserRole userRole = new UserRole(admin, "ROLE_USER");
+            admin.addUserRole(userRole);
+            UserRole adminRole = new UserRole(admin, "ROLE_ADMIN");
+            admin.addUserRole(adminRole);
+
+            userDao.persist(admin);
+            userDao.persistRole(userRole);
+            userDao.persistRole(adminRole);
+
+            System.out.println("DEBUG: admin created");
+
+            Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
+            MovieList trendingMovieList = new MovieList("trendingMovieList", admin);
+            trendingMovieList.setMovies(trendingMovies);
+            movieListDao.merge(trendingMovieList);
+
+            System.out.println("DEBUG: trending MovieList created");
+        }
+        else{
+            System.out.println("DEBUG: admin found");
+        }
+
         if (genreDao.getGenres().size() == 0)
         {
             //save all Genres to DB if not already in Db
@@ -101,12 +139,11 @@ public class MovieController
         List<MovieModel> recommendations = new ArrayList<>();
 
 
-        for (Genre genre : userGenres)
+        if (userGenres.size() > 0)
         {
-            recommendations.addAll(movieDao.searchForGenreRecommendations(genre, 5 / userGenres.size()));
+            recommendations.addAll(movieDao.searchForGenreRecommendations(userGenres.get(new Random().nextInt(userGenres.size())), 6));
+            model.addAttribute("movies", recommendations);
         }
-
-        model.addAttribute("movies", recommendations);
 
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
 
@@ -123,7 +160,7 @@ public class MovieController
         else if (selection.equals("Users"))
             model.addAttribute("users", userDao.searchUsers(searchString));
         else
-            model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 5));
+            model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
 
 
 
@@ -307,7 +344,7 @@ public class MovieController
     {
         System.out.println("DEBUG: /editList/remove");
 
-        if (listID == null) return "redirect:movieList";
+        if (listID == null) return "redirect:home";
 
         MovieModel movie;
 
@@ -323,7 +360,7 @@ public class MovieController
         movieDao.merge(movie);
         movieListDao.merge(movieList);
 
-        return "forward:movieList";
+        return "forward:home";
     }
 
     @RequestMapping(value = "/followUser")
@@ -386,59 +423,17 @@ public class MovieController
     public String handleLogin(@RequestParam(value = "username", required = false) String userName)
     {
         System.out.println("DEBUG: /login");
-        
-        if(userDao.findByUsername("admin") == null){
-        	System.out.println("DEBUG: no admin found");
-        	
-        	//Calendar bd = new GregorianCalendar(1970,01,01);
-        	
-        	User admin = new User();
-        	admin.setUserName("admin");
-        	admin.setFirstName("admin");
-        	admin.setLastName("admin");
-        	admin.setEmail("admin@oreely.at");
-        	admin.setEnabled(true);
-        	
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode("password");
-            admin.setPassword(hashedPassword);
-            
-            UserRole userRole = new UserRole(admin, "ROLE_USER");
-            admin.addUserRole(userRole);
-            UserRole adminRole = new UserRole(admin, "ROLE_ADMIN");
-            admin.addUserRole(adminRole);
 
-            userDao.persist(admin);
-            userDao.persistRole(userRole);
-            userDao.persistRole(adminRole);
-            
-            System.out.println("DEBUG: admin created");
-            
-            Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
-            MovieList trendingMovieList = new MovieList("trendingMovieList", admin);
-            trendingMovieList.setMovies(trendingMovies);
-            movieListDao.merge(trendingMovieList);
-            
-            System.out.println("DEBUG: trending MovieList created");
-            
-            Set<MovieModel> staffPicks = movieDao.getStaffPicks();
-            MovieList staffPickList = new MovieList("staffPickList", admin);
-            staffPickList.setMovies(staffPicks);
-            movieListDao.merge(staffPickList);
-            
-            System.out.println("DEBUG: staff picks MovieList created");
-        }
-        else{
-        	System.out.println("DEBUG: admin found");
-        }
-        
         return "login";
     }
 
-    @RequestMapping(value = "/initSession")
-    public String initSession()
+    @RequestMapping(value = "/initSession", method = RequestMethod.GET)
+    public String initSession(@RequestParam(value = "username", required = false) String userName)
     {
         System.out.println("DEBUG: /initSession");
+
+        if (userName != null)
+            activeUser = userDao.findByUsername(userName);
 
         activeUser = userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
@@ -529,6 +524,8 @@ public class MovieController
 
         MovieModel movie;
 
+        List<MovieList> userLists = movieListDao.getMovieListsByOwner(activeUser);
+
         //take data from DB if movie is already stored -> performance
         if (movieDao.getMovieById(id) != null) movie = movieDao.getMovieById(id);
         else
@@ -536,6 +533,7 @@ public class MovieController
             movie = movieDao.mapMovie(tmdbMovies, id, true);
         }
 
+        model.addAttribute("lists", userLists);
         model.addAttribute("movie", movie);
 
         return "details";

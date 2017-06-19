@@ -93,7 +93,7 @@
 						            <span th:text="${actor.name}+', '"></span>
 						        </span>
 					        </div>
-					        
+
 						</div>
 						<form style="display:inline-block" th:action="@{/editList}" th:object="${lists}">
 					        <select th:name="listID" th:remove="all-but-first">
@@ -102,7 +102,7 @@
 					        </select>
 					        <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
 					        <button type="submit" name="action" value="add" class="btn-colored" ><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
-					        <button type="submit" name="action" value="delete" class="btn-colored" ><i class="fa fa-minus" aria-hidden="true"></i> Delete</button>
+					        <button type="submit" name="action" value="remove" class="btn-colored" ><i class="fa fa-minus" aria-hidden="true"></i> Delete</button>
 					    </form>
 					</div>
 				</div>
