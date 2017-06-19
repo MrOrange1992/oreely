@@ -73,6 +73,9 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<MovieList> movieLists; //was MovieList -> ERROR
+    
+    @Column(nullable = true, length = 100)
+    private String backdropPath;
 
 
     // TODO: Relationships to list_movie, user_movie & movie_actor
@@ -303,4 +306,12 @@ public class MovieModel //extends MovieDb implements java.io.Serializable
 
     @Override
     public int hashCode() { return Objects.hash(id, title); }
+
+	public String getBackdropPath() {
+		return backdropPath;
+	}
+
+	public void setBackdropPath(String backdropPath) {
+		this.backdropPath = backdropPath;
+	}
 }

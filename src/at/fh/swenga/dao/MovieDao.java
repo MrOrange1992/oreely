@@ -184,18 +184,21 @@ public class MovieDao {
 		System.out.println(resultList.isEmpty());
 
 		for (MovieDb mDB : resultList) {
-			try{
+			//try{
 				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), false);
 				merge(mm);
 				trendingMovies.add(mm);		
-			}
+			/*}
 			catch(Exception e){
 				System.out.println(e);
 				System.out.println("-----");
-			}
+			}*/
 		}
-
 		return trendingMovies;
+	}
+	
+	public Set<MovieModel> getStaffPicks() {
+		return null;
 	}
 
 	// TODO FR: Add Genre und Actor in DAOs auslagern
@@ -229,6 +232,7 @@ public class MovieDao {
 				movieModel.setBudget(movie.getBudget());
 				movieModel.setRevenue(movie.getRevenue());
 				movieModel.setPoster_path(movie.getPosterPath());
+				movieModel.setBackdropPath(movie.getBackdropPath());
 				movieModel.setOriginal_name(movie.getOriginalTitle());
 				movieModel.setHomepage(movie.getHomepage());
 			} catch (Exception e) {
