@@ -198,7 +198,25 @@ public class MovieDao {
 	}
 	
 	public Set<MovieModel> getStaffPicks() {
-		return null;
+		Set<MovieModel> staffPicks = new HashSet<MovieModel>();
+		
+		List<Integer> staffPicksIds = new ArrayList();
+		staffPicksIds.add(98); //Gladiator
+		staffPicksIds.add(269149); //Zootopia
+		staffPicksIds.add(9615); //Tokyo Drift
+		staffPicksIds.add(680); //Pulp Fiction
+		staffPicksIds.add(391); //Fistful Of Dollars
+		staffPicksIds.add(244786); //Whiplash
+		staffPicksIds.add(74306); //God Bless America
+		staffPicksIds.add(206487); //Predestination
+		staffPicksIds.add(1948); //Crank
+		
+		for (Integer id : staffPicksIds){
+			MovieModel mm = mapMovie(tmdbMovies, id, false);
+			merge(mm);
+			staffPicks.add(mm);
+		}
+		return staffPicks;
 	}
 
 	// TODO FR: Add Genre und Actor in DAOs auslagern
