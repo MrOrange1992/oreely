@@ -5,7 +5,7 @@
 	lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Search Movies</title>
+	<title>Search</title>
 	<meta name="description" content="O'Reely">
 	<meta name="author" content="Lukas Schneider, Felix Rauchenwald, Markus Wolf">
 
@@ -92,8 +92,16 @@
 					<form th:action="@{/followUser}">
 						<div>
 							<span class="input-group-btn">
-								<input type="hidden" name="followingUserName" th:value="${user.userName}">
+								<input type="hidden" name="userToFollowUserName" th:value="${user.userName}">
 								<button class="btn btn-default" type="submit">Follow</button>
+							</span>
+						</div>
+					</form>
+					<form th:action="@{/unfollowUser}">
+						<div>
+							<span class="input-group-btn">
+								<input type="hidden" name="userToUnFollowUserName" th:value="${user.userName}">
+								<button class="btn btn-default" type="submit">Unfollow</button>
 							</span>
 						</div>
 					</form>

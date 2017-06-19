@@ -40,8 +40,8 @@ public class MovieController
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private FollowerDao followerDao;
+    //@Autowired
+    //private FollowerDao followerDao;
 
     @Autowired
     private MovieDao movieDao;
@@ -69,7 +69,24 @@ public class MovieController
     {
         System.out.println("DEBUG: /init (PostConstruct)");
 
-        if(userDao.findByUsername("admin") == null){
+        if (genreDao.getGenres().size() == 0)
+        {
+            //save all Genres to DB if not already in Db
+            TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
+            List<info.movito.themoviedbapi.model.Genre> tmdbGenres = tmdbGenre.getGenreList("en");
+
+            for (info.movito.themoviedbapi.model.Genre tmDBgenre : tmdbGenres)
+            {
+                if (genreDao.getGenre(tmDBgenre.getName()) == null)
+                {
+                    Genre genre = new Genre(tmDBgenre.getId(), tmDBgenre.getName());
+                    genreDao.persist(genre);
+                }
+            }
+        }
+
+        if(userDao.findByUsername("admin") == null)
+        {
             System.out.println("DEBUG: no admin found");
 
             //Calendar bd = new GregorianCalendar(1970,01,01);
@@ -103,26 +120,7 @@ public class MovieController
 
             System.out.println("DEBUG: trending MovieList created");
         }
-        else{
-            System.out.println("DEBUG: admin found");
-        }
-
-        if (genreDao.getGenres().size() == 0)
-        {
-            //save all Genres to DB if not already in Db
-            TmdbGenre tmdbGenre = new TmdbApi(apiKey).getGenre();
-
-            List<info.movito.themoviedbapi.model.Genre> tmdbGenres = tmdbGenre.getGenreList("en");
-
-            for (info.movito.themoviedbapi.model.Genre tmDBgenre : tmdbGenres)
-            {
-                if (genreDao.getGenre(tmDBgenre.getName()) == null)
-                {
-                    Genre genre = new Genre(tmDBgenre.getId(), tmDBgenre.getName());
-                    genreDao.persist(genre);
-                }
-            }
-        }
+        else { System.out.println("DEBUG: admin found"); }
     }
 
 
@@ -131,13 +129,8 @@ public class MovieController
     {
         System.out.println("DEBUG: /home");
 
-        //MovieList<MovieModel> userMovies = movieDao.getUserMovies(activeUser);
-        //model.addAttribute("movies", userMovies);
-
         List<Genre> userGenres = genreDao.getUserGenres(activeUser);
-
         List<MovieModel> recommendations = new ArrayList<>();
-
 
         if (userGenres.size() > 0)
         {
@@ -155,25 +148,12 @@ public class MovieController
     {
         System.out.println("DEBUG: /searchForMovies");
 
-        if (selection.equals("Movies"))
-            model.addAttribute("movies", movieDao.searchMovies(searchString));
-        else if (selection.equals("Users"))
-            model.addAttribute("users", userDao.searchUsers(searchString));
-        else
-            model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
-
-
+        if (selection.equals("Movies")) model.addAttribute("movies", movieDao.searchMovies(searchString));
+        else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
+        else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
 
         return "forward:search";
     }
-
-    // @RequestMapping(value = "/searchForMovies", method = RequestMethod.GET)
-    // public String search(Model model, @RequestParam String searchString,
-    // @RequestParam int page) {
-    // model.addAttribute("movies", movieDao.searchMovies(searchString, page));
-    // return "forward:search";
-    // }
-
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String showLists(Model model)
@@ -191,17 +171,13 @@ public class MovieController
         System.out.println("DEBUG: /addNewList");
 
         MovieList movieList = new MovieList();
-
         movieListDao.persist(movieList);
-
-        //activeUser = userDao.merge(activeUser);
 
         movieList.setName(name);
         movieList.setOwner(activeUser);
+
         activeUser.addMovieList(movieList);
         movieListDao.merge(movieList);
-
-        //userDao.merge(activeUser);
 
         return "redirect:list";
     }
@@ -220,15 +196,10 @@ public class MovieController
         }
 
         movieList.setMovies(new HashSet<>());
-
         movieList = movieListDao.merge(movieList);
 
-        //activeUser = userDao.merge(activeUser);
         activeUser.removeMovieList(movieList);
-
         movieListDao.delete(movieList);
-
-        //activeUser = userDao.merge(activeUser);
 
         return "redirect:list";
     }
@@ -253,6 +224,18 @@ public class MovieController
         return "settings";
     }
 
+    @RequestMapping(value = "/friends")
+    public String friends(Model model)
+    {
+        System.out.println("DEBUG: /friends");
+
+        Set<User> friendList = activeUser.getFollowing();
+
+        model.addAttribute("friendList", friendList);
+
+        return "friends";
+    }
+
     @RequestMapping(value = "/editList", params = "action=add")
     public String addToList(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID)
     {
@@ -268,18 +251,12 @@ public class MovieController
 
         MovieList movieList = movieListDao.getMovieListByID(listID);
 
-        //movieList = movieListDao.merge(movieList);
-
         if (userMovieDao.getUserMovie(activeUser, movie) != null)
         {
-            if (movieListDao.isMovieInList(movie, listID))
-                return "forward:home";
+            if (movieListDao.isMovieInList(movie, listID)) return "forward:home";
             else
             {
                 movie = movieDao.getMovieById(id);
-                //movie = movieDao.merge(movie);
-                //movieList = movieListDao.merge(movieList);
-
                 movieList.addMovie(movie);
                 movie.addMovieList(movieList);
 
@@ -288,51 +265,31 @@ public class MovieController
 
                 return "redirect:home";
             }
-
         }
-
-        //movie = movieDao.merge(movie);
-
-        //Bring movie to actual context with merge if already stored in DB
-        //if (movieDao.getMovieById(id) != null) movie = movieDao.merge(movie);
 
         UserMovie userMovie = new UserMovie(activeUser, movie);
 
         movie.addUserMovie(userMovie);
 
         //Add genres to movie/DB
-        for (Genre genre : movie.getGenres())
-        {
-            genre.addMovie(movie);
-        }
+        for (Genre genre : movie.getGenres()) { genre.addMovie(movie); }
 
         for (Actor actor : movie.getActors())
         {
             if (actorDao.getActorByName(actor.getName()) == null)
             {
-                try
-                {
-                    actorDao.persist(actor);
-                }
-                catch (DataIntegrityViolationException ex)
-                {
-                    System.out.println("Actor " + actor.getName() + " already in DB");
-                }
+                try { actorDao.persist(actor); }
+                catch (DataIntegrityViolationException ex) { System.out.println("Actor " + actor.getName() + " already in DB"); }
                 actor.addMovie(movie);
-
             }
         }
 
-
         movie.addMovieList(movieList);
-
         movieList.addMovie(movie);
 
         // Essential for getting attached entities stored in DB
         movieDao.merge(movie);
-
         userMovieDao.merge(userMovie);
-
         movieListDao.merge(movieList);
 
         return "redirect:home";
@@ -364,28 +321,44 @@ public class MovieController
     }
 
     @RequestMapping(value = "/followUser")
-    public String followUser(@RequestParam(value = "followingUserName") String followingUserName)
+    public String followUser(@RequestParam(value = "userToFollowUserName") String userToFollowUserName)
     {
-        if (activeUser.getUserName().equals(followingUserName))
+        if (userToFollowUserName.equals(activeUser.getUserName()))
             return "forward:search";
 
-        User followingUser = userDao.findByUsername(followingUserName);
+        User userToFollow = userDao.findByUsername(userToFollowUserName);
 
-        Follower follower = new Follower(followingUser.getUserName(), activeUser.getUserName());
+        if (activeUser.getFollowing().contains(userToFollow))
+            return "forward:search";
 
-        if (followerDao.getFollower(follower) == null)
-            followerDao.persist(follower);
 
-        follower.addUser(activeUser);
+        activeUser.followUser(userToFollow);
+        //userToFollow.beFollowedBy(activeUser);
 
-        activeUser.addFollower(follower);
-
-        followerDao.merge(follower);
+        userDao.merge(userToFollow);
         userDao.merge(activeUser);
 
-        return "redirect:search";
+        return "redirect:friends";
+
     }
 
+    @RequestMapping(value = "/unfollowUser")
+    public String unfollowUser(@RequestParam(value = "userToUnFollowUserName") String userToUnFollowUserName)
+    {
+        if (userToUnFollowUserName.equals(activeUser.getUserName()))
+            return "forward:search";
+
+        User userToUnFollow = userDao.findByUsername(userToUnFollowUserName);
+
+        if (!activeUser.getFollowing().contains(userToUnFollow))
+            return "forward:search";
+
+        activeUser.unfollowUser(userToUnFollow);
+
+        userDao.merge(activeUser);
+
+        return "forward:friends";
+    }
 
     //DONE
     @RequestMapping(value = "/deleteUserMovie")
@@ -450,8 +423,8 @@ public class MovieController
         List<Genre> genreList = genreDao.getGenres();
 
         model.addAttribute("genreList", genreList);
-
         model.addAttribute("user", user);
+
         return "register";
     }
 
@@ -510,10 +483,7 @@ public class MovieController
 
             return "login";
         }
-        else
-        {
-            return "forward:registerForm";
-        }
+        else { return "forward:registerForm"; }
     }
 
 
@@ -523,15 +493,11 @@ public class MovieController
         System.out.println("DEBUG: /details");
 
         MovieModel movie;
-
         List<MovieList> userLists = movieListDao.getMovieListsByOwner(activeUser);
 
         //take data from DB if movie is already stored -> performance
         if (movieDao.getMovieById(id) != null) movie = movieDao.getMovieById(id);
-        else
-        {
-            movie = movieDao.mapMovie(tmdbMovies, id, true);
-        }
+        else { movie = movieDao.mapMovie(tmdbMovies, id, true); }
 
         model.addAttribute("lists", userLists);
         model.addAttribute("movie", movie);

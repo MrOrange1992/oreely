@@ -4,16 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -67,9 +58,19 @@ public class User implements java.io.Serializable
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Genre> genres;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="Follower", joinColumns=@JoinColumn(name="followingName"),
+			inverseJoinColumns=@JoinColumn(name="followedByName"))
+	private Set<User> following;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="Follower", joinColumns=@JoinColumn(name="followedByName"),
+			inverseJoinColumns=@JoinColumn(name="followingName"))
+	private Set<User> followedBy;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
-	private Set<Follower> followers;
+	//@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
+	//private Set<Follower> followers;
 	
 	@OneToMany(mappedBy="owner",fetch=FetchType.EAGER)
     private Set<MovieList> movieLists;
@@ -156,6 +157,7 @@ public class User implements java.io.Serializable
 		if(genres.contains(genre)) genres.remove(genre);
 	}
 
+	/*
 	//followers
 	public Set<Follower> getFollowers() { return followers; }
 	public void setFollowers(Set<Follower> followers) { this.followers = followers; }
@@ -166,9 +168,38 @@ public class User implements java.io.Serializable
 	}
 	public void removeFollower(Follower follower)
 	{
-		if(followers.contains(follower)) followers.remove(follower);
+		if(followers.contains(follower))
+			followers.remove(follower);
 	}
-	
+	*/
+
+	//following
+	public Set<User> getFollowing() { return following; }
+	public void setFollowing(Set<User> following) { this.following = following; }
+	public void followUser(User userToFollow)
+	{
+		if (following == null) following = new HashSet<>();
+		following.add(userToFollow);
+	}
+	public void unfollowUser(User userToUnfollow)
+	{
+		if (following.contains(userToUnfollow)) following.remove(userToUnfollow);
+	}
+
+	//followedBy
+	public Set<User> getFollowedBy() { return followedBy; }
+	public void setFollowedBy(Set<User> followedBy) { this.followedBy = followedBy; }
+	public void beFollowedBy(User userToBeFollowedBy)
+	{
+		if (followedBy == null) followedBy = new HashSet<>();
+		followedBy.add(userToBeFollowedBy);
+	}
+	public void beUnfollowedBy(User userToBeUnfollowedBy)
+	{
+		if (followedBy.contains(userToBeUnfollowedBy)) followedBy.remove(userToBeUnfollowedBy);
+	}
+
+
 	//movieLists
 	public Set<MovieList> getMovieLists() { return movieLists; }
 	public void setMovieLists(Set<MovieList> movieLists) { this.movieLists = movieLists; }
@@ -212,4 +243,22 @@ public class User implements java.io.Serializable
 		if (userFeed == null) userFeed = new HashSet<UserFeed>();
 		userFeed.add(uf);
 	}
+
+
+	@Override
+	public boolean equals(Object other)
+	{
+		if (other == null) return false;
+		if (other == this) return true;
+		if (!(other instanceof User))return false;
+		User otherUser = (User) other;
+		if (this.userName.equals(otherUser.getUserName()))
+			return true;
+		else
+			return false;
+		//return (this.userName == otherUser.getUserName());
+	}
+
+	@Override
+	public int hashCode() { return Objects.hash(userName, firstName, lastName); }
 }

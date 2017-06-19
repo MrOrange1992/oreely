@@ -1,20 +1,20 @@
 Task,Preference,Progress,Notes
 "As a user I want to create an account",M,DONE,
-"As a user, I want to recover my password",HD,,
+"As a user, I want to recover my password",HD,,"Won't happen"
 "As a user, I want to select my favourite movie genres",M,DONE,
 "As a user, I want to be able to login",M,DONE,
 "As a user, I want to be able to logout",M,DONE,
 "As a user, I want to change my user settings",M,InProgress,"Set Genres DONE"
 "As a user, I want to search for friends",M,DONE,
 "As a user, I want to add friends",M,DONE,
-"As a user, I want to remove friends",M,,
+"As a user, I want to remove friends",M,DONE,
 "As a developer, I want to fetch movie metadata from the internet",M,DONE,
 "As a developer, I want to store fetched data into the DB",M,InProgress,
 "As a user, I want to create lists for movies",M,DONE,
 "As a user, I want to list my movies",M,InProgress,
 "As a user, I want to search movies",M,DONE,
 "As a user, I want to specify my search",HD,DONE,
-"As a user, I want to add movies to my lists",M,DONE,"Maybe Bugs"
+"As a user, I want to add movies to my lists",M,DONE,
 "As a user, I want to remove movies from my lists",M,InProgress,
 "As a user, I want to copy lists from friends",D,,
 "As a user, I want to see recommendations",HD,InProgress,"Genre recommend DONE"

@@ -63,6 +63,20 @@ public class UserDao {
 		merge(activeUser);
 	}
 
+	/*
+	public List<User> getFriends(User user)
+	{
+		try
+		{
+			TypedQuery<User> typedQuery = entityManager.createQuery("select u from User u where u.userName LIKE :searchString", User.class);
+			typedQuery.setParameter("user", user);
+			List<User> typedResultList = typedQuery.getResultList();
+
+			return typedResultList;
+		} catch (NoResultException e) { return null; }
+	}
+	*/
+
 	public void persist(User user) {
 		entityManager.persist(user);
 	}
