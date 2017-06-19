@@ -417,7 +417,7 @@ public class MovieController
             Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
             MovieList trendingMovieList = new MovieList("trendingMovieList", admin);
             trendingMovieList.setMovies(trendingMovies);
-            movieListDao.persist(trendingMovieList);
+            movieListDao.merge(trendingMovieList);
             
             System.out.println("DEBUG: trending MovieList created");
         }
