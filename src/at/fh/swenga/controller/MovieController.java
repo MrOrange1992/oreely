@@ -672,12 +672,19 @@ public class MovieController
             if (movieDao.getMovieById(id) == null) movie = movieDao.mapMovie(tmdbMovies, id, true);
             else movie = movieDao.getMovieById(id);
 
-            UserMovie userMovie = new UserMovie(activeUser, movie);
-
-            try { userMovieDao.persist(userMovie); }
-            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao persist error!"); }
-
+            UserMovie userMovie = new UserMovie();//(activeUser, movie);
+            userMovieDao.persist(userMovie);
+            userMovie.setOwner(activeUser);
+            userMovie.setMovie(movie);
             userMovie.setSeen(true);
+
+            activeUser.addUserMovie(userMovie);
+
+            try { userDao.merge(activeUser); }
+            catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser merge error!"); }
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) {System.out.println("UserMovieDao persist error!"); }
 
             try { userMovieDao.merge(userMovie); }
             catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao merge error!"); }
