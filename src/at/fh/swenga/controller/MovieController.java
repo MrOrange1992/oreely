@@ -33,6 +33,7 @@ import info.movito.themoviedbapi.TmdbMovies;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import javax.xml.crypto.Data;
 
 @Controller
 public class MovieController
@@ -114,10 +115,26 @@ public class MovieController
             System.out.println("DEBUG: admin created");
 
             Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
-            MovieList trendingMovieList = new MovieList("trendingMovieList", admin);
+
+            MovieList trendingMovieList = new MovieList();
+            movieListDao.persist(trendingMovieList);
+
+            trendingMovieList.setName("trendingMovieList");
+            trendingMovieList.setOwner(admin);
             trendingMovieList.setMovies(trendingMovies);
+            for (MovieModel movie : trendingMovies)
+            {
+                movie.addMovieList(trendingMovieList);
+                movieDao.merge(movie);
+            }
+
+            admin.addMovieList(trendingMovieList);
             movieListDao.merge(trendingMovieList);
 
+            try{ userDao.merge(admin); }
+            catch (DataIntegrityViolationException ex) { System.out.println("addmovieList"); }
+
+            /*
             System.out.println("DEBUG: trending MovieList created");
             
             List<MovieModel> staffPicks = movieDao.getStaffPicks();
@@ -126,6 +143,7 @@ public class MovieController
             movieListDao.merge(staffPickList);
                      
             System.out.println("DEBUG: staff picks MovieList created");
+            */
         }
         else { System.out.println("DEBUG: admin found"); }
     }
@@ -160,7 +178,7 @@ public class MovieController
         else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
 
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
-        
+
         return "forward:search";
     }
 
@@ -251,7 +269,7 @@ public class MovieController
         System.out.println("DEBUG: /editList/add");
 
         //if user has no lists
-        if (listID == null) return "forward:home";
+        if (listID == null) return "forward:list";
 
         MovieModel movie;
 
@@ -262,7 +280,7 @@ public class MovieController
 
         if (userMovieDao.getUserMovie(activeUser, movie) != null)
         {
-            if (movieListDao.isMovieInList(movie, listID)) return "forward:home";
+            if (movieListDao.isMovieInList(movie, listID)) return "forward:list";
             else
             {
                 movie = movieDao.getMovieById(id);
@@ -272,7 +290,7 @@ public class MovieController
                 movieDao.merge(movie);
                 movieListDao.merge(movieList);
 
-                return "redirect:home";
+                return "redirect:list";
             }
         }
 
@@ -301,7 +319,7 @@ public class MovieController
         userMovieDao.merge(userMovie);
         movieListDao.merge(movieList);
 
-        return "redirect:home";
+        return "redirect:list";
     }
 
 
@@ -310,7 +328,7 @@ public class MovieController
     {
         System.out.println("DEBUG: /editList/remove");
 
-        if (listID == null) return "redirect:home";
+        if (listID == null) return "redirect:list";
 
         MovieModel movie;
 
@@ -326,26 +344,29 @@ public class MovieController
         movieDao.merge(movie);
         movieListDao.merge(movieList);
 
-        return "forward:home";
+        return "forward:list";
     }
 
     @RequestMapping(value = "/followUser")
     public String followUser(@RequestParam(value = "userToFollowUserName") String userToFollowUserName)
     {
         if (userToFollowUserName.equals(activeUser.getUserName()))
-            return "forward:search";
+            return "forward:friends";
 
         User userToFollow = userDao.findByUsername(userToFollowUserName);
 
         if (activeUser.getFollowing().contains(userToFollow))
-            return "forward:search";
+            return "forward:friends";
 
 
         activeUser.followUser(userToFollow);
         //userToFollow.beFollowedBy(activeUser);
 
-        userDao.merge(userToFollow);
-        userDao.merge(activeUser);
+        try { userDao.merge(userToFollow); }
+        catch (DataIntegrityViolationException ex) { System.out.println("UserToFollow exeption!"); }
+
+        try{ userDao.merge(activeUser); }
+        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
 
         return "redirect:friends";
 
@@ -355,16 +376,19 @@ public class MovieController
     public String unfollowUser(@RequestParam(value = "userToUnFollowUserName") String userToUnFollowUserName)
     {
         if (userToUnFollowUserName.equals(activeUser.getUserName()))
-            return "forward:search";
+            return "forward:friends";
 
         User userToUnFollow = userDao.findByUsername(userToUnFollowUserName);
 
         if (!activeUser.getFollowing().contains(userToUnFollow))
-            return "forward:search";
+            return "forward:friends";
+
+        userToUnFollow.getFollowing().remove(activeUser);
 
         activeUser.unfollowUser(userToUnFollow);
 
-        userDao.merge(activeUser);
+        try{ userDao.merge(activeUser); }
+        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
 
         return "forward:friends";
     }
@@ -514,8 +538,8 @@ public class MovieController
         return "details";
     }
     
-    @RequestMapping(value = "/tnc")
-    public String termsandconditions(Model model)
+    @RequestMapping(value = "/watchedTrigger")
+    public String watchedTrigger(@RequestParam("movie_id") int id,  Model model)
     {
         System.out.println("DEBUG: /watchedTrigger");
 
@@ -554,9 +578,8 @@ public class MovieController
 
             return "redirect:home";
         }
-        return "tnc";
     }
-    
+
     @RequestMapping(value = "/legal")
     public String legalinformation(Model model)
     {

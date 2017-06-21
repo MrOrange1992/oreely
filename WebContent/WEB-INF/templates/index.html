@@ -29,6 +29,7 @@
 	<header th:replace="~{includes/header :: header(actNav='home')}"></header>
 	
 	<div id="content">
+
 		<div class="container-fluid">
 			<!--  Error message ----------------------------------------------------------- -->
 			<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
@@ -48,7 +49,7 @@
 		</div>
 
 		<div class="container-fluid">
-			<h1 class="center">DEBUG: Recommendations after Genres</h1>
+			<h1 class="center">Recommended Movies</h1>
 			<div class="slick-reel-container container">
 				<div class="slick-reel">
 					<div class="item poster card" th:each="movie : ${movies}">

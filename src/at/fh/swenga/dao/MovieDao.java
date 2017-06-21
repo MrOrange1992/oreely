@@ -180,7 +180,7 @@ public class MovieDao {
 		Set<MovieModel> trendingMovies = new HashSet<MovieModel>();
 		Discover discover = new Discover();
 		MovieResultsPage result = tmdbDiscover.getDiscover(discover);
-		List<MovieDb> resultList = result.getResults();
+		List<MovieDb> resultList = result.getResults().subList(0,6);
 		System.out.println(resultList.isEmpty());
 
 		for (MovieDb mDB : resultList) {

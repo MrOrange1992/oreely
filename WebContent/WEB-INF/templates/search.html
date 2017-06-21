@@ -29,6 +29,8 @@
 	<header th:replace="~{includes/header :: header(actNav='search')}"></header>
 		
 	<div id="content">
+		<input type="hidden" name="page" value="search"/>
+
 		<div class="container-fluid">
 			<!--  Error message ----------------------------------------------------------- -->
 			<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
