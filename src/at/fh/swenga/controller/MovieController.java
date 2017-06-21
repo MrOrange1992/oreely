@@ -159,6 +159,8 @@ public class MovieController
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
         else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
 
+        model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
+
         return "forward:search";
     }
 
