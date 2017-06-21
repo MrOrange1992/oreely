@@ -151,6 +151,9 @@ public class MovieController
         if (selection.equals("Movies")) model.addAttribute("movies", movieDao.searchMovies(searchString));
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
         else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
+
+        model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
+        
         return "forward:search";
     }
 
@@ -507,6 +510,43 @@ public class MovieController
     @RequestMapping(value = "/tnc")
     public String termsandconditions(Model model)
     {
+        System.out.println("DEBUG: /watchedTrigger");
+
+        if (userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id)) == null)
+        {
+            MovieModel movie;
+
+            if (movieDao.getMovieById(id) == null)
+                movie = movieDao.mapMovie(tmdbMovies, id, true);
+            else movie = movieDao.getMovieById(id);
+
+            UserMovie userMovie = new UserMovie(activeUser, movie);
+
+            try { userMovieDao.persist(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao persist error!"); }
+
+            userMovie.setSeen(true);
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao merge error!"); }
+
+            return "redirect:home";
+
+        }
+        else
+        {
+
+            UserMovie userMovie = userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id));
+
+            if (userMovie.isSeen())
+                userMovie.setSeen(false);
+            else userMovie.setSeen(true);
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao error"); }
+
+            return "redirect:home";
+        }
         return "tnc";
     }
     
