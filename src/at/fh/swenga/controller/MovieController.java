@@ -65,11 +65,13 @@ public class MovieController
 
     private User activeUser;
 
+    /**
+     * Saves all Genres from tmdb to DB if not already exists
+     * Saves Admin and staff accounts to DB
+     */
     @PostConstruct
     public void init()
     {
-        System.out.println("DEBUG: /init (PostConstruct)");
-
         if (genreDao.getGenres().size() == 0)
         {
             //save all Genres to DB if not already in Db
@@ -88,23 +90,17 @@ public class MovieController
 
         if(userDao.findByUsername("admin") == null)
         {
-            System.out.println("DEBUG: no admin found");
-
-            //Calendar bd = new GregorianCalendar(1970,01,01);
-
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
+            //ADMIN
             User admin = new User();
             admin.setUserName("admin");
             admin.setFirstName("admin");
             admin.setLastName("admin");
             admin.setEmail("admin@oreely.at");
             admin.setEnabled(true);
-
             String hashedPassword = passwordEncoder.encode("password");
             admin.setPassword(hashedPassword);
-
             UserRole userRole = new UserRole(admin, "ROLE_USER");
             admin.addUserRole(userRole);
             UserRole adminRole = new UserRole(admin, "ROLE_ADMIN");
@@ -113,6 +109,7 @@ public class MovieController
             userDao.persistRole(userRole);
             userDao.persistRole(adminRole);
 
+            //LUKAS
             User lukas = new User();
             lukas.setUserName("lukas69");
             lukas.setFirstName("Lukas");
@@ -126,6 +123,7 @@ public class MovieController
             userDao.persist(lukas);
             userDao.persistRole(userRoleLukas);
 
+            //MARKUS
             User markus = new User();
             markus.setUserName("wulf");
             markus.setFirstName("Markus");
@@ -139,6 +137,7 @@ public class MovieController
             userDao.persist(markus);
             userDao.persistRole(userRoleMarkus);
 
+            //FELIX
             User felix = new User();
             felix.setUserName("flexboy");
             felix.setFirstName("Felix");
@@ -151,8 +150,6 @@ public class MovieController
             felix.addUserRole(userRoleFelix);
             userDao.persist(felix);
             userDao.persistRole(userRoleFelix);
-
-            System.out.println("DEBUG: admin created");
 
             Set<MovieModel> trendingMovies = movieDao.getTrendingMovies();
 
@@ -174,8 +171,6 @@ public class MovieController
             try{ userDao.merge(admin); }
             catch (DataIntegrityViolationException ex) { System.out.println("addmovieList"); }
 
-            System.out.println("DEBUG: trending MovieList created");
-            
             List<MovieModel> staffPicks = movieDao.getStaffPicks();
             
             MovieList staffPickList = new MovieList();
@@ -195,18 +190,19 @@ public class MovieController
             
             try{ userDao.merge(admin); }
             catch (DataIntegrityViolationException ex) { System.out.println("addmovieList"); }
-                     
-            System.out.println("DEBUG: staff picks MovieList created");
         }
-        else { System.out.println("DEBUG: admin found"); }
+        else { System.out.println("admin found"); }
     }
 
-
+    /**
+     * Mapping for index.html
+     * Adds Attributes to model for Recommendations, Trending Movies and Staff Picks
+     * @param model
+     * @return String to index.html
+     */
     @RequestMapping(value = {"/", "home"})
     public String index(Model model)
     {
-        System.out.println("DEBUG: /home");
-
         List<Genre> userGenres = genreDao.getUserGenres(activeUser);
         List<MovieModel> recommendations = new ArrayList<>();
 
@@ -223,11 +219,17 @@ public class MovieController
         return "index";
     }
 
+    /**
+     * Mapping for search.html
+     * Adds Attributes to model depending on selected option for search string
+     * @param model
+     * @param searchString  String user enters for search
+     * @param selection     Selected Option for search, can be Movie, Users or Genres
+     * @return  Forward String to search.html
+     */
     @RequestMapping(value = "/searchForSelection", method = RequestMethod.GET)
     public String searchSelection(Model model, @RequestParam String searchString, @RequestParam(value = "selection") String selection)
     {
-        System.out.println("DEBUG: /searchForMovies");
-
         if (selection.equals("Movies")) model.addAttribute("movies", movieDao.searchMovies(searchString));
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
         else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
@@ -237,21 +239,27 @@ public class MovieController
         return "forward:search";
     }
 
+    /**
+     * Mapping for list.html
+     * Adds Attributes for all user lists to model
+     * @param model
+     * @return  String to lists.html
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String showLists(Model model)
     {
-        System.out.println("DEBUG: /list");
-
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
-
         return "lists";
     }
 
+    /**
+     * Mapping for creation of new user movielist
+     * @param name  Name for new movielist
+     * @return  Redirect to /list mapping
+     */
     @RequestMapping(value = "/addNewList", method = RequestMethod.GET)
     public String addNewList(@RequestParam("name") String name)
     {
-        System.out.println("DEBUG: /addNewList");
-
         MovieList movieList = new MovieList();
         movieListDao.persist(movieList);
 
@@ -264,11 +272,14 @@ public class MovieController
         return "redirect:list";
     }
 
+    /**
+     * Mapping for deletion of user movielist
+     * @param id    ID Attribute of list for search in DB
+     * @return  Redirect to /list mapping
+     */
     @RequestMapping(value = "/deleteList", method = RequestMethod.GET)
     public String deleteList(@RequestParam("id") int id)
     {
-        System.out.println("DEBUG: /deleteList");
-
         MovieList movieList = movieListDao.getMovieListByID(id);
 
         for (MovieModel movie : movieList.getMovies())
@@ -286,19 +297,24 @@ public class MovieController
         return "redirect:list";
     }
 
+    /**
+     * Mapping for search.html
+     * @param model
+     * @return  search.html
+     */
     @RequestMapping(value = "/search")
-    public String search(Model model)
-    {
-        System.out.println("DEBUG: /search");
+    public String search(Model model) { return "search";}
 
-        return "search";
-    }
-
+    /**
+     * Mapping settings.html
+     * Adds list of user genres to model
+     * Adds user object to model
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/myProfile")
     public String myProfile(Model model)
     {
-        System.out.println("DEBUG: /myProfile");
-
         List<Genre> genreList = genreDao.getGenres();
 
         model.addAttribute("genreList", genreList);
@@ -306,23 +322,30 @@ public class MovieController
         return "settings";
     }
 
+    /**
+     * Mapping for friends.html
+     * Adds all movielists of friends to model
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/friends")
     public String friends(Model model)
     {
-        System.out.println("DEBUG: /friends");
-
         Set<User> friendList = activeUser.getFollowing();
-
         model.addAttribute("friendList", friendList);
 
         return "friends";
     }
 
+    /**
+     * Mapping for adding a movie to a user movielist
+     * @param id    ID of movie to add to list
+     * @param listID    ID of list to add movie to
+     * @return  Forward/Redirect to /list mapping
+     */
     @RequestMapping(value = "/editList", params = "action=add")
     public String addToList(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID)
     {
-        System.out.println("DEBUG: /editList/add");
-
         //if user has no lists
         if (listID == null) return "forward:list";
 
@@ -350,12 +373,12 @@ public class MovieController
         }
 
         UserMovie userMovie = new UserMovie(activeUser, movie);
-
         movie.addUserMovie(userMovie);
 
         //Add genres to movie/DB
         for (Genre genre : movie.getGenres()) { genre.addMovie(movie); }
 
+        //Add actors to DB
         for (Actor actor : movie.getActors())
         {
             if (actorDao.getActorByName(actor.getName()) == null)
@@ -377,12 +400,15 @@ public class MovieController
         return "redirect:list";
     }
 
-
+    /**
+     * Mapping for removing a movie from user movielist
+     * @param id    ID of movie to delete
+     * @param listID    ID of list to remove movie from
+     * @return  Forward/Redirect to /list mapping
+     */
     @RequestMapping(value = "/editList", params = "action=remove")
     public String removeFromList(@RequestParam("movie_id") int id, @RequestParam(value = "listID", required = false) Integer listID)
     {
-        System.out.println("DEBUG: /editList/remove");
-
         if (listID == null) return "redirect:list";
 
         MovieModel movie;
@@ -391,9 +417,7 @@ public class MovieController
         else movie = movieDao.getMovieById(id);
 
         MovieList movieList = movieListDao.getMovieListByID(listID);
-
         movieList.removeMovie(movie);
-
         movie.removeMovieList(movieList);
 
         movieDao.merge(movie);
@@ -402,6 +426,11 @@ public class MovieController
         return "forward:list";
     }
 
+    /**
+     * Mapping for following another user
+     * @param userToFollowUserName  Name of user to follow
+     * @return  Forward to friends.html
+     */
     @RequestMapping(value = "/followUser")
     public String followUser(@RequestParam(value = "userToFollowUserName") String userToFollowUserName)
     {
@@ -413,9 +442,7 @@ public class MovieController
         if (activeUser.getFollowing().contains(userToFollow))
             return "forward:friends";
 
-
         activeUser.followUser(userToFollow);
-        //userToFollow.beFollowedBy(activeUser);
 
         try { userDao.merge(userToFollow); }
         catch (DataIntegrityViolationException ex) { System.out.println("UserToFollow exeption!"); }
@@ -424,9 +451,13 @@ public class MovieController
         catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
 
         return "redirect:friends";
-
     }
 
+    /**
+     * Mapping for unfollowing another user
+     * @param userToUnFollowUserName    Name of user to unfollow
+     * @return  Forward to friends.html
+     */
     @RequestMapping(value = "/unfollowUser")
     public String unfollowUser(@RequestParam(value = "userToUnFollowUserName") String userToUnFollowUserName)
     {
@@ -448,7 +479,12 @@ public class MovieController
         return "forward:friends";
     }
 
-    //DONE
+    /**
+     * Mapping to delete a UserMovie
+     * @param id    ID of Movie to delete
+     * @param model
+     * @return  /home mapping
+     */
     @RequestMapping(value = "/deleteUserMovie")
     public String delete(@RequestParam("id") int id, Model model)
     {
@@ -459,6 +495,11 @@ public class MovieController
         return "/home";
     }
 
+    /**
+     * Mapping to save user genre selection
+     * @param checkedGenres list of checked genres from view
+     * @return  Redirect to /home mapping
+     */
     @RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
     public String saveSettings(@RequestParam(value = "checkGenre", required = false) List<String> checkedGenres)
     {
@@ -480,32 +521,40 @@ public class MovieController
         return "redirect:home";
     }
 
+    /**
+     * Mapping to login.html for spring security
+     * @return login.html
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String handleLogin(@RequestParam(value = "username", required = false) String userName)
-    {
-        System.out.println("DEBUG: /login");
+    public String handleLogin() { return "login"; }
 
-        return "login";
-    }
-
+    /**
+     * Mapping for initialisation of session
+     * Saves successfully logged in user object to activeUser object for further use in session
+     * @param userName  Name of user
+     * @return  Forward to /home  mapping
+     */
     @RequestMapping(value = "/initSession", method = RequestMethod.GET)
     public String initSession(@RequestParam(value = "username", required = false) String userName)
     {
-        System.out.println("DEBUG: /initSession");
-
-        if (userName != null)
-            activeUser = userDao.findByUsername(userName);
+        if (userName != null) activeUser = userDao.findByUsername(userName);
 
         activeUser = userDao.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         return "forward:home";
     }
 
+    /**
+     * Mapping for register.html
+     * Adds user genres to model
+     * Adds logged in user object to model
+     * @param user  User object to add to model
+     * @param model
+     * @return  register.html
+     */
     @RequestMapping(value = "/registerForm", method = RequestMethod.POST)
     public String registerForm(@ModelAttribute(value = "user") User user, Model model)
     {
-        System.out.println("DEBUG: /registerForm");
-
         if (user == null) user = new User();
 
         List<Genre> genreList = genreDao.getGenres();
@@ -516,7 +565,18 @@ public class MovieController
         return "register";
     }
 
-    // TODO Genres from checkboxes into User_Genre
+    /**
+     * Mapping for registering a new user
+     * Validates inputs like password matching, valid email
+     * Creates hash for password to save to DB
+     * @param model
+     * @param user  User object to register
+     * @param password  Typed password
+     * @param confirmPassword   Matching to validate with password
+     * @param checkedGenres List of genres user has checked
+     * @param result
+     * @return  Forward/Redirect to /registerForm mapping if validation unsuccessful else to login.html
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(Model model,
                            @ModelAttribute(value = "user") @Valid User user,
@@ -525,8 +585,6 @@ public class MovieController
                            @RequestParam(value = "checkGenre", required = false) List<String> checkedGenres,
                            BindingResult result)
     {
-        System.out.println("DEBUG: /register");
-
         if (!result.hasErrors())
         {
             //Check if username is already in DB (must be unique!)
@@ -571,15 +629,20 @@ public class MovieController
 
             return "login";
         }
-        else { return "forward:registerForm"; }
+        else { return "redirect:registerForm"; }
     }
 
-
+    /**
+     * Mapping for details.html
+     * Adds all user movielists to model to edit lists
+     * Adds movie object to model to display detail data
+     * @param id    ID of movie to display
+     * @param model
+     * @return  details.html
+     */
     @RequestMapping(value = "/details")
     public String details(@RequestParam("id") int id, Model model)
     {
-        System.out.println("DEBUG: /details");
-
         MovieModel movie;
         List<MovieList> userLists = movieListDao.getMovieListsByOwner(activeUser);
 
@@ -592,40 +655,47 @@ public class MovieController
 
         return "details";
     }
-    
+
+    /**
+     * Mapping to trigger watched boolean in UserMovie
+     * @param id    ID of movie to set watched/unwatched
+     * @param model
+     * @return  Redirect to /home mapping
+     */
     @RequestMapping(value = "/watchedTrigger")
     public String watchedTrigger(@RequestParam("movie_id") int id,  Model model)
     {
-        System.out.println("DEBUG: /watchedTrigger");
-
         if (userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id)) == null)
         {
             MovieModel movie;
 
-            if (movieDao.getMovieById(id) == null)
-                movie = movieDao.mapMovie(tmdbMovies, id, true);
+            if (movieDao.getMovieById(id) == null) movie = movieDao.mapMovie(tmdbMovies, id, true);
             else movie = movieDao.getMovieById(id);
 
-            UserMovie userMovie = new UserMovie(activeUser, movie);
-
-            try { userMovieDao.persist(userMovie); }
-            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao persist error!"); }
-
+            UserMovie userMovie = new UserMovie();//(activeUser, movie);
+            userMovieDao.persist(userMovie);
+            userMovie.setOwner(activeUser);
+            userMovie.setMovie(movie);
             userMovie.setSeen(true);
+
+            activeUser.addUserMovie(userMovie);
+
+            try { userDao.merge(activeUser); }
+            catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser merge error!"); }
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) {System.out.println("UserMovieDao persist error!"); }
 
             try { userMovieDao.merge(userMovie); }
             catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao merge error!"); }
 
             return "redirect:home";
-
         }
         else
         {
-
             UserMovie userMovie = userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id));
 
-            if (userMovie.isSeen())
-                userMovie.setSeen(false);
+            if (userMovie.isSeen()) userMovie.setSeen(false);
             else userMovie.setSeen(true);
 
             try { userMovieDao.merge(userMovie); }
@@ -635,6 +705,11 @@ public class MovieController
         }
     }
 
+    /**
+     * Mapping for legal information
+     * @param model
+     * @return  legal.html
+     */
     @RequestMapping(value = "/legal")
     public String legalinformation(Model model)
     {
