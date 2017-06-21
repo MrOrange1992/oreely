@@ -20,7 +20,7 @@ Task,Preference,Progress,Notes
 "As a user, I want to see recommendations",HD,DONE,"Call in index from DB"
 "As a user, I want to see trending movies",D,DONE,
 "As a user, I want to see staff picks",D,DONE,
-"As a user, I want to rate movies",M,,
+"As a user, I want to rate movies",M,,"Won't happen"
 "As a user, I want to mark movies as watched / unwatched",M,,"Won't happen"
 "As a user, I want to see legal information",M,DONE,
 "As a user, I want to read the terms and conditions",M,DONE,
