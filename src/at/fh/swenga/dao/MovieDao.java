@@ -185,7 +185,16 @@ public class MovieDao {
 
 		for (MovieDb mDB : resultList) {
 			//try{
-				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), false);
+				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), true);
+		        for (Actor actor : mm.getActors())
+		        {
+		            if (actorDao.getActorByName(actor.getName()) == null)
+		            {
+		                try { actorDao.persist(actor); }
+		                catch (DataIntegrityViolationException ex) { System.out.println("Actor " + actor.getName() + " already in DB"); }
+		                actor.addMovie(mm);
+		            }
+		        }
 				merge(mm);
 				trendingMovies.add(mm);		
 			/*}
@@ -197,8 +206,8 @@ public class MovieDao {
 		return trendingMovies;
 	}
 	
-	public Set<MovieModel> getStaffPicks() {
-		Set<MovieModel> staffPicks = new HashSet<MovieModel>();
+	public List<MovieModel> getStaffPicks() {
+		List<MovieModel> staffPicks = new ArrayList();
 		
 		List<Integer> staffPicksIds = new ArrayList();
 		staffPicksIds.add(98); //Gladiator
@@ -212,7 +221,16 @@ public class MovieDao {
 		staffPicksIds.add(1948); //Crank
 		
 		for (Integer id : staffPicksIds){
-			MovieModel mm = mapMovie(tmdbMovies, id, false);
+			MovieModel mm = mapMovie(tmdbMovies, id, true);
+	        for (Actor actor : mm.getActors())
+	        {
+	            if (actorDao.getActorByName(actor.getName()) == null)
+	            {
+	                try { actorDao.persist(actor); }
+	                catch (DataIntegrityViolationException ex) { System.out.println("Actor " + actor.getName() + " already in DB"); }
+	                actor.addMovie(mm);
+	            }
+	        }
 			merge(mm);
 			staffPicks.add(mm);
 		}

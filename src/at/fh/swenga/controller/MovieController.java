@@ -120,9 +120,9 @@ public class MovieController
 
             System.out.println("DEBUG: trending MovieList created");
             
-            Set<MovieModel> staffPicks = movieDao.getStaffPicks();
+            List<MovieModel> staffPicks = movieDao.getStaffPicks();
             MovieList staffPickList = new MovieList("staffPickList", admin);
-            staffPickList.setMovies(staffPicks);
+            staffPickList.setMovies(new HashSet(staffPicks));
             movieListDao.merge(staffPickList);
                      
             System.out.println("DEBUG: staff picks MovieList created");
