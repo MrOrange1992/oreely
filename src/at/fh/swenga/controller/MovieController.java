@@ -335,10 +335,13 @@ public class MovieController
         activeUser.followUser(userToFollow);
         //userToFollow.beFollowedBy(activeUser);
 
-        userDao.merge(userToFollow);
-        userDao.merge(activeUser);
+        try { userDao.merge(userToFollow); }
+        catch (DataIntegrityViolationException ex) { System.out.println("UserToFollow exeption!"); }
 
-        return "redirect:friends";
+        try{ userDao.merge(activeUser); }
+        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
+
+        return "redirect:search";
 
     }
 
@@ -353,9 +356,12 @@ public class MovieController
         if (!activeUser.getFollowing().contains(userToUnFollow))
             return "forward:search";
 
+        userToUnFollow.getFollowing().remove(activeUser);
+
         activeUser.unfollowUser(userToUnFollow);
 
-        userDao.merge(activeUser);
+        try{ userDao.merge(activeUser); }
+        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
 
         return "forward:friends";
     }

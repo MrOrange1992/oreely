@@ -50,7 +50,7 @@ public class UserDao {
 		try
 		{
 			TypedQuery<User> typedQuery = entityManager.createQuery("select u from User u where u.userName LIKE :searchString", User.class);
-			typedQuery.setParameter("searchString", searchString);
+			typedQuery.setParameter("searchString", "%" + searchString + "%");
 			List<User> typedResultList = typedQuery.getResultList();
 
 			return typedResultList;

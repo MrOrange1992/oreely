@@ -19,6 +19,12 @@
         <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>
     </p>
     <p>
+        <form style="display:inline-block" th:action="@{/watchedTrigger}">
+            <input type="hidden" th:name="movie_id" th:value="${movie.id}" />
+            <button type="submit" class="btn-add btn-small" ><i class="fa fa-plus" aria-hidden="true"></i></button>
+        </form>
+    </p>
+    <p>
     <div class="genres" th:each="genre : ${movie.genres}">
         <span th:text="${genre.name}"></span>
     </div>
