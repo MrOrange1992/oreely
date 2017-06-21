@@ -55,14 +55,6 @@
                 <p th:text="${user.userName}"></p>
                 <p th:text="${user.email}"></p>
 
-                <!--form th:action="@{/followUser}">
-                    <div>
-							<span class="input-group-btn">
-								<input type="hidden" name="userToFollowUserName" th:value="${user.userName}">
-								<button class="btn btn-default" type="submit">Follow</button>
-							</span>
-                    </div>
-                </form-->
                 <form th:action="@{/unfollowUser}">
                     <div>
 							<span class="input-group-btn">
@@ -72,6 +64,24 @@
                     </div>
                 </form>
             </div>
+
+            <div th:each="list : ${user.movieLists}">
+
+                <div class="container-fluid">
+                    <h1 class="center" th:text="${list.name}"></h1>
+                    <div class="slick-reel-container container">
+                        <div class="slick-reel">
+                            <div class="item poster card" th:each="movie : ${list.moviesInList}">
+                                <div th:replace="~{includes/poster}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-showcase">
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>
