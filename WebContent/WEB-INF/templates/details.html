@@ -48,14 +48,12 @@
 
         </div>
 		<div class="custom-bg">
-			<!--
 			<img class="backdrop-img" data-sizes="auto"
-            th:data-src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
-            th:data-srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
+            th:data-src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdropPath}"
+            th:data-srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdropPath}"
             th:alt=${movie.title} sizes="1400px"
-            th:srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}"
-            th:src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdrop_path}">
-            -->
+            th:srcset="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdropPath}"
+            th:src="'https://image.tmdb.org/t/p/w1400_and_h450_bestv2' + ${movie.backdropPath}">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-4">
@@ -80,7 +78,7 @@
 								<span th:text="${movie.vote_average}"></span>
 							</div>
 							<h2>Overview</h2>
-	        				<p th:text=${movie.overview}></p>
+	        				<p th:text="${movie.overview}"></p>
 	        				<h3>Genres</h3>
 	        				<div class="genres">
 	        					<span class="genres" th:each="genre : ${movie.genres}">

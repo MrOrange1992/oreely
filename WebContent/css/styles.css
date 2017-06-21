@@ -8,6 +8,7 @@
   padding-bottom: 5px;
   margin-bottom: 0px;
   border: none;
+  width: auto;
 }
 .btn-colored a {
   color: #ffffff;
@@ -19,6 +20,9 @@
 }
 .btn-colored:hover a {
   text-decoration: none;
+}
+.btn-colored:focus {
+  outline: none;
 }
 html {
   font-size: 16px;
@@ -138,7 +142,11 @@ html body #content .slick-reel-container .slick-reel {
 html body #content .slick-reel-container .slick-reel .poster {
   position: relative;
 }
+html body #content .slick-reel-container .slick-reel .poster:focus {
+  outline: none;
+}
 html body #content .slick-reel-container .slick-reel .poster .image_content a img {
+  border-radius: 5px;
   width: 185px;
   height: 278px;
   display: block;
@@ -190,6 +198,7 @@ html body #content .slick-reel-container .slick-reel .poster .info .view_more {
   padding-bottom: 5px;
   margin-bottom: 0px;
   border: none;
+  width: auto;
   position: absolute;
   bottom: 5px;
   left: 15px;
@@ -206,6 +215,9 @@ html body #content .slick-reel-container .slick-reel .poster .info .view_more:ho
 html body #content .slick-reel-container .slick-reel .poster .info .view_more:hover a {
   text-decoration: none;
 }
+html body #content .slick-reel-container .slick-reel .poster .info .view_more:focus {
+  outline: none;
+}
 html body #content .slick-reel-container .slick-reel .poster .info form {
   width: 100%;
 }
@@ -217,6 +229,7 @@ html body #content .slick-reel-container .slick-reel .poster .info form .btn-del
   padding-top: 5px;
   padding-bottom: 5px;
   margin-bottom: 0px;
+  width: auto;
   position: relative;
   padding: 5px;
   display: inline-block;
@@ -236,6 +249,10 @@ html body #content .slick-reel-container .slick-reel .poster .info form .btn-add
 html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete:hover a {
   text-decoration: none;
 }
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-add:focus,
+html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete:focus {
+  outline: none;
+}
 html body #content .slick-reel-container .slick-reel .poster .info form .btn-add.btn-small,
 html body #content .slick-reel-container .slick-reel .poster .info form .btn-delete.btn-small {
   width: 24px;
@@ -252,6 +269,7 @@ html body #content .slick-reel-container .slick-reel .poster .info form select {
   width: 80%;
 }
 html body #content .slick-reel-container .slick-reel .poster:hover .info {
+  z-index: 1000;
   display: block;
   visibility: visible;
   opacity: 1;
@@ -265,11 +283,34 @@ html body #content .slick-reel-container .slick-reel .poster:hover .info {
   -moz-transition: visibility 0s, opacity 1s;
   -o-transition: visibility 0s, opacity 1s;
   transition: visibility 0s, opacity 1s;
+  border-radius: 5px;
 }
 html body #content .slick-reel-container .slick-reel .poster:hover.slick-center .info {
   width: 220px;
   height: 330px;
   top: 0;
+}
+html body #content .slick-reel-container .slick-reel .poster.watched .image_content:after {
+  content: "";
+  position: absolute;
+  opacity: 1;
+  display: block;
+  bottom: -55px;
+  left: 0;
+  overflow: hidden;
+  height: 25%;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 100;
+  -ms-transform: skewY(-10deg);
+  -webkit-transform: skewY(-10deg);
+  transform: skewY(-10deg);
+}
+html body #content .slick-reel-container .slick-reel .poster.watched .image_content a span.watched {
+  position: absolute;
+  z-index: 101;
+  bottom: 5px;
+  right: 5px;
 }
 html body #content .slick-reel-container .slick-reel .poster.slick-center .image_content a img {
   width: 220px;
@@ -279,6 +320,7 @@ html body #content .slick-reel-container .slick-reel .poster.slick-center .image
   -moz-transition: width 1s, height 1s, margin-top 1s;
   -o-transition: width 1s, height 1s, margin-top 1s;
   transition: width 1s, height 1s, margin-top 1s;
+  position: relative;
 }
 html body #content .slick-reel-container .slick-reel .poster.slick-center .info .flex {
   margin-bottom: 10px;
@@ -332,6 +374,9 @@ html body #content .slick-line-container .slick-line .card {
   margin-bottom: 0px;
   margin-top: 15px;
 }
+html body #content .slick-line-container .slick-line .card:focus {
+  outline: none;
+}
 html body #content .slick-line-container .slick-line .card .image_content img {
   margin: 0 auto;
   display: block;
@@ -382,6 +427,7 @@ html body #content .card-showcase .info .view_more {
   padding-bottom: 5px;
   margin-bottom: 0px;
   border: none;
+  width: auto;
   width: 50%;
   left: 25%;
   position: relative;
@@ -398,6 +444,9 @@ html body #content .card-showcase .info .view_more:hover {
 html body #content .card-showcase .info .view_more:hover a {
   text-decoration: none;
 }
+html body #content .card-showcase .info .view_more:focus {
+  outline: none;
+}
 html body #content .card-showcase form {
   width: 100%;
 }
@@ -409,6 +458,7 @@ html body #content .card-showcase form .btn-delete {
   padding-top: 5px;
   padding-bottom: 5px;
   margin-bottom: 0px;
+  width: auto;
   position: relative;
   padding: 5px;
   display: inline-block;
@@ -427,6 +477,10 @@ html body #content .card-showcase form .btn-delete:hover {
 html body #content .card-showcase form .btn-add:hover a,
 html body #content .card-showcase form .btn-delete:hover a {
   text-decoration: none;
+}
+html body #content .card-showcase form .btn-add:focus,
+html body #content .card-showcase form .btn-delete:focus {
+  outline: none;
 }
 html body #content .card-showcase form .btn-add.btn-small,
 html body #content .card-showcase form .btn-delete.btn-small {
@@ -459,7 +513,7 @@ html body #content .movie-movieLists .movieList-row:nth-child(odd) .col-md-8 {
 html body #content .movie-movieLists .movieList-row:nth-child(odd) .col-md-8 p {
   margin: 0px;
 }
-html body #content .movie-movieLists .movieList-row:nth-child(4) .col-md-8 {
+html body #content .movie-movieLists .movieList-row:nth-child(3) .col-md-8 {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
@@ -507,8 +561,7 @@ html body.detail-page #content .custom-bg {
   padding-bottom: 60px;
   background-color: rgba(202, 227, 236, 0.77);
 }
-html body.detail-page #content .custom-bg:before {
-  content: '';
+html body.detail-page #content .custom-bg .backdrop-img {
   position: absolute;
   left: 0;
   right: 0;
@@ -518,11 +571,6 @@ html body.detail-page #content .custom-bg:before {
   z-index: -1;
   display: block;
   filter: brightness(120%) grayscale(1);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url(https://image.tmdb.org/t/p/w1400_and_h450_bestv2/hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg);
-  overflow: hidden;
 }
 html body.detail-page #content .custom-bg:after {
   content: "";

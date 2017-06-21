@@ -119,13 +119,6 @@ public class MovieController
             movieListDao.merge(trendingMovieList);
 
             System.out.println("DEBUG: trending MovieList created");
-            
-            Set<MovieModel> staffPicks = movieDao.getStaffPicks();
-            MovieList staffPickList = new MovieList("staffPickList", admin);
-            staffPickList.setMovies(staffPicks);
-            movieListDao.merge(staffPickList);
-                     
-            System.out.println("DEBUG: staff picks MovieList created");
         }
         else { System.out.println("DEBUG: admin found"); }
     }
@@ -158,7 +151,6 @@ public class MovieController
         if (selection.equals("Movies")) model.addAttribute("movies", movieDao.searchMovies(searchString));
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
         else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
-
         return "forward:search";
     }
 
@@ -227,7 +219,7 @@ public class MovieController
         List<Genre> genreList = genreDao.getGenres();
 
         model.addAttribute("genreList", genreList);
-
+        model.addAttribute("user", activeUser);
         return "settings";
     }
 
@@ -342,13 +334,10 @@ public class MovieController
         activeUser.followUser(userToFollow);
         //userToFollow.beFollowedBy(activeUser);
 
-        try { userDao.merge(userToFollow); }
-        catch (DataIntegrityViolationException ex) { System.out.println("UserToFollow exeption!"); }
+        userDao.merge(userToFollow);
+        userDao.merge(activeUser);
 
-        try{ userDao.merge(activeUser); }
-        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
-
-        return "redirect:search";
+        return "redirect:friends";
 
     }
 
@@ -363,12 +352,9 @@ public class MovieController
         if (!activeUser.getFollowing().contains(userToUnFollow))
             return "forward:search";
 
-        userToUnFollow.getFollowing().remove(activeUser);
-
         activeUser.unfollowUser(userToUnFollow);
 
-        try{ userDao.merge(activeUser); }
-        catch (DataIntegrityViolationException ex) { System.out.println("ActiveUser exeption!");}
+        userDao.merge(activeUser);
 
         return "forward:friends";
     }
@@ -518,14 +504,16 @@ public class MovieController
         return "details";
     }
     
-    @RequestMapping(value = "/watchedTrigger")
-    public String watchedTrigger(@RequestParam("movie_id") int id, Model model)
+    @RequestMapping(value = "/tnc")
+    public String termsandconditions(Model model)
     {
-        System.out.println("DEBUG: /watchedTrigger");
-
-        
-
-        return "??";
+        return "tnc";
+    }
+    
+    @RequestMapping(value = "/legal")
+    public String legalinformation(Model model)
+    {
+        return "legal";
     }
 
 

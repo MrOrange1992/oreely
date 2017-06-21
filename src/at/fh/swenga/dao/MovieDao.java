@@ -185,7 +185,7 @@ public class MovieDao {
 
 		for (MovieDb mDB : resultList) {
 			//try{
-				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), false);
+				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), true);
 				merge(mm);
 				trendingMovies.add(mm);		
 			/*}

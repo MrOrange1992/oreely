@@ -33,13 +33,99 @@
 
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <form class="setting-panel" th:action="@{/saveSettings}" method="post">
+                    <form class="setting-panel" th:action="@{/saveSettings}" th:object="${user}" method="post">
 
                     <div class="row">
                             <div class="col-xs-12">
                                 <h3 class="center">Preferred Genres</h3>
                             </div>
                         </div>
+                        <div class="data-block">
+							<div class="row">
+				 				<div class="col-xs-12">
+				 					<h3 class="center">User Data</h3>
+				 				</div>
+				 			</div>
+
+							<div class="row">
+
+			 					<div class="form-group">
+
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="firstname">Firstname:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8">
+			 							<input th:field="*{firstName}" type="text" required name="firstname" id="firstname" class="form-control input-sm" th:placeholder="${firstName}">
+			 							<p th:each="error: ${#fields.errors('firstName')}"
+										   th:text="${error}"> Validation error</p>
+			 						</div>
+
+			 					</div>
+			 				</div>
+			 				<div class="row">
+			 					<div class="form-group">
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="lastname">Lastname:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8">
+			 							<input th:field="*{lastName}" type="text" required name="lastname" id="lastname" class="form-control input-sm" th:placeholder="${user.lastName}">
+										<p th:each="error : ${#fields.errors('lastName')}"
+										   th:text="${error}">Validation error</p>
+									</div>
+			 					</div>
+				 			</div>
+				 			<div class="row">
+			 					<div class="form-group">
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="user_name">Username:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8" >
+			 							<input th:field="*{userName}"  required name="username" type="text" id="user_name" class="form-control input-sm" th:placeholder="${user.userName}">
+										<p th:each="error : ${#fields.errors('userName')}"
+										   th:text="${error}">Validation error</p>
+									</div>
+
+			 					</div>
+				 			</div>
+				 			<div class="row">
+			 					<div class="form-group">
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="email">E-Mail:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8">
+			 							<input th:field="*{email}" type="email" required name="email" id="email" class="form-control input-sm" th:placeholder="${user.email}">
+										<p th:each="error : ${#fields.errors('email')}"
+										   th:text="${error}">Validation error</p>
+									</div>
+			 					</div>
+				 			</div>
+				 			<div class="row">
+			 					<div class="form-group">
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="password">Password:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8">
+			 							<input th:field="*{password}" type="password" required name="password" id="password" class="form-control input-sm" th:placeholder="${credentialError}">
+										<p th:each="error : ${#fields.errors('password')}"
+										   th:text="${error}">Validation error</p>
+									</div>
+			 					</div>
+				 			</div>
+				 			<div class="row">
+			 					<div class="form-group">
+			 						<div class="col-xs-12 col-sm-6 col-md-4">
+			 							<label for="password_confirmation">Confirm Password:</label>
+			 						</div>
+			 						<div class="col-xs-12 col-sm-6 col-md-8">
+
+										<!--th:if="${noPasswordMatch != null}"-->
+
+										<input type="password" required name="password_confirmation" id="password_confirmation" class="form-control input-sm" th:placeholder="${credentialError}">
+									</div>
+			 					</div>
+				 			</div>
+				 		</div>
+			 			
                         <div class="data-block">
                         	<div class="row">
 	                            <div th:each="genre : ${genreList}">

@@ -31,6 +31,7 @@
 	padding-bottom:5px;
 	margin-bottom:0px;
 	border:none;
+	width:auto;
 	a{
 		color:@cWhite;
 	}
@@ -41,6 +42,9 @@
 		a{
 			text-decoration:none;
 		}
+	}
+	&:focus{
+		outline:none;
 	}							
 }
 
@@ -156,10 +160,14 @@ html{
 				.slick-reel{
 					min-height:330px;
 					.poster{
+						&:focus{
+							outline:none;
+						}
 						position:relative;
 						.image_content{
 							a{
 								img{
+									border-radius:5px;
 									width:185px;
 									height:278px;
 									display:block;
@@ -239,6 +247,7 @@ html{
 						}
 						&:hover{
 							.info{
+								z-index:1000;
 								display:block;
 								visibility:visible;
 								opacity:1;
@@ -252,12 +261,41 @@ html{
 								-moz-transition: visibility 0s, opacity 1s;
 								-o-transition: visibility 0s, opacity 1s;
 								transition: visibility 0s, opacity 1s;
+								border-radius:5px;
 							}
 							&.slick-center{
 								.info{
 									width:220px;
 									height:330px;
 									top:0;
+								}
+							}
+						}
+						&.watched{
+							.image_content{
+								&:after{
+									content: "";
+								    position: absolute;
+								    opacity: 1;
+								    display: block;
+								    bottom: -55px;
+								    left: 0;
+								    overflow: hidden;
+								    height: 25%;
+								    width: 100%;
+								    background-color: @cWhite;
+								    z-index: 100;
+								    -ms-transform: skewY(-10deg);
+								    -webkit-transform: skewY(-10deg);
+								    transform: skewY(-10deg);
+								}
+								a{
+									span.watched{
+										position: absolute;
+									    z-index: 101;
+									    bottom: 5px;
+									    right: 5px;
+									}
 								}
 							}
 						}
@@ -272,6 +310,7 @@ html{
 										-moz-transition: width 1s, height 1s, margin-top 1s;
 										-o-transition: width 1s, height 1s, margin-top 1s;
 										transition: width 1s, height 1s, margin-top 1s;
+										position:relative;
 									}
 								}
 							}
@@ -333,6 +372,7 @@ html{
 			.slick-line-container{
 				.slick-line{
 					.card{
+						&:focus{outline:none;}
 						margin-bottom:0px;
 						margin-top:15px;
 						.image_content{
@@ -437,7 +477,7 @@ html{
 							}
 						}
 					}
-					&:nth-child(4){
+					&:nth-child(3){
 						.col-md-8{
 							border-top-left-radius: 15px;
 							border-top-right-radius: 15px;
@@ -491,8 +531,7 @@ html{
 				    padding-top: 60px;
 				    padding-bottom: 60px;
 				    background-color: rgba(202, 227, 236, 0.77);
-				    &:before{
-				    	content: '';
+				    .backdrop-img{
 					    position: absolute;
 					    left: 0;
 					    right: 0;
@@ -502,11 +541,6 @@ html{
 					    z-index: -1;
 					    display: block;
 					    filter: brightness(120%) grayscale(1);
-					    background-size: cover;
-					    background-repeat: no-repeat;
-					    background-position: center center;
-					    background-image: url(https://image.tmdb.org/t/p/w1400_and_h450_bestv2/hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg);
-					    overflow: hidden;
 				    }
 				    &:after{
 				    	content: "";
