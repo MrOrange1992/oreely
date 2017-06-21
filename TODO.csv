@@ -16,7 +16,7 @@ Task,Preference,Progress,Notes
 "As a user, I want to specify my search",HD,DONE,
 "As a user, I want to add movies to my lists",M,DONE,
 "As a user, I want to remove movies from my lists",M,InProgress,
-"As a user, I want to copy lists from friends",D,,
+"As a user, I want to copy lists from friends",D,,"Won't happen"
 "As a user, I want to see recommendations",HD,DONE,"Call in index from DB"
 "As a user, I want to see trending movies",D,DONE,
 "As a user, I want to see staff picks",D,DONE,
@@ -24,6 +24,6 @@ Task,Preference,Progress,Notes
 "As a user, I want to mark movies as watched / unwatched",M,,"Won't happen"
 "As a user, I want to see legal information",M,DONE,
 "As a user, I want to read the terms and conditions",M,DONE,
-"As a developer, I want to manage user",M,,
+"As a developer, I want to manage user",M,,"Won't happen"
 "As a user, I want to have a responsive design",D,,"Won't happen"
 "As a developer, I want to protect the site against SQL injection",M,InProgress,
