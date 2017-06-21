@@ -13,7 +13,7 @@
 <div class="info">
     <p class="flex">
         <a th:id=${movie.tmdb_id} class="title result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title} th:text=${movie.title}></a>
-        <span class="vote_average" th:text=${movie.vote_average}><i class="fa fa-star" aria-hidden="true"></i></span>
+        <div class="star-block"><span class="movie-stars" th:each="i : ${#numbers.sequence( 1, movie.vote_average)}"><i class="fa fa-star" aria-hidden="true"></i></span><span class="vote_average" th:text=${movie.vote_average}></span></div>
     </p>
     <p class="meta flex">
         <span class="release_date" th:text=${#calendars.format(movie.release_date,'yyyy')}><span class="glyphicons glyphicons-calendar x1"></span></span>

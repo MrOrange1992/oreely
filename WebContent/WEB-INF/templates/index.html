@@ -66,10 +66,11 @@
 							<div th:replace="~{includes/poster}"></div>
 						</div>
 					</div>
+					<div class="card-showcase">
+					</div>
 				</div>
 			</div>
-			<div class="card-showcase">
-			</div>
+			
 
 			<h1 class="center">Staff Picks</h1>
 			<div class="card-movieList row">
@@ -78,6 +79,8 @@
 						<div class="item poster card" th:each="movie : ${staffMovies}">
 							<div th:replace="~{includes/poster}"></div>
 						</div>
+					</div>
+					<div class="card-showcase">
 					</div>
 				</div>
 			</div>

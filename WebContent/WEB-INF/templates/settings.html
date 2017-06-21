@@ -110,6 +110,7 @@
 			 							<input th:field="*{password}" type="password" required name="password" id="password" class="form-control input-sm" th:placeholder="${credentialError}">
 										<p th:each="error : ${#fields.errors('password')}"
 										   th:text="${error}">Validation error</p>
+										 <p></p>
 									</div>
 			 					</div>
 				 			</div>

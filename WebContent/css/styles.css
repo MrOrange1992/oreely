@@ -171,7 +171,8 @@ html body #content .slick-reel-container .slick-reel .poster .info .flex {
   margin-bottom: 10px;
 }
 html body #content .slick-reel-container .slick-reel .poster .info .flex a {
-  font-size: 1.25rem;
+  font-size: 1.0rem;
+  margin: 0px;
   color: #000000;
 }
 html body #content .slick-reel-container .slick-reel .poster .info .flex .vote_average {
@@ -405,6 +406,9 @@ html body #content .card-showcase .info {
   left: 0px;
   width: 50vw;
 }
+html body #content .card-showcase .info p {
+  margin: 0px;
+}
 html body #content .card-showcase .info .flex {
   margin: 0px;
 }
@@ -413,8 +417,9 @@ html body #content .card-showcase .info .flex a {
   color: #ffffff;
 }
 html body #content .card-showcase .info .flex .vote_average {
-  float: right;
+  display: block;
   font-size: 1.0rem;
+  margin-bottom: 5px;
 }
 html body #content .card-showcase .info .meta.flex {
   font-size: 0.75rem;
@@ -429,9 +434,10 @@ html body #content .card-showcase .info .view_more {
   border: none;
   width: auto;
   width: 50%;
-  left: 25%;
+  left: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
   position: relative;
-  margin-top: 30px;
 }
 html body #content .card-showcase .info .view_more a {
   color: #ffffff;
@@ -448,7 +454,8 @@ html body #content .card-showcase .info .view_more:focus {
   outline: none;
 }
 html body #content .card-showcase form {
-  width: 100%;
+  width: 50%;
+  margin-bottom: 10px;
 }
 html body #content .card-showcase form .btn-add,
 html body #content .card-showcase form .btn-delete {
@@ -484,7 +491,9 @@ html body #content .card-showcase form .btn-delete:focus {
 }
 html body #content .card-showcase form .btn-add.btn-small,
 html body #content .card-showcase form .btn-delete.btn-small {
-  width: 24px;
+  width: 10%;
+  min-width: 24px;
+  float: right;
   height: 24px;
   padding: 2px 6px 2px 5px;
   position: relative;
@@ -495,7 +504,10 @@ html body #content .card-showcase form .btn-delete {
 }
 html body #content .card-showcase form select {
   height: 25px;
-  width: 80%;
+  width: 85%;
+}
+html body #content .card-showcase form button[type="submit"] {
+  width: 100%;
 }
 html body #content .movie-movieLists .movieList-row:nth-child(even) .col-md-8 {
   background-color: #888888;
