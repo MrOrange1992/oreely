@@ -134,16 +134,29 @@ public class MovieController
             try{ userDao.merge(admin); }
             catch (DataIntegrityViolationException ex) { System.out.println("addmovieList"); }
 
-            /*
             System.out.println("DEBUG: trending MovieList created");
             
             List<MovieModel> staffPicks = movieDao.getStaffPicks();
-            MovieList staffPickList = new MovieList("staffPickList", admin);
+            
+            MovieList staffPickList = new MovieList();
+            movieListDao.persist(staffPickList);
+            
+            staffPickList.setName("staffPickList");
+            staffPickList.setOwner(admin);
             staffPickList.setMovies(new HashSet(staffPicks));
+            for (MovieModel movie : staffPicks)
+            {
+            	movie.addMovieList(staffPickList);
+            	movieDao.merge(movie);
+            }
+            
+            admin.addMovieList(staffPickList);
             movieListDao.merge(staffPickList);
+            
+            try{ userDao.merge(admin); }
+            catch (DataIntegrityViolationException ex) { System.out.println("addmovieList"); }
                      
             System.out.println("DEBUG: staff picks MovieList created");
-            */
         }
         else { System.out.println("DEBUG: admin found"); }
     }
