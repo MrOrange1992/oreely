@@ -48,41 +48,40 @@
              class="alert alert-success" role="warning"></div>
         <!--   message ----------------------------------------------------------- -->
     </div>
-    <div class="container">
-        <div th:each="user : ${friendList}">
-            <div>
-                <h3>User</h3>
-                <p th:text="${user.userName}"></p>
-                <p th:text="${user.email}"></p>
-
-                <form th:action="@{/unfollowUser}">
-                    <div>
+    <div class="container-fluid">
+        <div class="friend-block" th:each="user : ${friendList}">
+	        <div class="row">
+	            <div class="user-item col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+					<i class="fa fa-user-circle-o center" aria-hidden="true"></i>
+					<p class="center user-name" th:text="${user.userName}"></p>
+					<p class="center" th:text="${user.email}"></p>
+					<div class="btn-set">
+					<form th:action="@{/unfollowUser}">
+						<div>
 							<span class="input-group-btn">
 								<input type="hidden" name="userToUnFollowUserName" th:value="${user.userName}">
-								<button class="btn btn-default" type="submit">Unfollow</button>
+								<button class="btn btn-colored" type="submit">Unfollow</button>
 							</span>
-                    </div>
-                </form>
-            </div>
-
-            <div th:each="list : ${user.movieLists}">
-
-                <div class="container-fluid">
-                    <h1 class="center" th:text="${list.name}"></h1>
-                    <div class="slick-reel-container container">
-                        <div class="slick-reel">
-                            <div class="item poster card" th:each="movie : ${list.moviesInList}">
-                                <div th:replace="~{includes/poster}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-showcase">
-                </div>
-
-            </div>
-
-        </div>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div th:each="list : ${user.movieLists}">
+	              <h1 class="center" th:text="${list.name}"></h1>
+	              <div class="slick-line-container">
+	                  <div class="slick-line">
+	                      <div class="item poster card" th:each="movie : ${list.moviesInList}">
+	                          <div th:replace="~{includes/poster}"></div>
+	                      </div>
+	                  </div>
+	                  <div class="card-showcase">
+	          		</div>
+	              </div>
+	          </div>
+			</div>
+		</div>
     </div>
 </div>
 

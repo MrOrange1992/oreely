@@ -51,7 +51,20 @@
 
 			<div class="movie-movieLists">
 				<h1 class="center">Your Lists</h1>
-
+				
+				
+				<div class="row">
+					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+						<form th:method="get" th:action="@{/addNewList}">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="submit">Add new list</button>
+								</span>
+								<input type="text" class="form-control" placeholder="Enter name..." required name="name">
+							</div>
+						</form>
+					</div>
+				</div>
 				<!--
 				NESTED EACH WORKING EXAMPLE
 				with moviesInList
@@ -104,18 +117,7 @@
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-						<form th:method="get" th:action="@{/addNewList}">
-							<div class="input-group">
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="submit">Add new list</button>
-								</span>
-								<input type="text" class="form-control" placeholder="Enter name..." required name="name">
-							</div>
-						</form>
-					</div>
-				</div>
+				
 			</div>
 
 			<div th:each="list : ${lists}">

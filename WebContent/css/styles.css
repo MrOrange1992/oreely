@@ -185,7 +185,7 @@ html body #content .slick-reel-container .slick-reel .poster .info .flex .vote_a
 }
 html body #content .slick-reel-container .slick-reel .poster .info .meta.flex {
   font-size: 0.7rem;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 html body #content .slick-reel-container .slick-reel .poster .info .overview {
   line-height: 1.25em;
@@ -532,6 +532,53 @@ html body #content .movie-movieLists .movieList-row:nth-child(3) .col-md-8 {
 html body #content .movie-movieLists .movieList-row:last-child .col-md-8 {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+html body #content .friend-block {
+  margin-bottom: 30px;
+}
+html body #content .user-item {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: rgba(0, 255, 234, 0.33);
+  border-radius: 15px;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+}
+html body #content .user-item .fa-user-circle-o {
+  display: block;
+  font-size: 60px;
+}
+html body #content .user-item .user-name {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+html body #content .user-item .btn-colored {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+html body #content .user-item .btn-set {
+  background-color: #eeeeee;
+  border-radius: 5px;
+  padding: 5px;
+  padding-bottom: 0px;
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+}
+html body #content .search-selection {
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+html body #content .search-selection label {
+  margin-right: 5px;
+}
+html body #content .search-selection select {
+  width: 100px;
+  height: 25px;
 }
 html body footer {
   height: 50px;
