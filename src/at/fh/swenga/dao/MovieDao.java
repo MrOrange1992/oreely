@@ -195,7 +195,6 @@ public class MovieDao {
 		                actor.addMovie(mm);
 		            }
 		        }
-				MovieModel mm = mapMovie(tmdbMovies, mDB.getId(), true);
 				merge(mm);
 				trendingMovies.add(mm);		
 			/*}
