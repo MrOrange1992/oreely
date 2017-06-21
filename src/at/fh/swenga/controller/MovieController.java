@@ -92,6 +92,9 @@ public class MovieController
 
             //Calendar bd = new GregorianCalendar(1970,01,01);
 
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
             User admin = new User();
             admin.setUserName("admin");
             admin.setFirstName("admin");
@@ -99,7 +102,6 @@ public class MovieController
             admin.setEmail("admin@oreely.at");
             admin.setEnabled(true);
 
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode("password");
             admin.setPassword(hashedPassword);
 
@@ -107,10 +109,48 @@ public class MovieController
             admin.addUserRole(userRole);
             UserRole adminRole = new UserRole(admin, "ROLE_ADMIN");
             admin.addUserRole(adminRole);
-
             userDao.persist(admin);
             userDao.persistRole(userRole);
             userDao.persistRole(adminRole);
+
+            User lukas = new User();
+            lukas.setUserName("lukas69");
+            lukas.setFirstName("Lukas");
+            lukas.setLastName("Schneider");
+            lukas.setEmail("lukas69@oreely.at");
+            lukas.setEnabled(true);
+            String hashedPasswordLukas = passwordEncoder.encode("1234");
+            lukas.setPassword(hashedPasswordLukas);
+            UserRole userRoleLukas = new UserRole(lukas, "ROLE_USER");
+            lukas.addUserRole(userRoleLukas);
+            userDao.persist(lukas);
+            userDao.persistRole(userRoleLukas);
+
+            User markus = new User();
+            markus.setUserName("wulf");
+            markus.setFirstName("Markus");
+            markus.setLastName("Wolf");
+            markus.setEmail("markus@oreely.at");
+            markus.setEnabled(true);
+            String hashedPasswordMarkus = passwordEncoder.encode("1234");
+            markus.setPassword(hashedPasswordMarkus);
+            UserRole userRoleMarkus = new UserRole(markus, "ROLE_USER");
+            markus.addUserRole(userRoleMarkus);
+            userDao.persist(markus);
+            userDao.persistRole(userRoleMarkus);
+
+            User felix = new User();
+            felix.setUserName("flexboy");
+            felix.setFirstName("Felix");
+            felix.setLastName("Rauchenwald");
+            felix.setEmail("flexboy@oreely.at");
+            felix.setEnabled(true);
+            String hashedPasswordFelix = passwordEncoder.encode("1234");
+            felix.setPassword(hashedPasswordFelix);
+            UserRole userRoleFelix = new UserRole(felix, "ROLE_USER");
+            felix.addUserRole(userRoleFelix);
+            userDao.persist(felix);
+            userDao.persistRole(userRoleFelix);
 
             System.out.println("DEBUG: admin created");
 
