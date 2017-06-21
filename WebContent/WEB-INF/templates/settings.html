@@ -107,10 +107,9 @@
 			 							<label for="password">Password:</label>
 			 						</div>
 			 						<div class="col-xs-12 col-sm-6 col-md-8">
-			 							<input th:field="*{password}" type="password" required name="password" id="password" class="form-control input-sm" th:placeholder="${credentialError}">
+			 							<input th:field="*{password}" type="password" name="password" id="password" class="form-control input-sm" th:placeholder="${credentialError}">
 										<p th:each="error : ${#fields.errors('password')}"
 										   th:text="${error}">Validation error</p>
-										 <p></p>
 									</div>
 			 					</div>
 				 			</div>
@@ -123,12 +122,12 @@
 
 										<!--th:if="${noPasswordMatch != null}"-->
 
-										<input type="password" required name="password_confirmation" id="password_confirmation" class="form-control input-sm" th:placeholder="${credentialError}">
+										<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" th:placeholder="${credentialError}">
 									</div>
 			 					</div>
 				 			</div>
 				 		</div>
-			 			
+			 			<p><br><br></p>
                         <div class="data-block">
                         	<div class="row">
 	                            <div th:each="genre : ${genreList}">
