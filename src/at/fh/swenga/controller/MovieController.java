@@ -119,6 +119,13 @@ public class MovieController
             movieListDao.merge(trendingMovieList);
 
             System.out.println("DEBUG: trending MovieList created");
+            
+            List<MovieModel> staffPicks = movieDao.getStaffPicks();
+            MovieList staffPickList = new MovieList("staffPickList", admin);
+            staffPickList.setMovies(new HashSet(staffPicks));
+            movieListDao.merge(staffPickList);
+                     
+            System.out.println("DEBUG: staff picks MovieList created");
         }
         else { System.out.println("DEBUG: admin found"); }
     }
