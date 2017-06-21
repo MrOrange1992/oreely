@@ -525,9 +525,41 @@ public class MovieController
     {
         System.out.println("DEBUG: /watchedTrigger");
 
-        
+        if (userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id)) == null)
+        {
+            MovieModel movie;
 
-        return "??";
+            if (movieDao.getMovieById(id) == null)
+                movie = movieDao.mapMovie(tmdbMovies, id, true);
+            else movie = movieDao.getMovieById(id);
+
+            UserMovie userMovie = new UserMovie(activeUser, movie);
+
+            try { userMovieDao.persist(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao persist error!"); }
+
+            userMovie.setSeen(true);
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao merge error!"); }
+
+            return "redirect:home";
+
+        }
+        else
+        {
+
+            UserMovie userMovie = userMovieDao.getUserMovie(activeUser, movieDao.getMovieById(id));
+
+            if (userMovie.isSeen())
+                userMovie.setSeen(false);
+            else userMovie.setSeen(true);
+
+            try { userMovieDao.merge(userMovie); }
+            catch (DataIntegrityViolationException ex) { System.out.println("UserMovieDao error"); }
+
+            return "redirect:home";
+        }
     }
 
 

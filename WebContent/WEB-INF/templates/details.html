@@ -80,7 +80,7 @@
 								<span th:text="${movie.vote_average}"></span>
 							</div>
 							<h2>Overview</h2>
-	        				<p th:text=${movie.overview}></p>
+	        				<p th:text="${movie.overview}"></p>
 	        				<h3>Genres</h3>
 	        				<div class="genres">
 	        					<span class="genres" th:each="genre : ${movie.genres}">
