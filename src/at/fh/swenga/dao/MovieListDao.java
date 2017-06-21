@@ -54,6 +54,17 @@ public class MovieListDao
 		}
 	}
 
+	public MovieList getMovieListByName(String name) {
+		try {
+			TypedQuery<MovieList> typedQuery = entityManager.createQuery("select ml from MovieList ml where ml.name = :name", MovieList.class);
+			typedQuery.setParameter("name", name);
+			MovieList movieList = typedQuery.getSingleResult();
+			return movieList;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 	public Boolean isMovieInList(MovieModel movie, int listID)
 	{
 		try

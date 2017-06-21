@@ -57,9 +57,31 @@
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="card-showcase">
+			<h1 class="center">Trending Movies</h1>
+			<div class="card-movieList row">
+				<div class="slick-line-container">
+					<div class="slick-line">
+						<div class="item poster card" th:each="movie : ${trendingMovies}">
+							<div th:replace="~{includes/poster}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-showcase">
+			</div>
+
+			<h1 class="center">Staff Picks</h1>
+			<div class="card-movieList row">
+				<div class="slick-line-container">
+					<div class="slick-line">
+						<div class="item poster card" th:each="movie : ${staffMovies}">
+							<div th:replace="~{includes/poster}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 

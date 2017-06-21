@@ -177,6 +177,8 @@ public class MovieController
         }
 
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
+        model.addAttribute("trendingMovies", movieListDao.getMovieListByName("trendingMovieList").getMovies());
+        model.addAttribute("staffMovies", movieListDao.getMovieListByName("staffPickList").getMovies());
 
         return "index";
     }
