@@ -103,9 +103,8 @@ public class MovieDao {
 	// TODO replace mapMovie with other lightweight method
 	// because mapping movie genres and actors for multiple movies takes too
 	// long
-	public List<MovieModel> searchMovies(String searchString) {
-		System.out.println("SEARCH STARTED");
-
+	public List<MovieModel> searchMovies(String searchString)
+	{
 		long startTime = System.currentTimeMillis();
 
 		MovieResultsPage result = tmdbSearch.searchMovie(searchString, null, "en-US", false, null);

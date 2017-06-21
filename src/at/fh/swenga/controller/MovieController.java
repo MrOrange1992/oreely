@@ -230,10 +230,10 @@ public class MovieController
     @RequestMapping(value = "/searchForSelection", method = RequestMethod.GET)
     public String searchSelection(Model model, @RequestParam String searchString, @RequestParam(value = "selection") String selection)
     {
-        if (selection.equals("Movies")) model.addAttribute("movies", movieDao.searchMovies(searchString));
+        if (selection.equals("Movies") && searchString != "") model.addAttribute("movies", movieDao.searchMovies(searchString));
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
-        else model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
-
+        else if (selection.equals("Genres")) model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
+        else return "forward:search";
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
 
         return "forward:search";
@@ -333,6 +333,7 @@ public class MovieController
     {
         Set<User> friendList = activeUser.getFollowing();
         model.addAttribute("friendList", friendList);
+        model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
 
         return "friends";
     }
