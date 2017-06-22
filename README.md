@@ -28,11 +28,16 @@ Prerequired Software:
 1) Clone this repository to your local computer
 
 2) After that, you need to create two files in the /src folder.
+
   a) config.properties
+  
       This file has to contain your personal API Key for the MovieDB. A Key can be obtained from their website.
       The API Key has to be saved following this schema: apiKey=*yourAPIKey*
+      
   b) db.properties
+  
       This file has to contain your credentials of the MySQL database. The information has to be saved using the following schema:
+      
       db.url=jdbc:mysql://0.0.0.0:0000/*yourSchema*
       db.username=*yourUsername*
       db.password=*yourPassword*
