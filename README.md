@@ -17,7 +17,7 @@ Lukas Schneider Backend
 
 
 ## Release Information
-Sadly not all planed features that were initialy planned made it into the project due to timecontraints. If we would have to start again we would do some things differently. However, we are very proud of what we achieved and learned in the process.
+Sadly not all features that were initialy planned made it into the project due to timecontraints. If we would have to start again we would do some things differently. However, we are very proud of what we achieved and learned in the process.
 
 ## Setup Instructions
 Prerequired Software:
