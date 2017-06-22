@@ -319,6 +319,7 @@ public class MovieController
 
         model.addAttribute("genreList", genreList);
         model.addAttribute("user", activeUser);
+             
         return "settings";
     }
 

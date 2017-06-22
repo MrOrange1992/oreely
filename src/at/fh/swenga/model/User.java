@@ -56,7 +56,7 @@ public class User implements java.io.Serializable
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private List<Genre> genres;
 
 	@ManyToMany(fetch = FetchType.EAGER)
