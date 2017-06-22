@@ -60,3 +60,20 @@ Because we store a lot of data when the server starts for the first time it migh
 If you run into any kind of errors resulting from database errors it might be necessary to to drop your database schema and create it from screatch.
 
 Also if you want to restart your tomcat server it might be necessary to no only restart the server but also delete it and create it new. We have run into errors where the previous session was still active even after restartng the server.
+
+Please note: it might be necessary to add these repositories to your pom.xml file:
+
+    <repositories>
+      <repository>
+          <id>jcenter</id>
+          <name>JCenter</name>
+          <url>http://jcenter.bintray.com/</url>
+      </repository>
+      <repository>
+         <id>maven</id>
+          <name>maven</name>
+          <url>http://repo.maven.apache.org/maven2</url>
+      </repository>
+    </repositories>
+
+Due to issues with a broken library we could not test this.
