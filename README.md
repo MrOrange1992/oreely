@@ -31,21 +31,21 @@ Prerequired Software:
 
   a) config.properties
   
-      This file has to contain your personal API Key for the MovieDB. A Key can be obtained from their website.
-      The API Key has to be saved following this schema: 
+  This file has to contain your personal API Key for the MovieDB. A Key can be obtained from their website.
+  The API Key has to be saved following this schema: 
       
       apiKey=*yourAPIKey*
       
   b) db.properties
   
-      This file has to contain your credentials of the MySQL database. 
-      The information has to be saved using the following schema:
+  This file has to contain your credentials of the MySQL database. 
+  The information has to be saved using the following schema:
       
       db.url=jdbc:mysql://0.0.0.0:0000/*yourSchema*
       db.username=*yourUsername*
       db.password=*yourPassword*
       
-      It is necessary that the database scheme is completly empty befor running the server for the first time.
+  It is necessary that the database scheme is completly empty befor running the server for the first time.
       
 3) In Eclipse click File->Import...>Maven>Existing Maving Projects
 
