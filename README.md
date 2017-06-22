@@ -38,7 +38,8 @@ Prerequired Software:
       
   b) db.properties
   
-      This file has to contain your credentials of the MySQL database. The information has to be saved using the following schema:
+      This file has to contain your credentials of the MySQL database. 
+      The information has to be saved using the following schema:
       
       db.url=jdbc:mysql://0.0.0.0:0000/*yourSchema*
       db.username=*yourUsername*
