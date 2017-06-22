@@ -29,14 +29,14 @@ Prerequired Software:
 
 2) After that, you need to create two files in the /src folder.
 
-  a) config.properties
+2.1) config.properties
   
   This file has to contain your personal API Key for the MovieDB. A Key can be obtained from their website.
   The API Key has to be saved following this schema: 
       
       apiKey=*yourAPIKey*
       
-  b) db.properties
+2.2) db.properties
   
   This file has to contain your credentials of the MySQL database. 
   The information has to be saved using the following schema:
