@@ -93,9 +93,7 @@ public class MovieDao {
 
 		List<MovieModel> movieModelList = new ArrayList<MovieModel>();
 
-		for (MovieDb movieDb : resultList) {
-			movieModelList.add(mapMovie(tmdbMovies, movieDb.getId(), false));
-		}
+		for (MovieDb movieDb : resultList) movieModelList.add(mapMovie(tmdbMovies, movieDb.getId(), false));
 
 		return movieModelList;
 	}
@@ -260,7 +258,6 @@ public class MovieDao {
 
 				movieModel.setTmdb_id(movie.getId());
 				movieModel.setOverview(movie.getOverview());
-				movieModel.setVote_average(movie.getVoteAverage());
 				movieModel.setVote_count(movie.getVoteCount());
 				movieModel.setAdult(movie.isAdult());
 				movieModel.setRuntime(movie.getRuntime());
@@ -273,15 +270,16 @@ public class MovieDao {
 
 			movieModel.setId(movie.getId());
 			movieModel.setTitle(movie.getTitle());
+			movieModel.setVote_average(movie.getVoteAverage());
 
-			if (movie.getReleaseDate() != "")
-				movieModel.setRelease_date(format.parse(movie.getReleaseDate()));
+			if (movie.getReleaseDate() != "") movieModel.setRelease_date(format.parse(movie.getReleaseDate()));
 
 			movieModel.setPoster_path(movie.getPosterPath());
 			movieModel.setHomepage(movie.getHomepage());
 
 			// FR: Map themoviedbapi.model.Genre to GenreModel
-			for (info.movito.themoviedbapi.model.Genre genre : movie.getGenres()) {
+			for (info.movito.themoviedbapi.model.Genre genre : movie.getGenres())
+			{
 				Genre gm = new Genre(genre.getId(), genre.getName());
 				movieModel.addGenre(gm);
 				gm.addMovie(movieModel);
