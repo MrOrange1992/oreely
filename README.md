@@ -48,7 +48,8 @@ Prerequired Software:
       It is necessary that the database scheme is completly empty befor running the server for the first time.
       
 3) In Eclipse click File->Import...>Maven>Existing Maving Projects
-      Choose s Root Directory the folder where you have cloned this repository and click Finish
+
+      Choose as Root Directory the folder where you have cloned this repository and click Finish
            
 4) After this you should be able to run the application on the tomcat server.
 
@@ -59,5 +60,3 @@ Because we store a lot of data when the server starts for the first time it migh
 If you run into any kind of errors resulting from database errors it might be necessary to to drop your database schema and create it from screatch.
 
 Also if you want to restart your tomcat server it might be necessary to no only restart the server but also delete it and create it new. We have run into errors where the previous session was still active even after restartng the server.
-
-
