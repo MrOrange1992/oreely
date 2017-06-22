@@ -13,7 +13,7 @@ Felix Rauchenwald: Code Owner and Backend
 
 Markus Wolf: Frontend
 
-Lukas Schneider Backend
+Lukas Schneider: Backend
 
 
 ## Release Information
