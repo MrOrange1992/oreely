@@ -32,7 +32,9 @@ Prerequired Software:
   a) config.properties
   
       This file has to contain your personal API Key for the MovieDB. A Key can be obtained from their website.
-      The API Key has to be saved following this schema: apiKey=*yourAPIKey*
+      The API Key has to be saved following this schema: 
+      
+      apiKey=*yourAPIKey*
       
   b) db.properties
   
