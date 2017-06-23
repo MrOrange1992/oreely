@@ -39,3 +39,5 @@ lsch,21.06.2017,6h,"Changes to existing Problems, fixing errors, fixing merge co
 frau,21.06.2017,5h,"Various bugfixes in controller, trending movies, show lists of friends"
 lsch,22.06.2017,2.5h,"Modifications to settings.html, User and Genre in Order to show correct favourited genres"
 lsch,22.06.2017,1h,"README.md"
+frau,23.06.2017,3h,"Implemented watched/unwatched, implemented change settings in profile"
+
