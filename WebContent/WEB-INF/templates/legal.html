@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>O'Reely</title>
+	<meta name="description" content="O'Reely">
+	<meta name="author" content="Lukas Schneider, Felix Rauchenwald, Markus Wolf">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  	<link rel="stylesheet" href="css/styles.css">
+
+  	<!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+ 	<![endif]-->
+
+</head>
+<body>
+	<header th:replace="~{includes/header :: header(actNav='home')}"></header>
+	
+	<div id="content">
+		<div class="container-fluid">
+			<!--  Error message ----------------------------------------------------------- -->
+			<div th:unless="${errorMessage} == null" th:utext="${errorMessage}"
+				class="alert alert-danger" role="alert"></div>
+			<!--  Error message ----------------------------------------------------------- -->
+
+			<!--  Warning message ----------------------------------------------------------- -->
+			<div th:unless="${warningMessage} == null"
+				th:utext="${warningMessage}" class="alert alert-warning"
+				role="warning"></div>
+			<!--  Warning message ----------------------------------------------------------- -->
+
+			<!--   message ----------------------------------------------------------- -->
+			<div th:unless="${message} == null" th:utext="${message}"
+				class="alert alert-success" role="warning"></div>
+			<!--   message ----------------------------------------------------------- -->
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1 class="center">Terms and Conditions</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-offset-2 col-md-8">
+					<p>
+						<h3>TMDB Attribution</h3>
+						<p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+						
+						<h3>Copyright</h3>
+						
+						<p>OREELY respects the rights of copyright holders and publishers and requires all users to confirm they own the copyright or have permission from the copyright holder to upload content. We comply with the Digital Millennium Copyright Act (DMCA) and expeditiously remove content when properly notified, unless it reasonably appears to us that the content does not infringe upon copyright. Please note, however, that under Section 512(f) any person who knowingly materially misrepresents that material or activity is a copyright infringement may be subject to liability for damages. You should educate yourself as to whether content does, in fact infringe upon your copyright, or whether, for instance "fair use" under 17 U.S.C. §107 applies. If you are unsure whether the content you are reporting is infringing your legal rights, you may wish to seek legal guidance. Keep in mind that submitting intentionally misleading reports of infringement may be punishable under the Digital Millennium Copyright Act (DMCA) in the United States or similar laws in other countries.
+						<br><br>For claims of copyright infringement, please contact our designated agent under the Digital Millennium Copyright Act:<br><br>
+						Copyright Agent at: 489 S. El Camino Real, San Mateo, CA, 94402.</p>
+						<h3><a href="https://www.themoviedb.org/terms-of-use">PLEASE READ FOR FURTHER DETAILS</a></h3>
+						<h3>MIT License</h3>
+						<p>Copyright (c) FH-JOANNEUM 2017 by Markus Wolf,Lukas Schneider, Felix Rauchenwald<br><br>
+						
+						Permission is hereby granted, free of charge, to any person obtaining a copy<br>
+						of this software and associated documentation files (the "Software"), to deal<br>
+						in the Software without restriction, including without limitation the rights<br>
+						to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br>
+						copies of the Software, and to permit persons to whom the Software is<br>
+						furnished to do so, subject to the following conditions:<br><br>
+						
+						The above copyright notice and this permission notice shall be included in all<br>
+						copies or substantial portions of the Software.<br><br>
+						
+						THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>
+						IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>
+						FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>
+						AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
+						LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>
+						OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br>
+						SOFTWARE.<br>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="~{includes/footer :: footer}"></footer>
+</body>
+</html>

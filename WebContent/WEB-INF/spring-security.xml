@@ -9,6 +9,8 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/registerForm" access="permitAll" />
 		<intercept-url pattern="/register" access="permitAll" />
+		<intercept-url pattern="/tnc" access="permitAll" />
+		<intercept-url pattern="/legal" access="permitAll" />
 		<intercept-url pattern="/res/**" access="permitAll" />
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />

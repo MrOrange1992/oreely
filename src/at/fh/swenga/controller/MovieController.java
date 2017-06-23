@@ -718,6 +718,17 @@ public class MovieController
         return "legal";
     }
 
+    /**
+     * Mapping for terms and conditions
+     * @param model
+     * @return  tnc.html
+     */
+    @RequestMapping(value = "/tnc")
+    public String termsAndConditions(Model model)
+    {
+        return "tnc";
+    }
+
 
     // @ExceptionHandler(Exception.class)
     public String handleAllException(Exception ex)
