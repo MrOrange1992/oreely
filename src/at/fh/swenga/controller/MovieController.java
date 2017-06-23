@@ -510,30 +510,6 @@ public class MovieController
     }
 
     /**
-     * Mapping to save user genre selection
-     * @param checkedGenres list of checked genres from view
-     * @return  Redirect to /home mapping
-     */
-    @RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
-    public String saveSettings(@RequestParam(value = "checkGenre", required = false) List<String> checkedGenres)
-    {
-        userDao.removeGenres(activeUser);
-
-        if (checkedGenres != null)
-        {
-            for (String checkedGenre : checkedGenres)
-            {
-                Genre genre = genreDao.getGenre(checkedGenre);
-                activeUser.addGenres(genre);
-                genreDao.merge(genre);
-                userDao.merge(activeUser);
-            }
-        }
-
-        return "redirect:home";
-    }
-
-    /**
      * Mapping to login.html for spring security
      * @return login.html
      */
@@ -642,6 +618,64 @@ public class MovieController
             return "login";
         }
         else { return "redirect:registerForm"; }
+    }
+
+    /**
+     * Mapping to save user genre selection
+     * @param checkedGenres list of checked genres from view
+     * @return  Redirect to /home mapping
+     */
+    @RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
+    public String saveSettings(Model model,
+                               @RequestParam(value = "checkGenre", required = false) List<String> checkedGenres,
+                               @RequestParam("firstname") String firstName,
+                               @RequestParam("lastname") String lastName,
+                               @RequestParam("password") String password,
+                               @RequestParam("password_confirmation") String confirmPassword)
+    {
+        if (!password.equals(""))
+        {
+            if (password.equals(confirmPassword))
+            {
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+                String newHashedPassword = passwordEncoder.encode(password);
+                activeUser.setPassword(newHashedPassword);
+                userDao.merge(activeUser);
+            }
+            else
+            {
+                model.addAttribute("credentialError", "Passwords do not match!");
+                return "forward:myProfile";
+            }
+        }
+
+        if (!firstName.equals(""))
+        {
+            activeUser.setFirstName(firstName);
+            userDao.merge(activeUser);
+        }
+
+        if (!lastName.equals(""))
+        {
+            activeUser.setLastName(lastName);
+            userDao.merge(activeUser);
+        }
+
+        userDao.removeGenres(activeUser);
+
+        if (checkedGenres != null)
+        {
+            for (String checkedGenre : checkedGenres)
+            {
+                Genre genre = genreDao.getGenre(checkedGenre);
+                activeUser.addGenres(genre);
+                genreDao.merge(genre);
+                userDao.merge(activeUser);
+            }
+        }
+
+        return "redirect:home";
     }
 
     /**
