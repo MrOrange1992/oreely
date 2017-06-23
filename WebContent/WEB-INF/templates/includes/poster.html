@@ -40,4 +40,13 @@
 	    </form>
     </p>
 
+    <div th:object="${userMovies}">
+        <div th:each="userMovie : ${userMovies}">
+            <div th:if="${userMovie.movie.id == movie.id}">UserMovie exists
+                <div th:if="${userMovie.seen}" th:text="Watched">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

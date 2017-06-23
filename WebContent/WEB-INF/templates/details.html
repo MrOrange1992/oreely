@@ -91,6 +91,14 @@
 						            <span th:text="${actor.name}+', '"></span>
 						        </span>
 					        </div>
+							<div th:object="${userMovies}">
+								<div th:each="userMovie : ${userMovies}">
+									<div th:if="${userMovie.movie.id == movie.id}">UserMovie exists
+										<div th:if="${userMovie.seen}" th:text="Watched">
+										</div>
+									</div>
+								</div>
+							</div>
 
 						</div>
 						<form style="display:inline-block" th:action="@{/editList}" th:object="${lists}">

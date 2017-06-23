@@ -22,12 +22,12 @@ public class UserMovieDao {
 	@PersistenceContext
 	protected EntityManager entityManager;
 
-	public List<UserMovie> getUserMovies(String userName)
+	public List<UserMovie> getUserMovies(User user)
 	{
 		try
 		{
-			TypedQuery<UserMovie> typedQuery = entityManager.createQuery("select um from UserMovie um where um.owner_userName = :userName", UserMovie.class);
-			typedQuery.setParameter("userName", userName);
+			TypedQuery<UserMovie> typedQuery = entityManager.createQuery("select um from UserMovie um where um.owner = :user", UserMovie.class);
+			typedQuery.setParameter("user", user);
 			List<UserMovie> typedResultList = typedQuery.getResultList();
 
 			return typedResultList;

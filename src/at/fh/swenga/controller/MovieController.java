@@ -64,6 +64,8 @@ public class MovieController
     private TmdbMovies tmdbMovies = new TmdbApi(apiKey).getMovies();
 
     private User activeUser;
+    public User getActiveUser() { return activeUser; }
+    public void setActiveUser(User activeUser) { this.activeUser = activeUser;}
 
     /**
      * Saves all Genres from tmdb to DB if not already exists
@@ -215,6 +217,7 @@ public class MovieController
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
         model.addAttribute("trendingMovies", movieListDao.getMovieListByName("trendingMovieList").getMovies());
         model.addAttribute("staffMovies", movieListDao.getMovieListByName("staffPickList").getMovies());
+        model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
 
         return "index";
     }
@@ -230,9 +233,18 @@ public class MovieController
     @RequestMapping(value = "/searchForSelection", method = RequestMethod.GET)
     public String searchSelection(Model model, @RequestParam String searchString, @RequestParam(value = "selection") String selection)
     {
-        if (selection.equals("Movies") && searchString != "") model.addAttribute("movies", movieDao.searchMovies(searchString));
+        if (selection.equals("Movies") && searchString != "")
+        {
+            model.addAttribute("movies", movieDao.searchMovies(searchString));
+            model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
+        }
+
         else if (selection.equals("Users")) model.addAttribute("users", userDao.searchUsers(searchString));
-        else if (selection.equals("Genres")) model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
+        else if (selection.equals("Genres"))
+        {
+            model.addAttribute("movies", movieDao.searchForGenreRecommendations(genreDao.getGenre(searchString), 6));
+            model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
+        }
         else return "forward:search";
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
 
@@ -249,6 +261,7 @@ public class MovieController
     public String showLists(Model model)
     {
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
+        model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
         return "lists";
     }
 
@@ -335,6 +348,7 @@ public class MovieController
         Set<User> friendList = activeUser.getFollowing();
         model.addAttribute("friendList", friendList);
         model.addAttribute("lists", movieListDao.getMovieListsByOwner(activeUser));
+        model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
 
         return "friends";
     }
@@ -490,8 +504,6 @@ public class MovieController
     @RequestMapping(value = "/deleteUserMovie")
     public String delete(@RequestParam("id") int id, Model model)
     {
-        System.out.println("DEBUG: /deleteUserMovie");
-
         userMovieDao.delete(userMovieDao.getUserMovie(activeUser, movieDao.mapMovie(tmdbMovies, id, false)));
 
         return "/home";
@@ -505,8 +517,6 @@ public class MovieController
     @RequestMapping(value = "/saveSettings", method = RequestMethod.POST)
     public String saveSettings(@RequestParam(value = "checkGenre", required = false) List<String> checkedGenres)
     {
-        System.out.println("DEBUG: /saveSettings");
-
         userDao.removeGenres(activeUser);
 
         if (checkedGenres != null)
@@ -654,6 +664,7 @@ public class MovieController
 
         model.addAttribute("lists", userLists);
         model.addAttribute("movie", movie);
+        model.addAttribute("userMovies", userMovieDao.getUserMovies(activeUser));
 
         return "details";
     }

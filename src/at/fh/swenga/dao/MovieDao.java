@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import at.fh.swenga.controller.MovieController;
 import at.fh.swenga.model.*;
 import at.fh.swenga.service.SearchHelper;
 import info.movito.themoviedbapi.*;
@@ -44,13 +45,7 @@ public class MovieDao {
 	protected EntityManager entityManager;
 
 	@Autowired
-	private GenreDao genreDao;
-
-	@Autowired
 	private ActorDao actorDao;
-
-	@Autowired
-	private UserMovieDao userMovieDao;
 
 	private GetProperties gp = new GetProperties();
 	private Properties properties = gp.getPropValues();
@@ -235,9 +230,12 @@ public class MovieDao {
 	}
 
 	// TODO FR: Add Genre und Actor in DAOs auslagern
-	public MovieModel mapMovie(TmdbMovies movies, int id, boolean fullContent) {
+	public MovieModel mapMovie(TmdbMovies movies, int id, boolean fullContent)
+	{
 		MovieModel movieModel = new MovieModel();
-		try {
+
+		try
+		{
 			// TmdbMovies movies = new TmdbApi(apiKey).getMovies();
 			MovieDb movie = movies.getMovie(id, "en", MovieMethod.credits);
 
