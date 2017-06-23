@@ -60,6 +60,8 @@ public class MovieController
     private MovieListDao movieListDao;
 
     private String apiKey = new GetProperties().getPropValues().getProperty("apiKey");
+    private String passWord1 = new GetProperties().getPropValues().getProperty("passWord1");
+    private String passWord2 = new GetProperties().getPropValues().getProperty("passWord2");
 
     private TmdbMovies tmdbMovies = new TmdbApi(apiKey).getMovies();
 
@@ -101,7 +103,7 @@ public class MovieController
             admin.setLastName("admin");
             admin.setEmail("admin@oreely.at");
             admin.setEnabled(true);
-            String hashedPassword = passwordEncoder.encode("password");
+            String hashedPassword = passwordEncoder.encode(passWord1);
             admin.setPassword(hashedPassword);
             UserRole userRole = new UserRole(admin, "ROLE_USER");
             admin.addUserRole(userRole);
@@ -118,7 +120,7 @@ public class MovieController
             lukas.setLastName("Schneider");
             lukas.setEmail("lukas69@oreely.at");
             lukas.setEnabled(true);
-            String hashedPasswordLukas = passwordEncoder.encode("1234");
+            String hashedPasswordLukas = passwordEncoder.encode(passWord2);
             lukas.setPassword(hashedPasswordLukas);
             UserRole userRoleLukas = new UserRole(lukas, "ROLE_USER");
             lukas.addUserRole(userRoleLukas);
@@ -132,7 +134,7 @@ public class MovieController
             markus.setLastName("Wolf");
             markus.setEmail("markus@oreely.at");
             markus.setEnabled(true);
-            String hashedPasswordMarkus = passwordEncoder.encode("1234");
+            String hashedPasswordMarkus = passwordEncoder.encode(passWord2);
             markus.setPassword(hashedPasswordMarkus);
             UserRole userRoleMarkus = new UserRole(markus, "ROLE_USER");
             markus.addUserRole(userRoleMarkus);
@@ -146,7 +148,7 @@ public class MovieController
             felix.setLastName("Rauchenwald");
             felix.setEmail("flexboy@oreely.at");
             felix.setEnabled(true);
-            String hashedPasswordFelix = passwordEncoder.encode("1234");
+            String hashedPasswordFelix = passwordEncoder.encode(passWord2);
             felix.setPassword(hashedPasswordFelix);
             UserRole userRoleFelix = new UserRole(felix, "ROLE_USER");
             felix.addUserRole(userRoleFelix);
@@ -583,6 +585,13 @@ public class MovieController
                 return "forward:registerForm";
             }
 
+            if (password.length() < 8 || !password.matches(".*\\d.*"))
+            {
+                model.addAttribute("credentialError", "Needs to have 8 chars or more and at least one number");
+                model.addAttribute("user", user);
+                return "forward:registerForm";
+            }
+
             //check if password fields match
             if (!password.equals(confirmPassword))
             {
@@ -637,11 +646,19 @@ public class MovieController
         {
             if (password.equals(confirmPassword))
             {
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                if (password.length() < 8 || !password.matches(".*\\d.*"))
+                {
+                    model.addAttribute("credentialError", "Needs to have 8 chars or more and at least one number");
+                    model.addAttribute("user", activeUser);
+                    return "forward:myProfile";
+                }
+                else{
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-                String newHashedPassword = passwordEncoder.encode(password);
-                activeUser.setPassword(newHashedPassword);
-                userDao.merge(activeUser);
+                    String newHashedPassword = passwordEncoder.encode(password);
+                    activeUser.setPassword(newHashedPassword);
+                    userDao.merge(activeUser);
+                }
             }
             else
             {
