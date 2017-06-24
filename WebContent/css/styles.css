@@ -145,6 +145,9 @@ html body #content .slick-reel-container .slick-reel .poster {
 html body #content .slick-reel-container .slick-reel .poster:focus {
   outline: none;
 }
+html body #content .slick-reel-container .slick-reel .poster .image_content {
+  position: relative;
+}
 html body #content .slick-reel-container .slick-reel .poster .image_content a img {
   border-radius: 5px;
   width: 185px;
@@ -157,6 +160,33 @@ html body #content .slick-reel-container .slick-reel .poster .image_content a im
   -moz-transition: width 1s, height 1s, margin-top 1s;
   -o-transition: width 1s, height 1s, margin-top 1s;
   transition: width 1s, height 1s, margin-top 1s;
+}
+html body #content .slick-reel-container .slick-reel .poster .image_content a .watched {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  z-index: 10000;
+  width: 100%;
+  text-align: right;
+  overflow: hidden;
+  height: 50px;
+  padding-top: 25px;
+}
+html body #content .slick-reel-container .slick-reel .poster .image_content a .watched:after {
+  content: "";
+  position: absolute;
+  opacity: 1;
+  display: block;
+  bottom: -30px;
+  height: 50px;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: -100;
+  -ms-transform: skewY(-10deg);
+  -webkit-transform: skewY(-10deg);
+  transform: skewY(-10deg);
 }
 html body #content .slick-reel-container .slick-reel .poster .info {
   display: none;
@@ -291,22 +321,6 @@ html body #content .slick-reel-container .slick-reel .poster:hover.slick-center 
   height: 330px;
   top: 0;
 }
-html body #content .slick-reel-container .slick-reel .poster.watched .image_content:after {
-  content: "";
-  position: absolute;
-  opacity: 1;
-  display: block;
-  bottom: -55px;
-  left: 0;
-  overflow: hidden;
-  height: 25%;
-  width: 100%;
-  background-color: #ffffff;
-  z-index: 100;
-  -ms-transform: skewY(-10deg);
-  -webkit-transform: skewY(-10deg);
-  transform: skewY(-10deg);
-}
 html body #content .slick-reel-container .slick-reel .poster.watched .image_content a span.watched {
   position: absolute;
   z-index: 101;
@@ -384,6 +398,33 @@ html body #content .slick-line-container .slick-line .card .image_content img {
   max-width: 100%;
   width: 220px;
   height: auto;
+}
+html body #content .slick-line-container .slick-line .card .image_content .watched {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: block;
+  z-index: 10000;
+  width: 100%;
+  text-align: right;
+  overflow: hidden;
+  height: 50px;
+  padding-top: 25px;
+}
+html body #content .slick-line-container .slick-line .card .image_content .watched:after {
+  content: "";
+  position: absolute;
+  opacity: 1;
+  display: block;
+  bottom: -30px;
+  height: 50px;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: -100;
+  -ms-transform: skewY(-10deg);
+  -webkit-transform: skewY(-10deg);
+  transform: skewY(-10deg);
 }
 html body #content .slick-line-container .slick-line .card .info {
   display: none;

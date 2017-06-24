@@ -1,7 +1,14 @@
 <div class="image_content" th:fragment="poster">
     <a th:id=${movie.tmdb_id} class="result" th:href=${movie.homepage} th:title=${movie.title} th:alt=${movie.title}>
         <div th:if="${movie.poster_path != null}">
-            <img class="poster" data-sizes="auto"
+        	<div th:object="${userMovies}">
+		        <div th:each="userMovie : ${userMovies}">
+		            <div th:if="${userMovie.movie.id == movie.id}">
+		                <span class="watched" th:if="${userMovie.seen}" th:text="WATCHED"></span>
+		            </div>
+		        </div>
+		    </div>
+		    <img class="poster" data-sizes="auto"
                  th:data-src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}"
                  th:data-srcset="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path} + ' 1x,
                                                 https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
@@ -46,14 +53,4 @@
 	        <button type="submit" class="btn-colored" >Watched</button>
 	    </form>
     </p>
-
-    <div th:object="${userMovies}">
-        <div th:each="userMovie : ${userMovies}">
-            <div th:if="${userMovie.movie.id == movie.id}">UserMovie exists
-                <div th:if="${userMovie.seen}" th:text="Watched">
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>

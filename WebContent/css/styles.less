@@ -165,6 +165,7 @@ html{
 						}
 						position:relative;
 						.image_content{
+							position:relative;
 							a{
 								img{
 									border-radius:5px;
@@ -178,6 +179,33 @@ html{
 									-moz-transition: width 1s, height 1s, margin-top 1s;
 									-o-transition: width 1s, height 1s, margin-top 1s;
 									transition: width 1s, height 1s, margin-top 1s;
+								}
+								.watched{
+									position: absolute;
+									bottom: 0;
+									right: 0;
+									display: block;
+									z-index: 10000;
+									width: 100%;
+									text-align: right;
+									overflow: hidden;
+									height: 50px;
+									padding-top: 25px;
+									&:after{
+										content: "";
+										position: absolute;
+										opacity: 1;
+										display: block;
+										bottom: -30px;
+										height: 50px;
+										left: 0;
+										width: 100%;
+										background-color: #ffffff;
+										z-index: -100;
+										-ms-transform: skewY(-10deg);
+										-webkit-transform: skewY(-10deg);
+										transform: skewY(-10deg);
+									}
 								}
 							}
 						}
@@ -274,22 +302,7 @@ html{
 						}
 						&.watched{
 							.image_content{
-								&:after{
-									content: "";
-								    position: absolute;
-								    opacity: 1;
-								    display: block;
-								    bottom: -55px;
-								    left: 0;
-								    overflow: hidden;
-								    height: 25%;
-								    width: 100%;
-								    background-color: @cWhite;
-								    z-index: 100;
-								    -ms-transform: skewY(-10deg);
-								    -webkit-transform: skewY(-10deg);
-								    transform: skewY(-10deg);
-								}
+								
 								a{
 									span.watched{
 										position: absolute;
@@ -384,6 +397,33 @@ html{
 								width: @cardWidthL;
 								height:auto;
 							}
+							.watched{
+									position: absolute;
+									bottom: 0;
+									right: 0;
+									display: block;
+									z-index: 10000;
+									width: 100%;
+									text-align: right;
+									overflow: hidden;
+									height: 50px;
+									padding-top: 25px;
+									&:after{
+										content: "";
+										position: absolute;
+										opacity: 1;
+										display: block;
+										bottom: -30px;
+										height: 50px;
+										left: 0;
+										width: 100%;
+										background-color: #ffffff;
+										z-index: -100;
+										-ms-transform: skewY(-10deg);
+										-webkit-transform: skewY(-10deg);
+										transform: skewY(-10deg);
+									}
+								}
 						}
 						.info{
 							display:none;
