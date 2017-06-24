@@ -17,11 +17,13 @@
                                             https://image.tmdb.org/t/p/w370_and_h556_bestv2' + ${movie.poster_path} + ' 2x'"
                  th:src="'https://image.tmdb.org/t/p/w185_and_h278_bestv2' + ${movie.poster_path}">
         </div>
-        <!--<div th:if="${movie.poster_path == null}">
-            <img class="poster" data-sizes="auto"
+        <div th:if="${movie.poster_path == null}">
+            <span class="no_poster" th:text=${movie.title}></span>
+            No Poster available
+            <!--<img class="poster" data-sizes="auto"
                  th:src="http://lexingtonvenue.com/media/poster-placeholder.jpg"
-                 th:alt=${movie.title} sizes="185px">
-        </div>-->
+                 th:alt=${movie.title} sizes="185px">-->
+        </div>
     </a>
 </div>
 <div class="info">
